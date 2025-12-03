@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020"],
+    "module": "commonjs",
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@packages/shared-backend": ["../../packages/shared-backend/src"],
+      "@packages/shared-utils": ["../../packages/shared-utils/src"],
+      "@packages/shared-config": ["../../packages/shared-config"],
+      "@admin": ["./services/admin"],
+      "@auth": ["./services/auth"],
+      "@booking": ["./services/booking"],
+      "@flight": ["./services/flight"],
+      "@hotel": ["./services/hotel"]
+    }
+  },
+  "include": ["src/**/*", "services/**/*"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "../../packages/shared-frontend/**/*", "../../apps/mobile/**/*", "../../node_modules/react-native/**/*"]
+}

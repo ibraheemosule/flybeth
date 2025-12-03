@@ -1,0 +1,50 @@
+{
+  "name": "@packages/shared-frontend",
+  "version": "1.0.0",
+  "description": "Shared configurations for the travel platform monorepo",
+  "type": "module",
+  "main": "index.js",
+  "types": "types.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types.d.ts",
+      "default": "./index.js"
+    },
+    "./css/*": "./css/*",
+    "./vite/*": "./vite/*",
+    "./eslint/*": "./eslint/*",
+    "./tailwind/*": "./tailwind/*",
+    "./vitest/*": "./vitest/*",
+    "./postcss/*": "./postcss/*",
+    "./tsconfig/*": "./tsconfig/*",
+    "./next/*": "./next/*",
+    "./msw/*": "./msw/*",
+    "./test/*": "./test/*"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "test": "echo \"No tests to run\" && exit 0"
+  },
+  "dependencies": {
+    "@packages/shared-utils": "file:../shared-utils"
+  },
+  "files": [
+    "dist",
+    "eslint",
+    "tsconfig", 
+    "tailwind",
+    "vite",
+    "postcss",
+    "vitest",
+    "msw",
+    "test",
+    "*.d.ts",
+    "**/*.d.ts"
+  ],
+  "engines": {
+    "node": ">=22.12.0",
+    "npm": ">=10.9.0"
+  }
+}

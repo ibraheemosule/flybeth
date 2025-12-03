@@ -1,0 +1,32 @@
+{
+  "extends": "../../../packages/shared-config/tsconfig/react.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@packages/shared-frontend": [
+        "../../../packages/shared-frontend/src"
+      ],
+      "@packages/shared-utils": [
+        "../../../packages/shared-utils/src"
+      ],
+      "@packages/shared-config": [
+        "../../../packages/shared-config"
+      ]
+    },
+    "allowJs": true,
+    "incremental": true,
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "src",
+    ".next/types/**/*.ts"
+  ]
+}

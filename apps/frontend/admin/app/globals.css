@@ -1,0 +1,26 @@
+/* Import shared styles using package alias */
+@import '@packages/shared-config/css/globals.css';
+
+/* Admin specific brand colors */
+:root {
+  --primary-color: #7c3aed;
+  --primary-hover: #6d28d9;
+}
+
+/* Admin-specific components */
+.admin-sidebar {
+  background-color: var(--gray-900);
+  color: white;
+}
+
+.admin-header {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.admin-card {
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+}

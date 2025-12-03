@@ -1,0 +1,8 @@
+/* Import shared styles using package alias */
+@import '@packages/shared-config/css/globals.css';
+
+/* B2C specific brand colors */
+:root {
+  --primary-color: #0070f3;
+  --primary-hover: #0051cc;
+}

@@ -1,0 +1,10 @@
+{
+  "name": "@packages/shared-config",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Shared configuration for build tools",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo 'No build needed for config package'"
+  }
+}
