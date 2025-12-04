@@ -14,11 +14,7 @@ export function formatPrice(amount: number, currency: string = "USD"): string {
 }
 
 export * from "./jwt";
-export * from "./http";
 export * from "./constants";
-
-// Re-export BaseApiService from http
-export { HttpClient as BaseApiService } from "./http";
 
 // Re-export schemas from shared-schemas for convenience
 export {

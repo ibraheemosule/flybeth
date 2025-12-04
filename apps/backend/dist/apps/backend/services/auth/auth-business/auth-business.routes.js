@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.businessRoutes = void 0;
+const express_1 = require("express");
+const auth_business_controller_1 = require("./auth-business.controller");
+const router = (0, express_1.Router)();
+const businessController = new auth_business_controller_1.BusinessController();
+router.post('/register', businessController.register);
+router.post('/login', businessController.login);
+exports.businessRoutes = router;
+exports.default = router;

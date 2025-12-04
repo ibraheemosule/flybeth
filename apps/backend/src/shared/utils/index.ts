@@ -28,6 +28,14 @@ export {
   RateLimiter,
 } from "./redis";
 
+// Export HTTP client utilities (backend-only)
+export {
+  HttpClient,
+  createHttpClient,
+  createServiceHttpClient,
+  type HttpClientConfig,
+} from "./http-client";
+
 // Common middleware factory functions
 export const createCorsMiddleware = (options?: any) => {
   return cors(

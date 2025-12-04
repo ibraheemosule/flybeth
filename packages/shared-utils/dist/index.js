@@ -4,22 +4,19 @@ export function formatDate(date) {
 export function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
-export function formatPrice(amount, currency = 'USD') {
-    return new Intl.NumberFormat('en-US', {
-        style: 'currency',
+export function formatPrice(amount, currency = "USD") {
+    return new Intl.NumberFormat("en-US", {
+        style: "currency",
         currency: currency,
     }).format(amount);
 }
-export * from './jwt';
-export * from './http';
-export * from './constants';
-// Re-export BaseApiService from http
-export { HttpClient as BaseApiService } from './http';
+export * from "./jwt";
+export * from "./constants";
 // Re-export schemas from shared-schemas for convenience
-export { loginSchema, registerSchema, flightSearchSchema, hotelSearchSchema, tripSchema } from '@packages/shared-schemas';
-export * from './auth';
+export { loginSchema, registerSchema, flightSearchSchema, hotelSearchSchema, tripSchema, } from "@packages/shared-schemas";
+export * from "./auth";
 // Re-export axios for frontend packages
-export { default as axios } from 'axios';
+export { default as axios } from "axios";
 // Common error types
 export class ApiError extends Error {
     constructor(message, statusCode, code, details) {
@@ -27,19 +24,19 @@ export class ApiError extends Error {
         this.statusCode = statusCode;
         this.code = code;
         this.details = details;
-        this.name = 'ApiError';
+        this.name = "ApiError";
     }
 }
 // Utility functions - backend safe (no DOM/browser APIs)
 export const createApiError = (error) => {
     if (error.response) {
         const { status, data } = error.response;
-        return new ApiError(data.message || data.error || 'API request failed', status, data.code, data);
+        return new ApiError(data.message || data.error || "API request failed", status, data.code, data);
     }
     if (error.request) {
-        return new ApiError('Network error - no response received', 0, 'NETWORK_ERROR');
+        return new ApiError("Network error - no response received", 0, "NETWORK_ERROR");
     }
-    return new ApiError(error.message || 'Unknown error occurred');
+    return new ApiError(error.message || "Unknown error occurred");
 };
 export const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 export const debounce = (func, wait) => {
@@ -56,5 +53,5 @@ export const formatError = (error) => {
     if (error instanceof Error) {
         return error.message;
     }
-    return 'An unknown error occurred';
+    return "An unknown error occurred";
 };

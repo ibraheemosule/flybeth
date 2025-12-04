@@ -3,8 +3,8 @@
  * Used across frontend, backend, and mobile
  */
 export declare const USER_TYPES: {
-    readonly CONSUMER: "consumer";
-    readonly BUSINESS: "business";
+    readonly CONSUMER: "CONSUMER";
+    readonly BUSINESS: "BUSINESS";
 };
 export declare const TRIP_STATUS: {
     readonly PENDING: "pending";
@@ -86,7 +86,7 @@ export declare const HTTP_STATUS: {
     readonly UNPROCESSABLE_ENTITY: 422;
     readonly INTERNAL_SERVER_ERROR: 500;
 };
-export type UserType = typeof USER_TYPES[keyof typeof USER_TYPES];
-export type TripStatus = typeof TRIP_STATUS[keyof typeof TRIP_STATUS];
-export type HttpStatusCode = typeof HTTP_STATUS[keyof typeof HTTP_STATUS];
+export type UserType = (typeof USER_TYPES)[keyof typeof USER_TYPES];
+export type TripStatus = (typeof TRIP_STATUS)[keyof typeof TRIP_STATUS];
+export type HttpStatusCode = (typeof HTTP_STATUS)[keyof typeof HTTP_STATUS];
 //# sourceMappingURL=constants.d.ts.map

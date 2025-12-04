@@ -4,44 +4,44 @@
  */
 // User types
 export const USER_TYPES = {
-    CONSUMER: 'consumer',
-    BUSINESS: 'business',
+    CONSUMER: "CONSUMER",
+    BUSINESS: "BUSINESS",
 };
 // Trip statuses
 export const TRIP_STATUS = {
-    PENDING: 'pending',
-    CONFIRMED: 'confirmed',
-    CANCELLED: 'cancelled',
-    COMPLETED: 'completed',
+    PENDING: "pending",
+    CONFIRMED: "confirmed",
+    CANCELLED: "cancelled",
+    COMPLETED: "completed",
 };
 // API endpoints
 export const API_ENDPOINTS = {
     AUTH: {
-        SIGNUP: '/auth/signup',
-        LOGIN: '/auth/login',
-        LOGOUT: '/auth/logout',
-        REFRESH: '/auth/refresh',
+        SIGNUP: "/auth/signup",
+        LOGIN: "/auth/login",
+        LOGOUT: "/auth/logout",
+        REFRESH: "/auth/refresh",
     },
     TRIPS: {
-        BASE: '/trips',
-        BOOK: '/trips/book',
-        B2B_BOOK: '/trips/book/b2b',
+        BASE: "/trips",
+        BOOK: "/trips/book",
+        B2B_BOOK: "/trips/book/b2b",
     },
     USER: {
-        PROFILE: '/user/profile',
-        UPDATE: '/user/update',
+        PROFILE: "/user/profile",
+        UPDATE: "/user/update",
     },
     FLIGHTS: {
-        SEARCH: '/flights/search',
-        BOOK: '/flights/book',
+        SEARCH: "/flights/search",
+        BOOK: "/flights/book",
     },
     HOTELS: {
-        SEARCH: '/hotels/search',
-        BOOK: '/hotels/book',
+        SEARCH: "/hotels/search",
+        BOOK: "/hotels/book",
     },
     CARS: {
-        SEARCH: '/cars/search',
-        BOOK: '/cars/book',
+        SEARCH: "/cars/search",
+        BOOK: "/cars/book",
     },
 };
 // Validation limits
@@ -60,25 +60,25 @@ export const VALIDATION_LIMITS = {
 };
 // Error messages
 export const ERROR_MESSAGES = {
-    INVALID_EMAIL: 'Must be a valid email address',
-    INVALID_PASSWORD: 'Password must contain at least one uppercase letter, one lowercase letter, and one number',
+    INVALID_EMAIL: "Must be a valid email address",
+    INVALID_PASSWORD: "Password must contain at least one uppercase letter, one lowercase letter, and one number",
     PASSWORD_TOO_SHORT: `Password must be at least ${VALIDATION_LIMITS.PASSWORD_MIN_LENGTH} characters long`,
-    USER_NOT_FOUND: 'User not found',
-    INVALID_CREDENTIALS: 'Invalid email or password',
-    UNAUTHORIZED: 'Unauthorized access',
-    FORBIDDEN: 'Access forbidden',
-    TRIP_NOT_FOUND: 'Trip not found',
-    INVALID_DATE: 'Invalid date format',
-    PAST_DATE: 'Date cannot be in the past',
-    END_DATE_BEFORE_START: 'End date must be after start date',
+    USER_NOT_FOUND: "User not found",
+    INVALID_CREDENTIALS: "Invalid email or password",
+    UNAUTHORIZED: "Unauthorized access",
+    FORBIDDEN: "Access forbidden",
+    TRIP_NOT_FOUND: "Trip not found",
+    INVALID_DATE: "Invalid date format",
+    PAST_DATE: "Date cannot be in the past",
+    END_DATE_BEFORE_START: "End date must be after start date",
 };
 // Success messages
 export const SUCCESS_MESSAGES = {
-    USER_CREATED: 'Account created successfully',
-    LOGIN_SUCCESS: 'Login successful',
-    LOGOUT_SUCCESS: 'Logout successful',
-    TRIP_BOOKED: 'Trip booked successfully',
-    PROFILE_UPDATED: 'Profile updated successfully',
+    USER_CREATED: "Account created successfully",
+    LOGIN_SUCCESS: "Login successful",
+    LOGOUT_SUCCESS: "Logout successful",
+    TRIP_BOOKED: "Trip booked successfully",
+    PROFILE_UPDATED: "Profile updated successfully",
 };
 // HTTP status codes
 export const HTTP_STATUS = {

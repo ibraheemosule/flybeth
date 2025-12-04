@@ -1,14 +1,12 @@
 export declare function formatDate(date: Date): string;
 export declare function capitalize(str: string): string;
 export declare function formatPrice(amount: number, currency?: string): string;
-export * from './jwt';
-export * from './http';
-export * from './constants';
-export { HttpClient as BaseApiService } from './http';
-export { loginSchema, registerSchema, flightSearchSchema, hotelSearchSchema, tripSchema, type LoginInput, type RegisterInput, type FlightSearchInput, type HotelSearchInput, type TripInput } from '@packages/shared-schemas';
-export * from './auth';
-export { default as axios } from 'axios';
-export type { AxiosInstance, AxiosResponse, AxiosError, AxiosRequestConfig } from 'axios';
+export * from "./jwt";
+export * from "./constants";
+export { loginSchema, registerSchema, flightSearchSchema, hotelSearchSchema, tripSchema, type LoginInput, type RegisterInput, type FlightSearchInput, type HotelSearchInput, type TripInput, } from "@packages/shared-schemas";
+export * from "./auth";
+export { default as axios } from "axios";
+export type { AxiosInstance, AxiosResponse, AxiosError, AxiosRequestConfig, } from "axios";
 export interface User {
     id: string;
     email: string;
