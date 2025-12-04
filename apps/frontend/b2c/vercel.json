@@ -1,6 +1,6 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "cd ../../../ && npm run build --workspace=apps/frontend/b2c",
+  "installCommand": "cd ../../../ && npm install",
   "outputDirectory": ".next",
-  "framework": "nextjs",
-  "installCommand": "npm install --legacy-peer-deps"
+  "framework": "nextjs"
 }
