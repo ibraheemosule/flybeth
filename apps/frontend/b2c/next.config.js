@@ -5,6 +5,7 @@ const path = require("path");
 const nextConfig = createNextConfig({
   // B2C-specific configuration
   transpilePackages: [
+    "@packages/shared-auth",
     "@packages/shared-frontend",
     "@packages/shared-utils",
     "@packages/shared-schemas",
