@@ -4,8 +4,10 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
+      "@packages/shared-auth": ["../../../packages/shared-auth/src"],
       "@packages/shared-frontend": ["../../../packages/shared-frontend/src"],
       "@packages/shared-utils": ["../../../packages/shared-utils/src"],
+      "@packages/shared-schemas": ["../../../packages/shared-schemas/src"],
       "@packages/shared-config": ["../../../packages/shared-config"]
     },
     "allowJs": true,

@@ -3,7 +3,8 @@ export * from './api/base-api-service';
 export * from './api/errors';
 export * from './utils/storage-utils';
 export * from './utils/browser-utils';
-export { formatDate, capitalize, decodeJWT, isTokenExpired, getTimeUntilExpiry, getUserFromToken, hasRole, User, AuthTokens, ApiResponse, PaginatedResponse, delay, debounce, formatError } from '@packages/shared-utils';
+export { formatDate, capitalize, decodeJWT, isTokenExpired, getTimeUntilExpiry, getUserFromToken, hasRole, delay, debounce, formatError } from '@packages/shared-utils';
+export type { AuthTokens, ApiResponse, PaginatedResponse } from '@packages/shared-utils';
 export interface FrontendUser {
     id: string;
     email: string;

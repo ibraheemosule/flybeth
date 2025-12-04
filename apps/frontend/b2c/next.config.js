@@ -11,10 +11,15 @@ const nextConfig = createNextConfig({
     "@packages/shared-schemas",
   ],
   webpack: (config, { isServer }) => {
-    // Add alias for packages directory to resolve CSS imports
+    // Add alias for packages directory to resolve imports
     config.resolve.alias = {
       ...config.resolve.alias,
-      "@packages": path.resolve("../../../packages"),
+      "@packages": path.resolve(__dirname, "../../../packages"),
+      "@packages/shared-auth": path.resolve(__dirname, "../../../packages/shared-auth/src"),
+      "@packages/shared-frontend": path.resolve(__dirname, "../../../packages/shared-frontend/src"),
+      "@packages/shared-utils": path.resolve(__dirname, "../../../packages/shared-utils/src"),
+      "@packages/shared-schemas": path.resolve(__dirname, "../../../packages/shared-schemas/src"),
+      "@packages/shared-config": path.resolve(__dirname, "../../../packages/shared-config"),
     };
 
     return config;
