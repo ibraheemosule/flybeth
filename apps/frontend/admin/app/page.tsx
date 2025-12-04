@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-8">Travel Platform Admin</h1>
+        <h1 className="text-4xl font-bold text-center mb-8">FlyBeth Admin</h1>
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-2xl font-semibold mb-4">Admin Dashboard</h2>
           <p className="text-gray-600">✅ Next.js App Router is working!</p>

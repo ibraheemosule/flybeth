@@ -1,44 +1,28 @@
-import * as jwt from 'jsonwebtoken';
+// Frontend-safe password validation only
+export function validatePassword(password: string): {
+  isValid: boolean;
+  errors: string[];
+} {
+  const errors: string[] = [];
 
-export interface AuthConfig {
-  jwtSecret: string;
-  refreshSecret: string;
-  accessTokenExpiry?: string;
-  refreshTokenExpiry?: string;
+  if (password.length < 8) {
+    errors.push("Password must be at least 8 characters long");
+  }
+
+  if (!/[A-Z]/.test(password)) {
+    errors.push("Password must contain at least one uppercase letter");
+  }
+
+  if (!/[a-z]/.test(password)) {
+    errors.push("Password must contain at least one lowercase letter");
+  }
+
+  if (!/[0-9]/.test(password)) {
+    errors.push("Password must contain at least one number");
+  }
+
+  return {
+    isValid: errors.length === 0,
+    errors,
+  };
 }
-
-export interface JWTPayload {
-  userId: string;
-  email: string;
-  userType: string;
-}
-
-export class AuthUtils {
-  private config: AuthConfig;
-
-  constructor(config: AuthConfig) {
-    this.config = config;
-  }
-
-  generateJWT(payload: JWTPayload): string {
-    return jwt.sign(payload, this.config.jwtSecret, {
-      expiresIn: this.config.accessTokenExpiry || '1h'
-    } as jwt.SignOptions);
-  }
-
-  generateRefreshToken(payload: JWTPayload): string {
-    return jwt.sign(payload, this.config.refreshSecret, {
-      expiresIn: this.config.refreshTokenExpiry || '7d'
-    } as jwt.SignOptions);
-  }
-
-  verifyJWT(token: string): JWTPayload {
-    return jwt.verify(token, this.config.jwtSecret) as JWTPayload;
-  }
-
-  verifyRefreshToken(token: string): JWTPayload {
-    return jwt.verify(token, this.config.refreshSecret) as JWTPayload;
-  }
-}
-
-export default AuthUtils;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -10,21 +10,21 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
   Platform,
-} from 'react-native';
-import { useAuthStore } from '../store/authStore';
+} from "react-native";
+import { useAuthStore } from "../store/authStore";
 
 export default function LoginScreen() {
   const [isSignup, setIsSignup] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [userType, setUserType] = useState<'consumer' | 'business'>('consumer');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [userType, setUserType] = useState<"CONSUMER" | "BUSINESS">("CONSUMER");
   const [isLoading, setIsLoading] = useState(false);
 
   const { signup, login, error, clearError } = useAuthStore();
 
   const handleSubmit = async () => {
     if (!email || !password) {
-      Alert.alert('Error', 'Please fill in all fields');
+      Alert.alert("Error", "Please fill in all fields");
       return;
     }
 
@@ -34,22 +34,27 @@ export default function LoginScreen() {
 
       if (isSignup) {
         await signup({ email, password, userType });
-        Alert.alert('Success', `Welcome! Hello ${userType === 'consumer' ? 'independent' : 'business'} user`);
+        Alert.alert(
+          "Success",
+          `Welcome! Hello ${
+            userType === "CONSUMER" ? "independent" : "business"
+          } user`
+        );
       } else {
         await login({ email, password });
-        Alert.alert('Success', 'Login successful!');
+        Alert.alert("Success", "Login successful!");
       }
     } catch (err) {
-      Alert.alert('Error', error || 'Authentication failed');
+      Alert.alert("Error", error || "Authentication failed");
     } finally {
       setIsLoading(false);
     }
   };
 
   const resetForm = () => {
-    setEmail('');
-    setPassword('');
-    setUserType('consumer');
+    setEmail("");
+    setPassword("");
+    setUserType("CONSUMER");
     clearError();
   };
 
@@ -60,15 +65,15 @@ export default function LoginScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView 
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.keyboardView}
       >
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.header}>
-            <Text style={styles.title}>Travel Platform</Text>
+            <Text style={styles.title}>FlyBeth</Text>
             <Text style={styles.subtitle}>
-              {isSignup ? 'Create your account' : 'Welcome back'}
+              {isSignup ? "Create your account" : "Welcome back"}
             </Text>
           </View>
 
@@ -107,14 +112,14 @@ export default function LoginScreen() {
                   <TouchableOpacity
                     style={[
                       styles.userTypeButton,
-                      userType === 'consumer' && styles.userTypeButtonActive,
+                      userType === "CONSUMER" && styles.userTypeButtonActive,
                     ]}
-                    onPress={() => setUserType('consumer')}
+                    onPress={() => setUserType("CONSUMER")}
                   >
                     <Text
                       style={[
                         styles.userTypeText,
-                        userType === 'consumer' && styles.userTypeTextActive,
+                        userType === "CONSUMER" && styles.userTypeTextActive,
                       ]}
                     >
                       Consumer
@@ -123,14 +128,14 @@ export default function LoginScreen() {
                   <TouchableOpacity
                     style={[
                       styles.userTypeButton,
-                      userType === 'business' && styles.userTypeButtonActive,
+                      userType === "BUSINESS" && styles.userTypeButtonActive,
                     ]}
-                    onPress={() => setUserType('business')}
+                    onPress={() => setUserType("BUSINESS")}
                   >
                     <Text
                       style={[
                         styles.userTypeText,
-                        userType === 'business' && styles.userTypeTextActive,
+                        userType === "BUSINESS" && styles.userTypeTextActive,
                       ]}
                     >
                       Business
@@ -141,22 +146,31 @@ export default function LoginScreen() {
             )}
 
             <TouchableOpacity
-              style={[styles.submitButton, isLoading && styles.submitButtonDisabled]}
+              style={[
+                styles.submitButton,
+                isLoading && styles.submitButtonDisabled,
+              ]}
               onPress={handleSubmit}
               disabled={isLoading}
             >
               <Text style={styles.submitButtonText}>
-                {isLoading ? 'Please wait...' : (isSignup ? 'Sign Up' : 'Sign In')}
+                {isLoading
+                  ? "Please wait..."
+                  : isSignup
+                  ? "Sign Up"
+                  : "Sign In"}
               </Text>
             </TouchableOpacity>
 
             <View style={styles.toggleContainer}>
               <Text style={styles.toggleText}>
-                {isSignup ? 'Already have an account?' : "Don't have an account?"}
+                {isSignup
+                  ? "Already have an account?"
+                  : "Don't have an account?"}
               </Text>
               <TouchableOpacity onPress={toggleMode}>
                 <Text style={styles.toggleButton}>
-                  {isSignup ? 'Sign In' : 'Sign Up'}
+                  {isSignup ? "Sign In" : "Sign Up"}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -170,108 +184,108 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8fafc',
+    backgroundColor: "#f8fafc",
   },
   keyboardView: {
     flex: 1,
   },
   scrollContent: {
     flexGrow: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     padding: 24,
   },
   header: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 32,
   },
   title: {
     fontSize: 32,
-    fontWeight: 'bold',
-    color: '#1e293b',
+    fontWeight: "bold",
+    color: "#1e293b",
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#64748b',
+    color: "#64748b",
   },
   form: {
-    width: '100%',
+    width: "100%",
   },
   inputGroup: {
     marginBottom: 20,
   },
   label: {
     fontSize: 14,
-    fontWeight: '500',
-    color: '#374151',
+    fontWeight: "500",
+    color: "#374151",
     marginBottom: 8,
   },
   input: {
     height: 50,
     borderWidth: 1,
-    borderColor: '#d1d5db',
+    borderColor: "#d1d5db",
     borderRadius: 8,
     paddingHorizontal: 16,
     fontSize: 16,
-    backgroundColor: '#fff',
-    color: '#111827',
+    backgroundColor: "#fff",
+    color: "#111827",
   },
   userTypeContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 12,
   },
   userTypeButton: {
     flex: 1,
     height: 50,
     borderWidth: 1,
-    borderColor: '#d1d5db',
+    borderColor: "#d1d5db",
     borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
   },
   userTypeButtonActive: {
-    borderColor: '#2563eb',
-    backgroundColor: '#2563eb',
+    borderColor: "#2563eb",
+    backgroundColor: "#2563eb",
   },
   userTypeText: {
     fontSize: 16,
-    fontWeight: '500',
-    color: '#6b7280',
+    fontWeight: "500",
+    color: "#6b7280",
   },
   userTypeTextActive: {
-    color: '#fff',
+    color: "#fff",
   },
   submitButton: {
     height: 50,
-    backgroundColor: '#2563eb',
+    backgroundColor: "#2563eb",
     borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 8,
   },
   submitButtonDisabled: {
-    backgroundColor: '#9ca3af',
+    backgroundColor: "#9ca3af",
   },
   submitButtonText: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#fff',
+    fontWeight: "600",
+    color: "#fff",
   },
   toggleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 24,
     gap: 8,
   },
   toggleText: {
     fontSize: 14,
-    color: '#6b7280',
+    color: "#6b7280",
   },
   toggleButton: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#2563eb',
+    fontWeight: "600",
+    color: "#2563eb",
   },
 });

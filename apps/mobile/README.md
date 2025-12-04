@@ -1,6 +1,6 @@
-# Mobile Travel Platform
+# FlyBeth Mobile App
 
-React Native mobile application for the Travel Platform monorepo, built with Expo.
+React Native mobile application for the FlyBeth monorepo, built with Expo.
 
 ## Features
 
@@ -34,11 +34,13 @@ React Native mobile application for the Travel Platform monorepo, built with Exp
 ### Installation
 
 1. Navigate to the mobile app directory:
+
    ```bash
    cd apps/mobile
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
@@ -51,18 +53,22 @@ React Native mobile application for the Travel Platform monorepo, built with Exp
 ### Running the App
 
 #### Web Version
+
 - Open http://localhost:8081 in your browser
 
 #### Mobile Device (Expo Go)
+
 1. Install Expo Go from the App Store or Google Play
 2. Scan the QR code from the terminal with Expo Go (Android) or Camera app (iOS)
 
 #### iOS Simulator
+
 ```bash
 npm run ios
 ```
 
 #### Android Emulator
+
 ```bash
 npm run android
 ```
@@ -126,6 +132,7 @@ The mobile app connects to the backend API at `http://localhost:3001/api`:
 ### Backend Connection
 
 Ensure the backend server is running on port 3001:
+
 ```bash
 cd ../backend
 npm run dev
@@ -146,13 +153,17 @@ The app is configured to connect to `localhost:3001` for development. For produc
 ## Deployment
 
 ### Web Version
+
 The Expo web version can be deployed to any static hosting service:
+
 ```bash
 npm run build:web
 ```
 
 ### Mobile App Store
+
 For production deployment to app stores, you'll need to build native binaries:
+
 ```bash
 eas build --platform ios
 eas build --platform android

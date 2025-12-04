@@ -1,23 +1,20 @@
-import * as jwt from 'jsonwebtoken';
-export class AuthUtils {
-    constructor(config) {
-        this.config = config;
+// Frontend-safe password validation only
+export function validatePassword(password) {
+    const errors = [];
+    if (password.length < 8) {
+        errors.push('Password must be at least 8 characters long');
     }
-    generateJWT(payload) {
-        return jwt.sign(payload, this.config.jwtSecret, {
-            expiresIn: this.config.accessTokenExpiry || '1h'
-        });
+    if (!/[A-Z]/.test(password)) {
+        errors.push('Password must contain at least one uppercase letter');
     }
-    generateRefreshToken(payload) {
-        return jwt.sign(payload, this.config.refreshSecret, {
-            expiresIn: this.config.refreshTokenExpiry || '7d'
-        });
+    if (!/[a-z]/.test(password)) {
+        errors.push('Password must contain at least one lowercase letter');
     }
-    verifyJWT(token) {
-        return jwt.verify(token, this.config.jwtSecret);
+    if (!/[0-9]/.test(password)) {
+        errors.push('Password must contain at least one number');
     }
-    verifyRefreshToken(token) {
-        return jwt.verify(token, this.config.refreshSecret);
-    }
+    return {
+        isValid: errors.length === 0,
+        errors
+    };
 }
-export default AuthUtils;

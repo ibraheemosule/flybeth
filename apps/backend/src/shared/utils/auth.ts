@@ -1,11 +1,11 @@
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { v4 as uuidv4 } from 'uuid';
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from "uuid";
 
 export interface JWTPayload {
   userId: string;
   email: string;
-  userType: 'consumer' | 'business' | 'CONSUMER' | 'BUSINESS';
+  userType: "CONSUMER" | "BUSINESS";
   iat: number;
   exp: number;
 }
@@ -29,19 +29,22 @@ export class AuthUtils {
     return bcrypt.hash(password, saltRounds);
   }
 
-  async comparePassword(plainPassword: string, hashedPassword: string): Promise<boolean> {
+  async comparePassword(
+    plainPassword: string,
+    hashedPassword: string
+  ): Promise<boolean> {
     return bcrypt.compare(plainPassword, hashedPassword);
   }
 
-  generateJWT(payload: Omit<JWTPayload, 'iat' | 'exp'>): string {
-    return jwt.sign(payload, this.config.jwtSecret, { 
-      expiresIn: this.config.jwtExpiresIn 
+  generateJWT(payload: Omit<JWTPayload, "iat" | "exp">): string {
+    return jwt.sign(payload, this.config.jwtSecret, {
+      expiresIn: this.config.jwtExpiresIn,
     } as jwt.SignOptions);
   }
 
-  generateRefreshToken(payload: Omit<JWTPayload, 'iat' | 'exp'>): string {
-    return jwt.sign(payload, this.config.refreshSecret, { 
-      expiresIn: this.config.refreshExpiresIn 
+  generateRefreshToken(payload: Omit<JWTPayload, "iat" | "exp">): string {
+    return jwt.sign(payload, this.config.refreshSecret, {
+      expiresIn: this.config.refreshExpiresIn,
     } as jwt.SignOptions);
   }
 
@@ -54,7 +57,7 @@ export class AuthUtils {
   }
 
   generateApiKey(): string {
-    return `tap_${uuidv4().replace(/-/g, '')}`;
+    return `tap_${uuidv4().replace(/-/g, "")}`;
   }
 
   generateBookingReference(): string {
@@ -71,14 +74,14 @@ export const hashPassword = async (password: string): Promise<string> => {
 };
 
 export const comparePassword = async (
-  plainPassword: string, 
+  plainPassword: string,
   hashedPassword: string
 ): Promise<boolean> => {
   return bcrypt.compare(plainPassword, hashedPassword);
 };
 
 export const generateApiKey = (): string => {
-  return `tap_${uuidv4().replace(/-/g, '')}`;
+  return `tap_${uuidv4().replace(/-/g, "")}`;
 };
 
 export const generateBookingReference = (): string => {

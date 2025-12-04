@@ -1,9 +1,9 @@
-import type { Metadata } from 'next';
-import './globals.css';
+import type { Metadata } from "next";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: 'Travel Platform B2B',
-  description: 'B2B portal for travel agencies and partners',
+  title: "FlyBeth B2B",
+  description: "B2B portal for travel agencies and partners",
 };
 
 export default function RootLayout({

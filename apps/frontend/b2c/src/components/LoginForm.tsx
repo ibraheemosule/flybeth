@@ -1,39 +1,29 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useAuthStore } from '@/store/authStore';
-import { Eye, EyeOff, Plane } from 'lucide-react';
-
-const loginSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(1, 'Password is required'),
-});
-
-const signupSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-  firstName: z.string().min(1, 'First name is required'),
-  lastName: z.string().min(1, 'Last name is required'),
-});
-
-type LoginForm = z.infer<typeof loginSchema>;
-type SignupForm = z.infer<typeof signupSchema>;
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  loginSchema,
+  registerSchema,
+  type LoginInput,
+  type RegisterInput,
+} from "@packages/shared-schemas";
+import { useAuthStore } from "@/store/authStore";
+import { Eye, EyeOff, Plane } from "lucide-react";
 
 export default function LoginForm() {
   const [isSignup, setIsSignup] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const { login, signup, isLoading, error } = useAuthStore();
+  const { login, register } = useAuthStore();
 
-  const loginForm = useForm<LoginForm>({
+  const loginForm = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
   });
 
-  const signupForm = useForm<SignupForm>({
-    resolver: zodResolver(signupSchema),
+  const signupForm = useForm<RegisterInput>({
+    resolver: zodResolver(registerSchema),
   });
 
-  const onLogin = async (data: LoginForm) => {
+  const onLogin = async (data: LoginInput) => {
     try {
       await login(data.email, data.password);
     } catch {
@@ -41,7 +31,7 @@ export default function LoginForm() {
     }
   };
 
-  const onSignup = async (data: SignupForm) => {
+  const onSignup = async (data: RegisterInput) => {
     try {
       await signup(data);
     } catch {
@@ -56,21 +46,19 @@ export default function LoginForm() {
           <div className="flex justify-center">
             <div className="flex items-center">
               <Plane className="h-8 w-8 text-blue-600 mr-2" />
-              <h2 className="text-3xl font-extrabold text-gray-900">
-                Travel Platform
-              </h2>
+              <h2 className="text-3xl font-extrabold text-gray-900">FlyBeth</h2>
             </div>
           </div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            {isSignup ? 'Create your account' : 'Sign in to your account'}
+            {isSignup ? "Create your account" : "Sign in to your account"}
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            {isSignup ? 'Already have an account?' : "Don't have an account?"}{' '}
+            {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
             <button
               onClick={() => setIsSignup(!isSignup)}
               className="font-medium text-blue-600 hover:text-blue-500"
             >
-              {isSignup ? 'Sign in' : 'Sign up'}
+              {isSignup ? "Sign in" : "Sign up"}
             </button>
           </p>
         </div>
@@ -82,12 +70,15 @@ export default function LoginForm() {
         )}
 
         {isSignup ? (
-          <form className="mt-8 space-y-6" onSubmit={signupForm.handleSubmit(onSignup)}>
+          <form
+            className="mt-8 space-y-6"
+            onSubmit={signupForm.handleSubmit(onSignup)}
+          >
             <div className="space-y-4">
               <div className="flex space-x-4">
                 <div className="flex-1">
                   <input
-                    {...signupForm.register('firstName')}
+                    {...signupForm.register("firstName")}
                     type="text"
                     className="relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     placeholder="First Name"
@@ -100,7 +91,7 @@ export default function LoginForm() {
                 </div>
                 <div className="flex-1">
                   <input
-                    {...signupForm.register('lastName')}
+                    {...signupForm.register("lastName")}
                     type="text"
                     className="relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     placeholder="Last Name"
@@ -115,7 +106,7 @@ export default function LoginForm() {
 
               <div>
                 <input
-                  {...signupForm.register('email')}
+                  {...signupForm.register("email")}
                   type="email"
                   className="relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   placeholder="Email address"
@@ -129,8 +120,8 @@ export default function LoginForm() {
 
               <div className="relative">
                 <input
-                  {...signupForm.register('password')}
-                  type={showPassword ? 'text' : 'password'}
+                  {...signupForm.register("password")}
+                  type={showPassword ? "text" : "password"}
                   className="relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm pr-10"
                   placeholder="Password"
                 />
@@ -158,15 +149,18 @@ export default function LoginForm() {
               disabled={isLoading}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading ? 'Creating account...' : 'Sign up'}
+              {isLoading ? "Creating account..." : "Sign up"}
             </button>
           </form>
         ) : (
-          <form className="mt-8 space-y-6" onSubmit={loginForm.handleSubmit(onLogin)}>
+          <form
+            className="mt-8 space-y-6"
+            onSubmit={loginForm.handleSubmit(onLogin)}
+          >
             <div className="space-y-4">
               <div>
                 <input
-                  {...loginForm.register('email')}
+                  {...loginForm.register("email")}
                   type="email"
                   className="relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   placeholder="Email address"
@@ -180,8 +174,8 @@ export default function LoginForm() {
 
               <div className="relative">
                 <input
-                  {...loginForm.register('password')}
-                  type={showPassword ? 'text' : 'password'}
+                  {...loginForm.register("password")}
+                  type={showPassword ? "text" : "password"}
                   className="relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm pr-10"
                   placeholder="Password"
                 />
@@ -209,7 +203,7 @@ export default function LoginForm() {
               disabled={isLoading}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading ? 'Signing in...' : 'Sign in'}
+              {isLoading ? "Signing in..." : "Sign in"}
             </button>
           </form>
         )}

@@ -9,7 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@travel-platform/shared-utils": "file:../../packages/shared-utils",
+    "@packages/shared-utils": "file:../../packages/shared-utils",
     "@expo/vector-icons": "^15.0.3",
     "@hookform/resolvers": "^5.2.2",
     "@react-navigation/native": "^7.1.19",
@@ -24,12 +24,13 @@
     "react-native": "0.81.5",
     "react-native-safe-area-context": "~5.6.0",
     "react-native-screens": "~4.16.0",
-    "zod": "^4.1.12",
-    "zustand": "^5.0.8"
+    "zustand": "^5.0.8",
+    "@packages/shared-schemas": "file:../../packages/shared-schemas"
   },
   "private": true,
   "devDependencies": {
-    "@types/react-native": "^0.73.0"
+    "@types/react-native": "^0.73.0",
+    "typescript": "^5.3.0"
   },
   "engines": {
     "node": ">=22.12.0",

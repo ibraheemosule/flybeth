@@ -1,9 +1,9 @@
-import type { Metadata } from 'next';
-import './globals.css';
+import type { Metadata } from "next";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: 'Travel Platform Admin',
-  description: 'Admin dashboard for travel platform management',
+  title: "FlyBeth Admin",
+  description: "Admin dashboard for FlyBeth travel platform",
 };
 
 export default function RootLayout({

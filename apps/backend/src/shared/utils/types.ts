@@ -10,7 +10,7 @@ export interface ApiResponse<T = unknown> {
 export interface BaseUser {
   id: string;
   email: string;
-  userType: 'consumer' | 'business';
+  userType: "CONSUMER" | "BUSINESS";
 }
 
 export interface User extends BaseUser {
@@ -41,7 +41,7 @@ export interface SignupRequest {
   password: string;
   firstName?: string;
   lastName?: string;
-  userType: 'consumer' | 'business';
+  userType: "CONSUMER" | "BUSINESS";
   businessName?: string;
   businessDescription?: string;
   businessWebsite?: string;
@@ -75,7 +75,7 @@ export interface Trip {
   travelers: number;
   price?: number; // Mobile naming
   totalAmount?: number; // Web naming
-  status: 'pending' | 'confirmed' | 'cancelled' | 'completed';
+  status: "pending" | "confirmed" | "cancelled" | "completed";
   bookingReference: string;
   userId: string;
   createdAt?: Date;
@@ -86,7 +86,7 @@ export interface Trip {
 export interface JWTPayload {
   userId: string;
   email: string;
-  userType: 'consumer' | 'business';
+  userType: "CONSUMER" | "BUSINESS";
   iat?: number;
   exp?: number;
 }

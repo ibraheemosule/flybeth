@@ -1,37 +1,37 @@
 // Complete guide to absolute imports - SIMPLIFIED!
 // You can now import everything from the ROOT of each package:
 
-// ✅ @shared-utils - All utilities from root
-import { 
-  formatDate, 
-  formatPrice, 
+// ✅ @packages/shared-utils - All utilities from root
+import {
+  formatDate,
+  formatPrice,
   BaseApiService,
   hashPassword,
   comparePassword,
   userSchema,
   tripSchema,
   USER_TYPES,
-  API_ENDPOINTS 
-} from '@shared-utils';
+  API_ENDPOINTS,
+} from "@packages/shared-utils";
 
-// ✅ @shared-config - All configurations from root  
-import { 
+// ✅ @packages/shared-config - All configurations from root
+import {
   createViteConfig,
   createESLintConfig,
-  createTailwindConfig 
-} from '@shared-config';
+  createTailwindConfig,
+} from "@shared-config";
 
 // ✅ @shared-backend - All backend utilities from root
-import { 
+import {
   express,
   cors,
   createCorsMiddleware,
   createHelmetMiddleware,
-  createLogger 
-} from '@shared-backend';
+  createLogger,
+} from "@shared-backend";
 
 // ✅ @shared-testing - All testing utilities from root
-import { 
+import {
   mockUsers,
   mockTrips,
   mockFlights,
@@ -39,8 +39,8 @@ import {
   createMockTrip,
   renderWithProviders,
   apiMocks,
-  mockLocalStorage 
-} from '@shared-testing';
+  mockLocalStorage,
+} from "@shared-testing";
 
 // NO MORE SUB-PATHS NEEDED!
 // ❌ OLD: import { mockUser } from '@shared-testing/fixtures';
@@ -51,14 +51,14 @@ export const demonstrateSimplifiedImports = () => {
   // Using utilities
   const date = formatDate(new Date());
   const price = formatPrice(99.99);
-  
+
   // Using test data
   const user = mockUsers.consumer;
   const trip = mockTrips.paris;
-  
+
   // Using validation
   const isValidUser = userSchema.safeParse(user);
-  
+
   console.log(`Date: ${date}, Price: ${price}`);
   console.log(`User: ${user.email}, Trip: ${trip.destination}`);
   console.log(`Valid: ${isValidUser.success}`);

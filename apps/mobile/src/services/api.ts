@@ -1,37 +1,37 @@
-import axios from 'axios';
-import * as SecureStore from 'expo-secure-store';
-import { API_ENDPOINTS, USER_TYPES } from '@travel-platform/shared-utils';
+import { axios } from "@packages/shared-utils";
+import * as SecureStore from "expo-secure-store";
+import { API_ENDPOINTS, USER_TYPES } from "@packages/shared-utils";
 
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = "http://localhost:5000/api";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
 // Request interceptor to add auth token
 api.interceptors.request.use(
-  async (config) => {
-    const token = await SecureStore.getItemAsync('authToken');
+  async config => {
+    const token = await SecureStore.getItemAsync("authToken");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => {
+  error => {
     return Promise.reject(error);
   }
 );
 
 // Response interceptor for error handling
 api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
+  response => response,
+  async error => {
     if (error.response?.status === 401) {
       // Clear token on 401
-      await SecureStore.deleteItemAsync('authToken');
+      await SecureStore.deleteItemAsync("authToken");
     }
     return Promise.reject(error);
   }
@@ -42,14 +42,14 @@ export interface AuthResponse {
   user: {
     id: string;
     email: string;
-    userType: 'consumer' | 'business';
+    userType: "CONSUMER" | "BUSINESS";
   };
 }
 
 export interface SignupData {
   email: string;
   password: string;
-  userType: 'consumer' | 'business';
+  userType: "CONSUMER" | "BUSINESS";
 }
 
 export interface LoginData {

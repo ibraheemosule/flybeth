@@ -1,13 +1,13 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { authApi } from '@/services/api';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { authApi } from "@/services/api";
 
 export interface User {
   id: string;
   email: string;
   firstName: string;
   lastName: string;
-  userType: 'CONSUMER' | 'BUSINESS';
+  userType: "CONSUMER" | "BUSINESS";
 }
 
 interface AuthState {
@@ -17,7 +17,7 @@ interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
-  
+
   login: (email: string, password: string) => Promise<void>;
   signup: (data: {
     email: string;
@@ -31,7 +31,7 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    set => ({
       user: null,
       accessToken: null,
       refreshToken: null,
@@ -41,13 +41,13 @@ export const useAuthStore = create<AuthState>()(
 
       login: async (email: string, password: string) => {
         set({ isLoading: true, error: null });
-        
+
         try {
           const response = await authApi.login({ email, password });
-          
+
           if (response.data.success) {
             const { user, accessToken, refreshToken } = response.data.data;
-            
+
             set({
               user,
               accessToken,
@@ -56,11 +56,14 @@ export const useAuthStore = create<AuthState>()(
               isLoading: false,
             });
           } else {
-            throw new Error(response.data.message || 'Login failed');
+            throw new Error(response.data.message || "Login failed");
           }
         } catch (error: unknown) {
-          const errorMessage = (error as any)?.response?.data?.message || (error as Error)?.message || 'Login failed';
-          set({ 
+          const errorMessage =
+            (error as any)?.response?.data?.message ||
+            (error as Error)?.message ||
+            "Login failed";
+          set({
             error: errorMessage,
             isLoading: false,
           });
@@ -68,20 +71,20 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
-      signup: async (data) => {
+      signup: async data => {
         set({ isLoading: true, error: null });
-        
+
         try {
           const signupData = {
             ...data,
-            userType: 'CONSUMER' as const,
+            userType: "CONSUMER" as const,
           };
-          
+
           const response = await authApi.signup(signupData);
-          
+
           if (response.data.success) {
             const { user, accessToken, refreshToken } = response.data.data;
-            
+
             set({
               user,
               accessToken,
@@ -90,11 +93,14 @@ export const useAuthStore = create<AuthState>()(
               isLoading: false,
             });
           } else {
-            throw new Error(response.data.message || 'Signup failed');
+            throw new Error(response.data.message || "Signup failed");
           }
         } catch (error: unknown) {
-          const errorMessage = (error as any)?.response?.data?.message || (error as Error)?.message || 'Signup failed';
-          set({ 
+          const errorMessage =
+            (error as any)?.response?.data?.message ||
+            (error as Error)?.message ||
+            "Signup failed";
+          set({
             error: errorMessage,
             isLoading: false,
           });
@@ -117,8 +123,8 @@ export const useAuthStore = create<AuthState>()(
       },
     }),
     {
-      name: 'travel-auth',
-      partialize: (state) => ({
+      name: "flybeth-auth",
+      partialize: state => ({
         user: state.user,
         accessToken: state.accessToken,
         refreshToken: state.refreshToken,

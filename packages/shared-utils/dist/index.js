@@ -4,8 +4,20 @@ export function formatDate(date) {
 export function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
+export function formatPrice(amount, currency = 'USD') {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: currency,
+    }).format(amount);
+}
 export * from './jwt';
 export * from './http';
+export * from './constants';
+// Re-export BaseApiService from http
+export { HttpClient as BaseApiService } from './http';
+// Re-export schemas from shared-schemas for convenience
+export { loginSchema, registerSchema, flightSearchSchema, hotelSearchSchema, tripSchema } from '@packages/shared-schemas';
+export * from './auth';
 // Re-export axios for frontend packages
 export { default as axios } from 'axios';
 // Common error types

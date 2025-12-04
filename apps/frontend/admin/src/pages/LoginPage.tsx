@@ -15,7 +15,7 @@ export const LoginPage = () => {
             </div>
           </div>
           <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
-          <p className="text-gray-600 mt-2">Travel Platform Administration</p>
+          <p className="text-gray-600 mt-2">FlyBeth Administration</p>
           <p className="text-sm text-orange-600 mt-2">
             Access restricted to @flybeth.com domain
           </p>
@@ -48,7 +48,8 @@ export const LoginPage = () => {
 
         <div className="mt-6 text-center">
           <p className="text-xs text-gray-500">
-            By signing in, you agree to the terms of service.<br />
+            By signing in, you agree to the terms of service.
+            <br />
             Only @flybeth.com email addresses are permitted.
           </p>
         </div>

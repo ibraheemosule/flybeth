@@ -1,5 +1,5 @@
-import { createNextConfig } from '@packages/shared-config/next/base.js';
-import path from 'path';
+const { createNextConfig } = require("@packages/shared-config/next/base.js");
+const path = require("path");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = createNextConfig({
@@ -8,19 +8,21 @@ const nextConfig = createNextConfig({
     // Add alias for packages directory to resolve CSS imports
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@packages': path.resolve('../../../packages'),
+      "@packages": path.resolve("../../../packages"),
     };
-    
+
     return config;
   },
   async rewrites() {
     return [
       {
-        source: '/api/:path*',
-        destination: `${process.env.API_GATEWAY_URL || 'http://localhost:3000'}/:path*`,
+        source: "/api/:path*",
+        destination: `${
+          process.env.API_GATEWAY_URL || "http://localhost:5000"
+        }/:path*`,
       },
     ];
   },
 });
 
-export default nextConfig;
+module.exports = nextConfig;

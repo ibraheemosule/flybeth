@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-export const baseNextConfig = {
+const baseNextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
@@ -7,14 +7,14 @@ export const baseNextConfig = {
     ignoreDuringBuilds: false,
   },
   images: {
-    domains: ['localhost'],
+    domains: ["localhost"],
   },
   typedRoutes: true,
   async rewrites() {
     return [
       {
-        source: '/api/:path*',
-        destination: 'http://localhost:3000/api/:path*',
+        source: "/api/:path*",
+        destination: "http://localhost:3000/api/:path*",
       },
     ];
   },
@@ -25,7 +25,7 @@ export const baseNextConfig = {
  * @param {import('next').NextConfig} customConfig - Custom configuration to merge
  * @returns {import('next').NextConfig}
  */
-export function createNextConfig(customConfig = {}) {
+function createNextConfig(customConfig = {}) {
   return {
     ...baseNextConfig,
     ...customConfig,
@@ -43,8 +43,12 @@ export function createNextConfig(customConfig = {}) {
     },
     async rewrites() {
       const baseRewrites = await baseNextConfig.rewrites();
-      const customRewrites = customConfig.rewrites ? await customConfig.rewrites() : [];
+      const customRewrites = customConfig.rewrites
+        ? await customConfig.rewrites()
+        : [];
       return [...baseRewrites, ...customRewrites];
     },
   };
 }
+
+module.exports = { baseNextConfig, createNextConfig };

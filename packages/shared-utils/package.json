@@ -8,5 +8,9 @@
     "build": "tsc",
     "dev": "tsc --watch"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@packages/shared-schemas": "file:../shared-schemas",
+    "axios": "^1.6.2",
+    "jwt-decode": "^3.1.2"
+  }
 }

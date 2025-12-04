@@ -5,7 +5,7 @@
 -- CREATE SCHEMA IF NOT EXISTS analytics;
 
 -- Grant permissions
-GRANT ALL PRIVILEGES ON DATABASE travel_platform TO travel_admin;
+GRANT ALL PRIVILEGES ON DATABASE flybeth TO travel_admin;
 
 -- Enable extensions
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";

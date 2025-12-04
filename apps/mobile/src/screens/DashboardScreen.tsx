@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,11 +8,11 @@ import {
   SafeAreaView,
   Alert,
   RefreshControl,
-} from 'react-native';
-import { useAuthStore } from '../store/authStore';
-import { useTripStore } from '../store/tripStore';
-import TripBookingForm from '../components/TripBookingForm';
-import TripCard from '../components/TripCard';
+} from "react-native";
+import { useAuthStore } from "../store/authStore";
+import { useTripStore } from "../store/tripStore";
+import TripBookingForm from "../components/TripBookingForm";
+import TripCard from "../components/TripCard";
 
 export default function DashboardScreen() {
   const [showBookingForm, setShowBookingForm] = useState(false);
@@ -27,26 +27,22 @@ export default function DashboardScreen() {
     try {
       await getTrips();
     } catch (error) {
-      console.error('Error loading trips:', error);
+      console.error("Error loading trips:", error);
     }
   };
 
   const handleLogout = () => {
-    Alert.alert(
-      'Logout',
-      'Are you sure you want to logout?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Logout', onPress: logout },
-      ]
-    );
+    Alert.alert("Logout", "Are you sure you want to logout?", [
+      { text: "Cancel", style: "cancel" },
+      { text: "Logout", onPress: logout },
+    ]);
   };
 
   const getUserGreeting = () => {
-    if (user?.userType === 'business') {
-      return 'Hello business user';
+    if (user?.userType === "BUSINESS") {
+      return "Hello business user";
     }
-    return 'Hello independent user';
+    return "Hello independent user";
   };
 
   return (
@@ -61,7 +57,7 @@ export default function DashboardScreen() {
         </TouchableOpacity>
       </View>
 
-      <ScrollView 
+      <ScrollView
         style={styles.content}
         refreshControl={
           <RefreshControl refreshing={isLoading} onRefresh={loadTrips} />
@@ -87,7 +83,7 @@ export default function DashboardScreen() {
             </View>
           ) : (
             <View style={styles.tripsList}>
-              {trips.map((trip) => (
+              {trips.map(trip => (
                 <TripCard key={trip.id} trip={trip} />
               ))}
             </View>
@@ -111,37 +107,37 @@ export default function DashboardScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8fafc',
+    backgroundColor: "#f8fafc",
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderBottomWidth: 1,
-    borderBottomColor: '#e2e8f0',
+    borderBottomColor: "#e2e8f0",
   },
   greeting: {
     fontSize: 20,
-    fontWeight: 'bold',
-    color: '#1e293b',
+    fontWeight: "bold",
+    color: "#1e293b",
   },
   email: {
     fontSize: 14,
-    color: '#64748b',
+    color: "#64748b",
     marginTop: 2,
   },
   logoutButton: {
     paddingHorizontal: 16,
     paddingVertical: 8,
-    backgroundColor: '#ef4444',
+    backgroundColor: "#ef4444",
     borderRadius: 6,
   },
   logoutText: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#fff',
+    fontWeight: "600",
+    color: "#fff",
   },
   content: {
     flex: 1,
@@ -150,41 +146,41 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 16,
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#1e293b',
+    fontWeight: "bold",
+    color: "#1e293b",
   },
   bookButton: {
     paddingHorizontal: 16,
     paddingVertical: 8,
-    backgroundColor: '#2563eb',
+    backgroundColor: "#2563eb",
     borderRadius: 6,
   },
   bookButtonText: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#fff',
+    fontWeight: "600",
+    color: "#fff",
   },
   emptyState: {
-    alignItems: 'center',
+    alignItems: "center",
     padding: 40,
   },
   emptyTitle: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#64748b',
+    fontWeight: "600",
+    color: "#64748b",
     marginBottom: 8,
   },
   emptyText: {
     fontSize: 14,
-    color: '#9ca3af',
-    textAlign: 'center',
+    color: "#9ca3af",
+    textAlign: "center",
   },
   tripsList: {
     gap: 12,

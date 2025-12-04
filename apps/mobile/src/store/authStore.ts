@@ -1,11 +1,16 @@
-import { create } from 'zustand';
-import * as SecureStore from 'expo-secure-store';
-import { apiService, AuthResponse, SignupData, LoginData } from '../services/api';
+import { create } from "zustand";
+import * as SecureStore from "expo-secure-store";
+import {
+  apiService,
+  AuthResponse,
+  SignupData,
+  LoginData,
+} from "../services/api";
 
 interface User {
   id: string;
   email: string;
-  userType: 'consumer' | 'business';
+  userType: "CONSUMER" | "BUSINESS";
 }
 
 interface AuthStore {
@@ -28,20 +33,20 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     try {
       set({ isLoading: true, error: null });
       const response: AuthResponse = await apiService.signup(data);
-      
+
       // Store token securely
-      await SecureStore.setItemAsync('authToken', response.token);
-      
-      set({ 
-        user: response.user, 
+      await SecureStore.setItemAsync("authToken", response.token);
+
+      set({
+        user: response.user,
         isLoading: false,
-        error: null 
+        error: null,
       });
     } catch (error: any) {
-      const errorMessage = error.response?.data?.error || 'Signup failed';
-      set({ 
-        error: errorMessage, 
-        isLoading: false 
+      const errorMessage = error.response?.data?.error || "Signup failed";
+      set({
+        error: errorMessage,
+        isLoading: false,
       });
       throw error;
     }
@@ -51,20 +56,20 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     try {
       set({ isLoading: true, error: null });
       const response: AuthResponse = await apiService.login(data);
-      
+
       // Store token securely
-      await SecureStore.setItemAsync('authToken', response.token);
-      
-      set({ 
-        user: response.user, 
+      await SecureStore.setItemAsync("authToken", response.token);
+
+      set({
+        user: response.user,
         isLoading: false,
-        error: null 
+        error: null,
       });
     } catch (error: any) {
-      const errorMessage = error.response?.data?.error || 'Login failed';
-      set({ 
-        error: errorMessage, 
-        isLoading: false 
+      const errorMessage = error.response?.data?.error || "Login failed";
+      set({
+        error: errorMessage,
+        isLoading: false,
       });
       throw error;
     }
@@ -73,23 +78,23 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   logout: async () => {
     try {
       // Remove token from secure storage
-      await SecureStore.deleteItemAsync('authToken');
-      set({ 
-        user: null, 
+      await SecureStore.deleteItemAsync("authToken");
+      set({
+        user: null,
         isLoading: false,
-        error: null 
+        error: null,
       });
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error("Logout error:", error);
     }
   },
 
   checkAuthStatus: async () => {
     try {
       set({ isLoading: true });
-      
-      const token = await SecureStore.getItemAsync('authToken');
-      
+
+      const token = await SecureStore.getItemAsync("authToken");
+
       if (!token) {
         set({ user: null, isLoading: false });
         return;
@@ -98,11 +103,10 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       // Token exists, but we don't have user info stored
       // In a real app, you might want to validate the token with the server
       // For now, we'll just clear it and require re-login
-      await SecureStore.deleteItemAsync('authToken');
+      await SecureStore.deleteItemAsync("authToken");
       set({ user: null, isLoading: false });
-      
     } catch (error) {
-      console.error('Auth check error:', error);
+      console.error("Auth check error:", error);
       set({ user: null, isLoading: false });
     }
   },
