@@ -10,6 +10,18 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
+    "./test/server": {
+      "types": "./dist/test/server.d.ts",
+      "default": "./dist/test/server.js"
+    },
+    "./test/browser": {
+      "types": "./dist/test/browser.d.ts",
+      "default": "./dist/test/browser.js"
+    },
+    "./test/handlers": {
+      "types": "./dist/test/handlers.d.ts",
+      "default": "./dist/test/handlers.js"
+    },
     "./css/*": "./css/*",
     "./vite/*": "./vite/*",
     "./eslint/*": "./eslint/*",
@@ -42,5 +54,8 @@
     "test",
     "*.d.ts",
     "**/*.d.ts"
-  ]
+  ],
+  "devDependencies": {
+    "msw": "^2.12.4"
+  }
 }
