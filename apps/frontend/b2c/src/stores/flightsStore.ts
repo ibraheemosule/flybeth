@@ -2,7 +2,7 @@ import {
   createFlightsStore,
   type FlightsApiService,
 } from "@packages/shared-auth";
-import apiService from "@/lib/api-service";
+import apiService from "@/api-service";
 
 // Create an adapter to match the FlightsApiService interface
 const flightsApiAdapter: FlightsApiService = {

@@ -1,5 +1,5 @@
 import { createUserStore, type UserApiService } from "@packages/shared-auth";
-import apiService from "@/lib/api-service";
+import apiService from "@/api-service";
 
 // Create an adapter to match the UserApiService interface
 const userApiAdapter: UserApiService = {

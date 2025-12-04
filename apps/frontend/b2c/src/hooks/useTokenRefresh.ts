@@ -1,6 +1,6 @@
 import { useEffect, useCallback, useRef } from "react";
 import { useAuthStore } from "@/stores";
-import apiService from "@/lib/api-service";
+import apiService from "@/api-service";
 
 interface UseTokenRefreshOptions {
   /**
