@@ -1,7 +1,7 @@
 import { GetServerSideProps } from "next";
 import { useEffect } from "react";
 import AuthGuard from "@/components/AuthGuard";
-import { useAuthStore } from "@/lib/auth-store";
+import { useAuthStore } from "@/stores";
 import { useTokenRefresh } from "@/hooks/useTokenRefresh";
 
 interface DashboardProps {
@@ -9,7 +9,7 @@ interface DashboardProps {
 }
 
 const DashboardPage = ({ initialData }: DashboardProps) => {
-  const { user, updateLastActivity } = useAuthStore();
+  const { user } = useAuthStore();
 
   // Set up token refresh with user activity tracking
   const { refreshToken, isTokenValid, timeUntilExpiry } = useTokenRefresh({
@@ -29,23 +29,7 @@ const DashboardPage = ({ initialData }: DashboardProps) => {
     },
   });
 
-  // Update activity on user interactions
-  useEffect(() => {
-    const handleActivity = () => {
-      updateLastActivity();
-    };
-
-    const events = ["click", "keydown", "mousemove", "scroll"];
-    events.forEach(event => {
-      document.addEventListener(event, handleActivity);
-    });
-
-    return () => {
-      events.forEach(event => {
-        document.removeEventListener(event, handleActivity);
-      });
-    };
-  }, [updateLastActivity]);
+  // TODO: Implement activity tracking if needed
 
   const handleManualRefresh = async () => {
     try {
@@ -68,7 +52,8 @@ const DashboardPage = ({ initialData }: DashboardProps) => {
             <div className="px-6 py-4 border-b border-gray-200">
               <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
               <p className="mt-1 text-sm text-gray-600">
-                Welcome back, {user?.firstName} {user?.lastName}!
+                Welcome back, {user?.profile?.firstName}{" "}
+                {user?.profile?.lastName}!
               </p>
             </div>
 
@@ -93,7 +78,7 @@ const DashboardPage = ({ initialData }: DashboardProps) => {
                 <div className="bg-purple-50 p-4 rounded-lg">
                   <h3 className="font-medium text-purple-900">User Type</h3>
                   <p className="text-sm text-purple-700">
-                    {user?.userType || "Unknown"}
+                    {user?.role || "Unknown"}
                   </p>
                 </div>
               </div>

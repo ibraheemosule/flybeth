@@ -1,10 +1,10 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { User, isTokenExpired } from "@packages/shared-frontend";
+import { FrontendUser, isTokenExpired } from "@packages/shared-frontend";
 import apiService from "@/lib/api-service";
 
 interface AuthState {
-  user: User | null;
+  user: FrontendUser | null;
   accessToken: string | null;
   refreshToken: string | null;
   isAuthenticated: boolean;
@@ -20,7 +20,7 @@ interface AuthState {
     lastName: string;
   }) => Promise<void>;
   logout: () => Promise<void>;
-  setUser: (user: User | null) => void;
+  setUser: (user: FrontendUser | null) => void;
   setTokens: (accessToken: string | null, refreshToken?: string | null) => void;
   clearError: () => void;
   checkTokenValidity: () => boolean;
@@ -113,7 +113,7 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
-      setUser: (user: User | null) => {
+      setUser: (user: FrontendUser | null) => {
         set({ user });
       },
 

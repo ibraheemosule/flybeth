@@ -1,6 +1,6 @@
 import {
   BaseApiService,
-  User,
+  FrontendUser,
   ApiResponse,
   createFrontendApiError as createApiError,
 } from "@packages/shared-frontend";
@@ -146,7 +146,11 @@ class ApiService extends BaseApiService {
   async login(
     email: string,
     password: string
-  ): Promise<{ user: User; accessToken: string; refreshToken: string }> {
+  ): Promise<{
+    user: FrontendUser;
+    accessToken: string;
+    refreshToken: string;
+  }> {
     try {
       const response = await this.post("/api/auth/login", { email, password });
 
@@ -170,7 +174,11 @@ class ApiService extends BaseApiService {
     password: string;
     firstName: string;
     lastName: string;
-  }): Promise<{ user: User; accessToken: string; refreshToken: string }> {
+  }): Promise<{
+    user: FrontendUser;
+    accessToken: string;
+    refreshToken: string;
+  }> {
     try {
       const response = await this.post("/api/auth/register", userData);
 
@@ -200,9 +208,11 @@ class ApiService extends BaseApiService {
     }
   }
 
-  async getCurrentUser(): Promise<User> {
+  async getCurrentUser(): Promise<FrontendUser> {
     try {
-      const response = await this.get<ApiResponse<User>>("/api/auth/me");
+      const response = await this.get<ApiResponse<FrontendUser>>(
+        "/api/auth/me"
+      );
 
       if (response.data.success && response.data.data) {
         return response.data.data;

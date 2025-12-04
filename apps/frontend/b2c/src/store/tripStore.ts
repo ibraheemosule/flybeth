@@ -1,5 +1,16 @@
-import { create } from 'zustand';
-import { tripApi, Trip } from '@/services/api';
+import { create } from "zustand";
+import apiService from "@/lib/api-service";
+
+// Define Trip type locally for now
+interface Trip {
+  id: string;
+  destination: string;
+  startDate: string;
+  endDate: string;
+  travelers: number;
+  status: "PENDING" | "CONFIRMED" | "CANCELLED";
+  totalAmount?: number;
+}
 
 interface TripState {
   trips: Trip[];
@@ -18,22 +29,22 @@ interface TripState {
   clearError: () => void;
 }
 
-export const useTripStore = create<TripState>((set) => ({
+export const useTripStore = create<TripState>(set => ({
   trips: [],
   currentTrip: null,
   isLoading: false,
   error: null,
 
-  bookTrip: async (data) => {
+  bookTrip: async data => {
     set({ isLoading: true, error: null });
-    
+
     try {
-      const response = await tripApi.bookTrip(data);
-      
+      const response = await apiService.createBooking(data);
+
       if (response.data.success) {
         const trip = response.data.data?.trip;
         if (trip) {
-          set((state) => ({
+          set(state => ({
             trips: [trip, ...state.trips],
             currentTrip: trip,
             isLoading: false,
@@ -41,11 +52,14 @@ export const useTripStore = create<TripState>((set) => ({
           return trip;
         }
       }
-      
-      throw new Error(response.data.message || 'Trip booking failed');
+
+      throw new Error(response.data.message || "Trip booking failed");
     } catch (error: unknown) {
-      const errorMessage = (error as any)?.response?.data?.message || (error as Error)?.message || 'Trip booking failed';
-      set({ 
+      const errorMessage =
+        (error as any)?.response?.data?.message ||
+        (error as Error)?.message ||
+        "Trip booking failed";
+      set({
         error: errorMessage,
         isLoading: false,
       });
@@ -55,10 +69,10 @@ export const useTripStore = create<TripState>((set) => ({
 
   fetchMyTrips: async () => {
     set({ isLoading: true, error: null });
-    
+
     try {
-      const response = await tripApi.getMyTrips();
-      
+      const response = await apiService.getUserBookings();
+
       if (response.data.success) {
         const trips = response.data.data?.trips || [];
         set({
@@ -66,11 +80,14 @@ export const useTripStore = create<TripState>((set) => ({
           isLoading: false,
         });
       } else {
-        throw new Error(response.data.message || 'Failed to fetch trips');
+        throw new Error(response.data.message || "Failed to fetch trips");
       }
     } catch (error: unknown) {
-      const errorMessage = (error as any)?.response?.data?.message || (error as Error)?.message || 'Failed to fetch trips';
-      set({ 
+      const errorMessage =
+        (error as any)?.response?.data?.message ||
+        (error as Error)?.message ||
+        "Failed to fetch trips";
+      set({
         error: errorMessage,
         isLoading: false,
       });
@@ -80,25 +97,16 @@ export const useTripStore = create<TripState>((set) => ({
 
   getTripByReference: async (reference: string) => {
     set({ isLoading: true, error: null });
-    
+
     try {
-      const response = await tripApi.getTripByReference(reference);
-      
-      if (response.data.success) {
-        const trip = response.data.data?.trip;
-        if (trip) {
-          set({
-            currentTrip: trip,
-            isLoading: false,
-          });
-          return trip;
-        }
-      }
-      
-      throw new Error(response.data.message || 'Trip not found');
+      // TODO: Implement getTripByReference in apiService
+      throw new Error("getTripByReference not implemented");
     } catch (error: unknown) {
-      const errorMessage = (error as any)?.response?.data?.message || (error as Error)?.message || 'Trip not found';
-      set({ 
+      const errorMessage =
+        (error as any)?.response?.data?.message ||
+        (error as Error)?.message ||
+        "Trip not found";
+      set({
         error: errorMessage,
         isLoading: false,
       });

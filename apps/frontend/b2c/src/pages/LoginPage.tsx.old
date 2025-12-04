@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useAuthStore } from "@/stores";
+import { useAuthStore } from "@/store/authStore";
 import { Eye, EyeOff, Plane } from "lucide-react";
-import type { Route } from "next";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -17,7 +15,7 @@ type LoginForm = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter();
+  const navigate = useNavigate();
   const { login, isLoading, error } = useAuthStore();
 
   const {
@@ -31,7 +29,7 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginForm) => {
     try {
       await login(data.email, data.password);
-      router.push("/dashboard");
+      navigate("/dashboard");
     } catch (error) {
       // Error is handled in the store
     }
@@ -53,7 +51,7 @@ export default function LoginPage() {
           <p className="mt-2 text-center text-sm text-gray-600">
             Or{" "}
             <Link
-              href={"/signup" as Route}
+              to="/signup"
               className="font-medium text-primary-600 hover:text-primary-500"
             >
               create a new account

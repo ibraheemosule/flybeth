@@ -2,8 +2,12 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { tripSchema, type TripInput } from "@packages/shared-schemas";
-import { useAuthStore } from "@/store/authStore";
-import { useTripStore } from "@/store/tripStore";
+import {
+  useAuthStore,
+  useUserStore,
+  useFlightsStore,
+  useHotelsStore,
+} from "@/stores";
 import {
   LogOut,
   Plane,
@@ -16,7 +20,9 @@ import {
 export default function Dashboard() {
   const [showBookingForm, setShowBookingForm] = useState(false);
   const { user, logout } = useAuthStore();
-  const { trips, isLoading, bookTrip, fetchMyTrips } = useTripStore();
+  const { bookings, isLoading, fetchBookings } = useUserStore();
+  const { searchFlights } = useFlightsStore();
+  const { searchHotels } = useHotelsStore();
 
   const {
     register,
@@ -28,21 +34,31 @@ export default function Dashboard() {
   });
 
   useEffect(() => {
-    fetchMyTrips();
-  }, [fetchMyTrips]);
+    fetchBookings();
+  }, [fetchBookings]);
 
   const onBookTrip = async (data: TripInput) => {
     try {
-      await bookTrip({
-        destination: data.destination,
-        startDate: data.startDate,
-        endDate: data.endDate,
-        travelers: Number(data.travelers),
+      // In a real app, this would navigate to search pages or handle the booking flow
+      // For now, we'll just search for flights and hotels
+      await searchFlights({
+        from: "NYC", // This would come from user's location or preferences
+        to: data.destination,
+        departDate: data.startDate,
+        returnDate: data.endDate,
+        passengers: Number(data.travelers),
+      });
+
+      await searchHotels({
+        location: data.destination,
+        checkIn: data.startDate,
+        checkOut: data.endDate,
+        guests: Number(data.travelers),
       });
 
       reset();
       setShowBookingForm(false);
-      fetchMyTrips();
+      fetchBookings();
     } catch {
       // Error handled in store
     }
@@ -61,7 +77,7 @@ export default function Dashboard() {
             <div className="flex items-center space-x-4">
               <div className="text-sm">
                 <p className="font-medium text-gray-900">
-                  Hello {user?.firstName} {user?.lastName}! 👋
+                  Hello {user?.profile?.firstName} {user?.profile?.lastName}! 👋
                 </p>
                 <p className="text-gray-500">{user?.email}</p>
               </div>
@@ -83,14 +99,11 @@ export default function Dashboard() {
           {/* Welcome Message */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
             <h2 className="text-lg font-semibold text-blue-900 mb-2">
-              {user?.userType === "BUSINESS"
-                ? "Hello Business User! 🏢"
-                : "Hello Independent User! ✈️"}
+              Hello Traveler! ✈️
             </h2>
             <p className="text-blue-700">
-              {user?.userType === "BUSINESS"
-                ? "Welcome to your business travel dashboard. Manage bookings for your platform users."
-                : "Welcome to your travel dashboard. Book amazing trips and manage your bookings."}
+              Welcome to your travel dashboard. Book amazing trips and manage
+              your bookings.
             </p>
           </div>
 
@@ -114,7 +127,8 @@ export default function Dashboard() {
                 <Calendar className="h-6 w-6 text-green-600" />
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-2">
-                {trips.length} {trips.length === 1 ? "Trip" : "Trips"}
+                {bookings.length}{" "}
+                {bookings.length === 1 ? "Booking" : "Bookings"}
               </h3>
               <p className="text-gray-500 text-sm">View your bookings</p>
             </div>
@@ -143,46 +157,42 @@ export default function Dashboard() {
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
                   <p className="mt-2 text-gray-500">Loading trips...</p>
                 </div>
-              ) : trips.length > 0 ? (
+              ) : bookings.length > 0 ? (
                 <div className="space-y-4">
-                  {trips.slice(0, 5).map(trip => (
+                  {bookings.slice(0, 5).map(booking => (
                     <div
-                      key={trip.id}
+                      key={booking.id}
                       className="flex items-center justify-between p-4 border rounded-lg"
                     >
                       <div className="flex-1">
                         <div className="flex items-center">
                           <MapPin className="h-5 w-5 text-gray-400 mr-2" />
                           <h4 className="text-md font-medium text-gray-900">
-                            {trip.destination}
+                            {booking.type} Booking
                           </h4>
                         </div>
                         <div className="mt-1 flex items-center text-sm text-gray-500">
                           <Calendar className="h-4 w-4 mr-1" />
-                          {new Date(trip.startDate).toLocaleDateString()} -{" "}
-                          {new Date(trip.endDate).toLocaleDateString()}
-                          <Users className="h-4 w-4 ml-4 mr-1" />
-                          {trip.travelers}{" "}
-                          {trip.travelers === 1 ? "traveler" : "travelers"}
+                          {new Date(booking.createdAt).toLocaleDateString()}
                         </div>
                       </div>
                       <div className="text-right">
                         <div className="flex items-center text-sm text-gray-900 mb-1">
                           <CreditCard className="h-4 w-4 mr-1" />$
-                          {trip.totalAmount}
+                          {booking.totalAmount}
                         </div>
                         <span
                           className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            trip.status === "CONFIRMED"
+                            booking.status === "CONFIRMED"
                               ? "bg-green-100 text-green-800"
-                              : trip.status === "PENDING"
+                              : booking.status === "PENDING"
                               ? "bg-yellow-100 text-yellow-800"
-                              : trip.status === "CANCELLED"
+                              : booking.status === "CANCELLED"
                               ? "bg-red-100 text-red-800"
                               : "bg-blue-100 text-blue-800"
                           }`}
                         >
-                          {trip.status}
+                          {booking.status}
                         </span>
                       </div>
                     </div>

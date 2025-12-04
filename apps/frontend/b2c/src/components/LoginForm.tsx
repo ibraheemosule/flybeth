@@ -7,13 +7,13 @@ import {
   type LoginInput,
   type RegisterInput,
 } from "@packages/shared-schemas";
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore } from "@/stores";
 import { Eye, EyeOff, Plane } from "lucide-react";
 
 export default function LoginForm() {
   const [isSignup, setIsSignup] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const { login, register } = useAuthStore();
+  const { login, signup, error, isLoading } = useAuthStore();
 
   const loginForm = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),

@@ -1,23 +1,30 @@
 import { ReactNode } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { useAuthStore } from "@/store/authStore";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useAuthStore } from "@/stores";
 import { LogOut, Home, Plane, Calendar } from "lucide-react";
 
 interface LayoutProps {
   children: ReactNode;
 }
 
+interface NavigationItem {
+  name: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
 export default function Layout({ children }: LayoutProps) {
   const { user, logout } = useAuthStore();
-  const location = useLocation();
+  const pathname = usePathname();
 
-  const navigation = [
+  const navigation: NavigationItem[] = [
     { name: "Dashboard", href: "/dashboard", icon: Home },
     { name: "Book Trip", href: "/book-trip", icon: Plane },
     { name: "My Trips", href: "/trips", icon: Calendar },
   ];
 
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (path: string) => pathname === path;
 
   const handleLogout = () => {
     logout();
@@ -43,7 +50,7 @@ export default function Layout({ children }: LayoutProps) {
             return (
               <Link
                 key={item.name}
-                to={item.href}
+                href={item.href as any}
                 className={`flex items-center px-6 py-3 text-sm font-medium transition-colors ${
                   isActive(item.href)
                     ? "bg-primary-50 text-primary-700 border-r-2 border-primary-600"
@@ -63,14 +70,14 @@ export default function Layout({ children }: LayoutProps) {
             <div className="flex-shrink-0">
               <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center">
                 <span className="text-sm font-medium text-white">
-                  {user?.firstName?.charAt(0)}
-                  {user?.lastName?.charAt(0)}
+                  {user?.profile?.firstName?.charAt(0)}
+                  {user?.profile?.lastName?.charAt(0)}
                 </span>
               </div>
             </div>
             <div className="ml-3 flex-1">
               <p className="text-sm font-medium text-gray-900">
-                {user?.firstName} {user?.lastName}
+                {user?.profile?.firstName} {user?.profile?.lastName}
               </p>
               <p className="text-xs text-gray-500">{user?.email}</p>
             </div>

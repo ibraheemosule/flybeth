@@ -4,6 +4,11 @@ const path = require("path");
 /** @type {import('next').NextConfig} */
 const nextConfig = createNextConfig({
   // B2C-specific configuration
+  transpilePackages: [
+    "@packages/shared-frontend",
+    "@packages/shared-utils",
+    "@packages/shared-schemas",
+  ],
   webpack: (config, { isServer }) => {
     // Add alias for packages directory to resolve CSS imports
     config.resolve.alias = {

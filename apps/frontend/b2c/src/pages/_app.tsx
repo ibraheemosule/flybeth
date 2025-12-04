@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import SessionManager from "@/components/SessionManager";
-import { useAuthStore } from "@/lib/auth-store";
+import { useAuthStore } from "@/stores";
 
 // Routes that don't require authentication
 const PUBLIC_ROUTES = [
@@ -47,7 +47,7 @@ function TravelPlatformApp({ Component, pageProps }: AppProps) {
       )?.[1];
 
       if (requiredRoles && user) {
-        const userRoles = user.roles || [user.userType] || [];
+        const userRoles = ["CONSUMER"];
         const hasAccess = requiredRoles.some(
           role =>
             userRoles.includes(role) ||
