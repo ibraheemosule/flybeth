@@ -83,7 +83,7 @@ export function Header({
                     className={`relative px-4 py-2.5 rounded-xl transition-all duration-300 flex items-center gap-2 ${
                       isActive
                         ? "text-white"
-                        : "text-gray-700 hover:text-primary hover:bg-primary/5"
+                        : "text-gray-700 hover:text-[#2563eb] hover:bg-[#2563eb]/5"
                     }`}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -91,7 +91,7 @@ export function Header({
                     {isActive && (
                       <motion.div
                         layoutId="activeTab"
-                        className="absolute inset-0 bg-gradient-to-r from-primary to-accent rounded-xl shadow-lg"
+                        className="absolute inset-0 bg-gradient-to-r from-[#2563eb] to-[#10b981] rounded-xl shadow-lg"
                         transition={{
                           type: "spring",
                           bounce: 0.2,
@@ -115,8 +115,8 @@ export function Header({
                   onClick={() => setIsProductsOpen(!isProductsOpen)}
                   className={`relative px-4 py-2.5 rounded-xl transition-all duration-300 flex items-center gap-2 ${
                     isProductsOpen
-                      ? "text-white bg-gradient-to-r from-primary to-accent"
-                      : "text-gray-700 hover:text-primary hover:bg-primary/5"
+                      ? "text-white bg-gradient-to-r from-[#2563eb] to-[#10b981]"
+                      : "text-gray-700 hover:text-[#2563eb] hover:bg-[#2563eb]/5"
                   }`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}

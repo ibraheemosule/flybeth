@@ -25,7 +25,16 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   };
 
   // Get current page from pathname
-  const currentPage = pathname === "/" ? "home" : pathname.slice(1);
+  const currentPage =
+    pathname === "/" ? "home" : pathname.slice(1).split("/")[0];
+
+  // Check if current page is an authentication page
+  const isAuthPage = pathname === "/signin" || pathname === "/signup";
+
+  // If it's an auth page, return only the children without header/footer
+  if (isAuthPage) {
+    return <main>{children}</main>;
+  }
 
   return (
     <>

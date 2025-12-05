@@ -50,10 +50,10 @@ export function ReceiptModal({ open, onOpenChange, trip }: ReceiptModalProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white/95 backdrop-blur-xl border-2 border-primary/10">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white/95 backdrop-blur-xl border-2 border-[#2563eb]/10">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <CheckCircle2 className="h-6 w-6 text-accent" />
+            <CheckCircle2 className="h-6 w-6 text-[#10b981]" />
             Booking Receipt
           </DialogTitle>
           <DialogDescription>
@@ -67,8 +67,8 @@ export function ReceiptModal({ open, onOpenChange, trip }: ReceiptModalProps) {
           className="space-y-6"
         >
           {/* Header with Logo */}
-          <div className="text-center py-6 bg-gradient-to-r from-primary/5 to-accent/5 rounded-xl border border-primary/10">
-            <span className="text-2xl font-bold text-blue-600 mx-auto mb-4 block text-center">
+          <div className="text-center py-6 bg-gradient-to-r from-[#2563eb]/5 to-[#10b981]/5 rounded-xl border border-[#2563eb]/10">
+            <span className="text-2xl font-bold text-[#2563eb] mx-auto mb-4 block text-center">
               FlyBeth
             </span>
             <h3 className="mb-1">Thank You for Booking with Flybeth!</h3>
@@ -78,7 +78,7 @@ export function ReceiptModal({ open, onOpenChange, trip }: ReceiptModalProps) {
           </div>
 
           {/* Booking Reference */}
-          <div className="p-4 rounded-xl bg-gradient-to-r from-primary to-accent text-white">
+          <div className="p-4 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#10b981] text-white">
             <p className="text-sm mb-1 text-white/80">Booking Reference</p>
             <p className="text-2xl tracking-wider">{trip.bookingRef}</p>
           </div>
@@ -86,18 +86,18 @@ export function ReceiptModal({ open, onOpenChange, trip }: ReceiptModalProps) {
           {/* Trip Details */}
           <div className="space-y-4">
             <div>
-              <h4 className="mb-3 text-primary">Trip Details</h4>
+              <h4 className="mb-3 text-[#2563eb]">Trip Details</h4>
               <div className="space-y-3">
-                <div className="flex items-start gap-3 p-3 rounded-lg bg-gradient-to-r from-primary/5 to-accent/5">
-                  <MapPin className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                <div className="flex items-start gap-3 p-3 rounded-lg bg-gradient-to-r from-[#2563eb]/5 to-[#10b981]/5">
+                  <MapPin className="h-5 w-5 text-[#2563eb] flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="text-sm text-muted-foreground">Destination</p>
                     <p>{trip.destination}</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3 rounded-lg bg-gradient-to-r from-primary/5 to-accent/5">
-                  <Calendar className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
+                <div className="flex items-start gap-3 p-3 rounded-lg bg-gradient-to-r from-[#2563eb]/5 to-[#10b981]/5">
+                  <Calendar className="h-5 w-5 text-[#10b981] flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="text-sm text-muted-foreground">
                       Travel Dates
@@ -106,8 +106,8 @@ export function ReceiptModal({ open, onOpenChange, trip }: ReceiptModalProps) {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3 rounded-lg bg-gradient-to-r from-primary/5 to-accent/5">
-                  <Users className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                <div className="flex items-start gap-3 p-3 rounded-lg bg-gradient-to-r from-[#2563eb]/5 to-[#10b981]/5">
+                  <Users className="h-5 w-5 text-[#2563eb] flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="text-sm text-muted-foreground">
                       Booking Type
@@ -122,7 +122,7 @@ export function ReceiptModal({ open, onOpenChange, trip }: ReceiptModalProps) {
 
             {/* Payment Summary */}
             <div>
-              <h4 className="mb-3 text-primary">Payment Summary</h4>
+              <h4 className="mb-3 text-[#2563eb]">Payment Summary</h4>
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Subtotal</span>
@@ -144,7 +144,7 @@ export function ReceiptModal({ open, onOpenChange, trip }: ReceiptModalProps) {
                 <Separator />
                 <div className="flex justify-between">
                   <span>Total Paid</span>
-                  <span className="text-2xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                  <span className="text-2xl bg-gradient-to-r from-[#2563eb] to-[#10b981] bg-clip-text text-transparent">
                     {trip.price}
                   </span>
                 </div>
@@ -158,7 +158,7 @@ export function ReceiptModal({ open, onOpenChange, trip }: ReceiptModalProps) {
             <Separator />
 
             {/* Important Info */}
-            <div className="p-4 rounded-xl bg-accent/5 border border-accent/20">
+            <div className="p-4 rounded-xl bg-[#10b981]/5 border border-[#10b981]/20">
               <p className="text-sm mb-2">
                 📧 A confirmation email has been sent to your registered email
                 address.
@@ -174,7 +174,7 @@ export function ReceiptModal({ open, onOpenChange, trip }: ReceiptModalProps) {
           <div className="flex gap-3 pt-4">
             <Button
               onClick={handleDownload}
-              className="flex-1 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
+              className="flex-1 bg-gradient-to-r from-[#2563eb] to-[#10b981] hover:from-[#2563eb]/90 hover:to-[#10b981]/90"
             >
               <Download className="mr-2 h-4 w-4" />
               Download Receipt
@@ -182,7 +182,7 @@ export function ReceiptModal({ open, onOpenChange, trip }: ReceiptModalProps) {
             <Button
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="flex-1 border-2 hover:border-primary"
+              className="flex-1 border-2 hover:border-[#2563eb]"
             >
               Close
             </Button>

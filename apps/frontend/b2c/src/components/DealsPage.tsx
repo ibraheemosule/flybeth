@@ -59,7 +59,7 @@ export function DealsPage() {
       <div className="container mx-auto max-w-7xl">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white px-6 py-3 rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#2563eb] to-[#10b981] text-white px-6 py-3 rounded-full mb-6">
             <Sparkles className="h-5 w-5" />
             <span>Exclusive Deals Hub</span>
           </div>
@@ -106,7 +106,7 @@ export function DealsPage() {
                 </div>
 
                 {/* Discount badge */}
-                <div className="absolute top-3 right-3 bg-accent text-white px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
+                <div className="absolute top-3 right-3 bg-[#10b981] text-white px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
                   <TrendingDown className="h-3 w-3" />
                   {deal.discount}% OFF
                 </div>
@@ -138,9 +138,9 @@ export function DealsPage() {
                     <div className="text-xs text-muted-foreground line-through">
                       {deal.originalPrice}
                     </div>
-                    <div className="text-2xl text-primary">{deal.price}</div>
+                    <div className="text-2xl text-[#2563eb]">{deal.price}</div>
                   </div>
-                  <Button className="bg-accent hover:bg-accent/90">
+                  <Button className="bg-[#10b981] hover:bg-[#10b981]/90 text-white">
                     Grab Deal
                   </Button>
                 </div>
@@ -150,7 +150,7 @@ export function DealsPage() {
         </div>
 
         {/* CTA Section */}
-        <div className="mt-16 p-8 bg-gradient-to-r from-primary to-accent rounded-2xl text-white text-center">
+        <div className="mt-16 p-8 bg-gradient-to-r from-[#2563eb] to-[#10b981] rounded-2xl text-white text-center">
           <h2 className="text-white mb-4">Never Miss a Deal!</h2>
           <p className="mb-6 text-white/90 max-w-2xl mx-auto">
             Subscribe to our newsletter and be the first to know about flash
@@ -160,9 +160,9 @@ export function DealsPage() {
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-lg text-foreground"
+              className="flex-1 px-4 py-3 rounded-lg bg-transparent text-white placeholder:text-white/80 border border-transparent focus:outline-none focus:border-white/60"
             />
-            <Button className="bg-white text-primary hover:bg-white/90">
+            <Button className="bg-white text-[#2563eb] hover:bg-white/90">
               Subscribe
             </Button>
           </div>

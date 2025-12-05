@@ -1,8 +1,24 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "./ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
-import { Plane, Hotel, Calendar, Users, MapPin, Clock, CheckCircle2, Mail, Phone } from "lucide-react";
+import {
+  Plane,
+  Hotel,
+  Calendar,
+  Users,
+  MapPin,
+  Clock,
+  CheckCircle2,
+  Mail,
+  Phone,
+} from "lucide-react";
 import { motion } from "framer-motion";
 
 interface TripDetailsModalProps {
@@ -24,17 +40,21 @@ interface TripDetailsModalProps {
   };
 }
 
-export function TripDetailsModal({ open, onOpenChange, trip }: TripDetailsModalProps) {
+export function TripDetailsModal({
+  open,
+  onOpenChange,
+  trip,
+}: TripDetailsModalProps) {
   // Ensure trip has details object to prevent errors
   const tripDetails = trip?.details || { guests: "N/A" };
-  
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-white/95 backdrop-blur-xl border-2 border-primary/10">
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-white/95 backdrop-blur-xl border-2 border-[#2563eb]/10">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             <span>Trip Details</span>
-            <Badge className="bg-gradient-to-r from-primary to-accent text-white">
+            <Badge className="bg-gradient-to-r from-[#2563eb] to-[#10b981] text-white">
               {trip.status === "confirmed" ? "Confirmed" : "Completed"}
             </Badge>
           </DialogTitle>
@@ -49,7 +69,7 @@ export function TripDetailsModal({ open, onOpenChange, trip }: TripDetailsModalP
           className="space-y-6"
         >
           {/* Destination Header */}
-          <div className="p-6 rounded-xl bg-gradient-to-r from-primary to-accent text-white">
+          <div className="p-6 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#10b981] text-white">
             <h2 className="mb-2 text-white">{trip.destination}</h2>
             <div className="flex items-center gap-2 text-white/90">
               <Calendar className="h-4 w-4" />
@@ -64,40 +84,46 @@ export function TripDetailsModal({ open, onOpenChange, trip }: TripDetailsModalP
           {/* Flight Details */}
           {tripDetails.flight && (
             <div className="space-y-3">
-              <h4 className="flex items-center gap-2 text-primary">
+              <h4 className="flex items-center gap-2 text-[#2563eb]">
                 <Plane className="h-5 w-5" />
                 Flight Information
               </h4>
-              <div className="p-4 rounded-xl bg-gradient-to-r from-primary/5 to-accent/5 border border-primary/10 space-y-3">
+              <div className="p-4 rounded-xl bg-gradient-to-r from-[#2563eb]/5 to-[#10b981]/5 border border-[#2563eb]/10 space-y-3">
                 <div className="flex justify-between items-start">
                   <div>
                     <p className="text-sm text-muted-foreground">Route</p>
                     <p>{tripDetails.flight}</p>
                   </div>
-                  <Badge variant="outline" className="bg-white">Economy Class</Badge>
+                  <Badge variant="outline" className="bg-white">
+                    Economy Class
+                  </Badge>
                 </div>
                 <Separator />
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">Departure</p>
+                    <p className="text-sm text-muted-foreground mb-1">
+                      Departure
+                    </p>
                     <div className="flex items-center gap-2">
-                      <Clock className="h-4 w-4 text-accent" />
+                      <Clock className="h-4 w-4 text-[#10b981]" />
                       <span>8:30 AM</span>
                     </div>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">Arrival</p>
+                    <p className="text-sm text-muted-foreground mb-1">
+                      Arrival
+                    </p>
                     <div className="flex items-center gap-2">
-                      <Clock className="h-4 w-4 text-accent" />
+                      <Clock className="h-4 w-4 text-[#10b981]" />
                       <span>11:45 AM</span>
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
-                  <Users className="h-4 w-4 text-primary" />
+                  <Users className="h-4 w-4 text-[#2563eb]" />
                   <span>{tripDetails.guests}</span>
                 </div>
-                <div className="p-3 rounded-lg bg-accent/10 border border-accent/20">
+                <div className="p-3 rounded-lg bg-[#10b981]/10 border border-[#10b981]/20">
                   <p className="text-sm">✓ 2 checked bags included</p>
                   <p className="text-sm">✓ Seat selection available</p>
                   <p className="text-sm">✓ Mobile boarding pass</p>
@@ -109,11 +135,11 @@ export function TripDetailsModal({ open, onOpenChange, trip }: TripDetailsModalP
           {/* Hotel Details */}
           {tripDetails.hotel && (
             <div className="space-y-3">
-              <h4 className="flex items-center gap-2 text-accent">
+              <h4 className="flex items-center gap-2 text-[#10b981]">
                 <Hotel className="h-5 w-5" />
                 Hotel Information
               </h4>
-              <div className="p-4 rounded-xl bg-gradient-to-r from-accent/5 to-primary/5 border border-accent/10 space-y-3">
+              <div className="p-4 rounded-xl bg-gradient-to-r from-[#10b981]/5 to-[#2563eb]/5 border border-[#10b981]/10 space-y-3">
                 <div className="flex justify-between items-start">
                   <div>
                     <p>{tripDetails.hotel}</p>
@@ -124,25 +150,33 @@ export function TripDetailsModal({ open, onOpenChange, trip }: TripDetailsModalP
                   </div>
                   <div className="text-right">
                     <div className="text-amber-500">★★★★☆</div>
-                    <p className="text-sm text-muted-foreground">4.5/5 rating</p>
+                    <p className="text-sm text-muted-foreground">
+                      4.5/5 rating
+                    </p>
                   </div>
                 </div>
                 <Separator />
                 <div>
-                  <p className="text-sm text-muted-foreground mb-1">Room Type</p>
+                  <p className="text-sm text-muted-foreground mb-1">
+                    Room Type
+                  </p>
                   <p>Deluxe Ocean View Room</p>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">Check-in</p>
+                    <p className="text-sm text-muted-foreground mb-1">
+                      Check-in
+                    </p>
                     <p>3:00 PM</p>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">Check-out</p>
+                    <p className="text-sm text-muted-foreground mb-1">
+                      Check-out
+                    </p>
                     <p>11:00 AM</p>
                   </div>
                 </div>
-                <div className="p-3 rounded-lg bg-primary/10 border border-primary/20">
+                <div className="p-3 rounded-lg bg-[#2563eb]/10 border border-[#2563eb]/20">
                   <p className="text-sm">✓ Free breakfast included</p>
                   <p className="text-sm">✓ Pool & spa access</p>
                   <p className="text-sm">✓ Free WiFi</p>
@@ -156,21 +190,21 @@ export function TripDetailsModal({ open, onOpenChange, trip }: TripDetailsModalP
             <h4 className="mb-3">Need Help?</h4>
             <div className="space-y-2 text-sm">
               <div className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-primary" />
+                <Mail className="h-4 w-4 text-[#2563eb]" />
                 <span>support@flybeth.com</span>
               </div>
               <div className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-accent" />
+                <Phone className="h-4 w-4 text-[#10b981]" />
                 <span>1-800-FLYBETH (24/7 Support)</span>
               </div>
             </div>
           </div>
 
           {/* Price Summary */}
-          <div className="p-4 rounded-xl bg-gradient-to-r from-primary/5 to-accent/5 border border-primary/10">
+          <div className="p-4 rounded-xl bg-gradient-to-r from-[#2563eb]/5 to-[#10b981]/5 border border-[#2563eb]/10">
             <div className="flex justify-between items-center">
               <span className="text-muted-foreground">Total Price</span>
-              <span className="text-3xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              <span className="text-3xl bg-gradient-to-r from-[#2563eb] to-[#10b981] bg-clip-text text-transparent">
                 {trip.price}
               </span>
             </div>
@@ -180,14 +214,12 @@ export function TripDetailsModal({ open, onOpenChange, trip }: TripDetailsModalP
           <div className="flex gap-3">
             <Button
               variant="outline"
-              className="flex-1 border-2 hover:border-accent"
+              className="flex-1 border-2 hover:border-[#10b981]"
               onClick={() => onOpenChange(false)}
             >
               Close
             </Button>
-            <Button
-              className="flex-1 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
-            >
+            <Button className="flex-1 bg-gradient-to-r from-[#2563eb] to-[#10b981] hover:from-[#2563eb]/90 hover:to-[#10b981]/90">
               Manage Booking
             </Button>
           </div>

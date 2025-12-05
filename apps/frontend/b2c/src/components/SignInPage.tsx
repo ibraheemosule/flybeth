@@ -43,7 +43,7 @@ export function SignInPage({ onNavigate }: SignInPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary via-accent to-primary relative overflow-hidden flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-[#2563eb] via-[#10b981] to-[#2563eb] relative overflow-hidden flex items-center justify-center px-4 py-12">
       {/* Animated background */}
       <div className="absolute inset-0 opacity-10">
         <div
@@ -87,16 +87,16 @@ export function SignInPage({ onNavigate }: SignInPageProps) {
           {/* Sign In Form */}
           <form onSubmit={handleSignIn} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-primary">
+              <Label htmlFor="email" className="text-[#2563eb]">
                 Email Address
               </Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-accent" />
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#10b981]" />
                 <Input
                   id="email"
                   type="email"
                   placeholder="you@example.com"
-                  className="pl-11 h-12 border-2 focus:border-accent bg-white/50 backdrop-blur-sm"
+                  className="pl-11 h-12 border-2 focus:border-[#10b981] bg-white/50 backdrop-blur-sm"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   required
@@ -105,16 +105,16 @@ export function SignInPage({ onNavigate }: SignInPageProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-primary">
+              <Label htmlFor="password" className="text-[#2563eb]">
                 Password
               </Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-accent" />
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#10b981]" />
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
-                  className="pl-11 pr-11 h-12 border-2 focus:border-accent bg-white/50 backdrop-blur-sm"
+                  className="pl-11 pr-11 h-12 border-2 focus:border-[#10b981] bg-white/50 backdrop-blur-sm"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   required
@@ -149,7 +149,7 @@ export function SignInPage({ onNavigate }: SignInPageProps) {
               </div>
               <button
                 type="button"
-                className="text-sm text-primary hover:text-primary/80 transition-colors"
+                className="text-sm text-[#2563eb] hover:text-[#2563eb]/80 transition-colors"
                 onClick={() => setShowForgotPassword(true)}
               >
                 Forgot password?
@@ -158,7 +158,7 @@ export function SignInPage({ onNavigate }: SignInPageProps) {
 
             <Button
               type="submit"
-              className="w-full h-12 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 shadow-lg hover:shadow-xl transition-all"
+              className="w-full h-12 bg-gradient-to-r from-[#2563eb] to-[#10b981] hover:from-[#2563eb]/90 hover:to-[#10b981]/90 shadow-lg hover:shadow-xl transition-all"
               disabled={!email || !password}
             >
               <Plane className="mr-2 h-5 w-5" />
@@ -179,7 +179,7 @@ export function SignInPage({ onNavigate }: SignInPageProps) {
             <Button
               type="button"
               variant="outline"
-              className="w-full h-12 border-2 hover:border-primary bg-white/50 backdrop-blur-sm"
+              className="w-full h-12 border-2 hover:border-[#2563eb] bg-white/50 backdrop-blur-sm"
             >
               <svg className="mr-2 h-5 w-5" viewBox="0 0 24 24">
                 <path
@@ -210,7 +210,7 @@ export function SignInPage({ onNavigate }: SignInPageProps) {
               <button
                 type="button"
                 onClick={() => onNavigate("signup")}
-                className="text-primary hover:text-primary/80 transition-colors"
+                className="text-[#2563eb] hover:text-[#2563eb]/80 transition-colors"
               >
                 Sign up for free
               </button>
