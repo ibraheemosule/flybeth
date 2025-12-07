@@ -41,13 +41,13 @@ export default function Dashboard() {
     try {
       // In a real app, this would navigate to search pages or handle the booking flow
       // For now, we'll just search for flights and hotels
-      await searchFlights({
-        from: "NYC", // This would come from user's location or preferences
-        to: data.destination,
-        departDate: data.startDate,
-        returnDate: data.endDate,
-        passengers: Number(data.travelers),
-      });
+      // await searchFlights({
+      //   from: "NYC", // This would come from user's location or preferences
+      //   to: data.destination,
+      //   departDate: data.startDate,
+      //   returnDate: data.endDate,
+      //   passengers: Number(data.travelers),
+      // });
 
       await searchHotels({
         location: data.destination,
