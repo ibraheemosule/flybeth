@@ -19,6 +19,7 @@ import { Button } from "../../ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { Route } from "next";
 
 export default function Header() {
   const router = useRouter();
@@ -35,13 +36,12 @@ export default function Header() {
     if (page === "home") {
       router.push("/");
     } else {
-      router.push(`/${page}${tab ? `#${tab}` : ""}`);
+      router.push(`/${page}${tab ? `#${tab}` : ""}` as Route);
     }
     setIsMobileMenuOpen(false);
     setIsProductsOpen(false);
   };
 
-  
   const navItems = [
     { id: "home", label: "Home", icon: Home },
     { id: "trips", label: "My Bookings", icon: Briefcase },
