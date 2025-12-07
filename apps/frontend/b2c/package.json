@@ -14,10 +14,9 @@
   },
   "dependencies": {
     "@packages/shared-auth": "file:../../../packages/shared-auth",
-    "@packages/shared-frontend": "file:../../../packages/shared-frontend",
     "@packages/shared-config": "file:../../../packages/shared-config",
-    "@packages/shared-utils": "file:../../../packages/shared-utils",
-    "@packages/shared-schemas": "file:../../../packages/shared-schemas"
-  },
-  "devDependencies": {}
+    "@packages/shared-frontend": "file:../../../packages/shared-frontend",
+    "@packages/shared-schemas": "file:../../../packages/shared-schemas",
+    "@packages/shared-utils": "file:../../../packages/shared-utils"
+  }
 }

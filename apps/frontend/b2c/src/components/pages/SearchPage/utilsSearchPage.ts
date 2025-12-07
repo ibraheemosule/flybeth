@@ -1,0 +1,113 @@
+import { Flight } from "@packages/shared-auth";
+
+export const mockFlights: Flight[] = [
+  {
+    id: "1",
+    airline: "Flybeth Airways",
+    flightNumber: "FB123",
+    price: 459,
+    departure: {
+      time: "08:30 AM",
+      city: "New York",
+      airport: "JFK",
+      date: "2024-07-15",
+    },
+    arrival: {
+      time: "11:45 AM",
+      city: "Los Angeles",
+      airport: "LAX",
+      date: "2024-07-15",
+    },
+    duration: "5h 15m",
+    stops: "Non-stop",
+    flightClass: "first",
+    amenities: ["wifi", "meals", "entertainment"],
+    baggage: "2 checked bags included",
+    seats: {
+      total: 30,
+      available: 5,
+    },
+  },
+  {
+    id: "2",
+    airline: "Sky Connect",
+    flightNumber: "FB123",
+    price: 389,
+    departure: {
+      time: "02:15 PM",
+      city: "New York",
+      airport: "JFK",
+      date: "2024-07-15",
+    },
+    arrival: {
+      time: "05:40 PM",
+      city: "Los Angeles",
+      airport: "LAX",
+      date: "2024-07-15",
+    },
+    duration: "5h 25m",
+    stops: "Non-stop",
+    flightClass: "economy",
+    amenities: ["wifi", "entertainment"],
+    baggage: "1 checked bag included",
+    seats: {
+      total: 30,
+      available: 5,
+    },
+  },
+  {
+    id: "3",
+    airline: "Global Express",
+    flightNumber: "FB123",
+    price: 329,
+    departure: {
+      time: "06:00 AM",
+      city: "New York",
+      airport: "JFK",
+      date: "2024-07-15",
+    },
+    arrival: {
+      time: "12:30 PM",
+      city: "Los Angeles",
+      airport: "LAX",
+      date: "2024-07-15",
+    },
+    duration: "6h 30m",
+    stops: "1 stop in ORD",
+    flightClass: "economy",
+    amenities: ["entertainment"],
+    baggage: "1 checked bag included",
+    seats: {
+      total: 30,
+      available: 5,
+    },
+  },
+  {
+    id: "4",
+    airline: "Premium Air",
+    flightNumber: "FB123",
+    price: 899,
+    departure: {
+      time: "10:00 AM",
+      city: "New York",
+      airport: "JFK",
+      date: "2024-07-15",
+    },
+    arrival: {
+      time: "01:20 PM",
+      city: "Los Angeles",
+      airport: "LAX",
+      date: "2024-07-15",
+    },
+
+    duration: "5h 20m",
+    stops: "Non-stop",
+    flightClass: "business",
+    amenities: ["wifi", "meals", "entertainment", "lounge"],
+    baggage: "3 checked bags included",
+    seats: {
+      total: 30,
+      available: 5,
+    },
+  },
+];

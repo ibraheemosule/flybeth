@@ -20,6 +20,7 @@ export {
   type FlightsState,
   type FlightsApiService,
   type Flight,
+  type FlightSearchParamState,
 } from "./flightsStore";
 
 // User Store

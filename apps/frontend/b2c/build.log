@@ -1,0 +1,217 @@
+
+> frontend-b2c@0.0.0 build
+> next build
+
+   ▲ Next.js 15.5.6
+   - Environments: .env.production
+
+   Creating an optimized production build ...
+(node:47220) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/Apple/Documents/projects/flybeth/packages/shared-config/tailwind/base.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/Apple/Documents/projects/flybeth/packages/shared-config/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Failed to compile.
+
+./src/app/globals.css.webpack[javascript/auto]!=!../../../node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!../../../node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./src/app/globals.css
+Error: Unexpected '/'. Escaping special characters with \ may help.
+    at /Users/Apple/Documents/projects/flybeth/apps/frontend/b2c/src/app/globals.css:1175:1
+    at /Users/Apple/Documents/projects/flybeth/apps/frontend/b2c/src/app/globals.css:1175:1
+    at Root._error (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/parser.js:131:16)
+    at Root.error (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/selectors/root.js:30:19)
+    at Parser.error (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/parser.js:598:21)
+    at Parser.unexpected (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/parser.js:612:17)
+    at Parser.combinator (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/parser.js:526:12)
+    at Parser.parse (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/parser.js:900:14)
+    at Parser.loop (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/parser.js:856:12)
+    at new Parser (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/parser.js:124:10)
+    at Processor._root (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/processor.js:40:18)
+    at Processor._runSync (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/processor.js:78:21)
+    at Processor.processSync (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/processor.js:164:23)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:39:12
+    at /Users/Apple/Documents/projects/flybeth/node_modules/postcss/lib/container.js:387:18
+    at /Users/Apple/Documents/projects/flybeth/node_modules/postcss/lib/container.js:315:18
+    at Root.each (/Users/Apple/Documents/projects/flybeth/node_modules/postcss/lib/container.js:63:16)
+    at Root.walk (/Users/Apple/Documents/projects/flybeth/node_modules/postcss/lib/container.js:312:17)
+    at Root.walkRules (/Users/Apple/Documents/projects/flybeth/node_modules/postcss/lib/container.js:385:19)
+    at extractClasses (/Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:29:15)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:154:31
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/node_modules/postcss/lib/container.js:369:18
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/node_modules/postcss/lib/container.js:297:18
+    at Root.each (/Users/Apple/Documents/projects/flybeth/node_modules/next/node_modules/postcss/lib/container.js:53:16)
+    at Root.walk (/Users/Apple/Documents/projects/flybeth/node_modules/next/node_modules/postcss/lib/container.js:294:17)
+    at Root.walkRules (/Users/Apple/Documents/projects/flybeth/node_modules/next/node_modules/postcss/lib/container.js:367:19)
+    at buildLocalApplyCache (/Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:143:10)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:550:40
+    at Object.has (/Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:205:30)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:219:49
+    at Array.some (<anonymous>)
+    at Object.has (/Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:219:29)
+    at processApply (/Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:379:34)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:551:9
+    at /Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/processTailwindFeatures.js:55:50
+    at async plugins (/Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/plugin.js:38:17)
+    at async LazyResult.runAsync (/Users/Apple/Documents/projects/flybeth/node_modules/next/node_modules/postcss/lib/lazy-result.js:261:11)
+    at async Span.traceAsyncFn (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/trace/trace.js:157:20)
+    at async /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js:55:22
+    at async Span.traceAsyncFn (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/trace/trace.js:157:20)
+
+Import trace for requested module:
+./src/app/globals.css.webpack[javascript/auto]!=!../../../node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!../../../node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./src/app/globals.css
+./src/app/globals.css
+
+./src/app/globals.css
+Error: Unexpected '/'. Escaping special characters with \ may help.
+    at /Users/Apple/Documents/projects/flybeth/apps/frontend/b2c/src/app/globals.css:1175:1
+    at /Users/Apple/Documents/projects/flybeth/apps/frontend/b2c/src/app/globals.css:1175:1
+    at Root._error (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/parser.js:131:16)
+    at Root.error (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/selectors/root.js:30:19)
+    at Parser.error (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/parser.js:598:21)
+    at Parser.unexpected (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/parser.js:612:17)
+    at Parser.combinator (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/parser.js:526:12)
+    at Parser.parse (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/parser.js:900:14)
+    at Parser.loop (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/parser.js:856:12)
+    at new Parser (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/parser.js:124:10)
+    at Processor._root (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/processor.js:40:18)
+    at Processor._runSync (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/processor.js:78:21)
+    at Processor.processSync (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/processor.js:164:23)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:39:12
+    at /Users/Apple/Documents/projects/flybeth/node_modules/postcss/lib/container.js:387:18
+    at /Users/Apple/Documents/projects/flybeth/node_modules/postcss/lib/container.js:315:18
+    at Root.each (/Users/Apple/Documents/projects/flybeth/node_modules/postcss/lib/container.js:63:16)
+    at Root.walk (/Users/Apple/Documents/projects/flybeth/node_modules/postcss/lib/container.js:312:17)
+    at Root.walkRules (/Users/Apple/Documents/projects/flybeth/node_modules/postcss/lib/container.js:385:19)
+    at extractClasses (/Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:29:15)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:154:31
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/node_modules/postcss/lib/container.js:369:18
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/node_modules/postcss/lib/container.js:297:18
+    at Root.each (/Users/Apple/Documents/projects/flybeth/node_modules/next/node_modules/postcss/lib/container.js:53:16)
+    at Root.walk (/Users/Apple/Documents/projects/flybeth/node_modules/next/node_modules/postcss/lib/container.js:294:17)
+    at Root.walkRules (/Users/Apple/Documents/projects/flybeth/node_modules/next/node_modules/postcss/lib/container.js:367:19)
+    at buildLocalApplyCache (/Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:143:10)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:550:40
+    at Object.has (/Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:205:30)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:219:49
+    at Array.some (<anonymous>)
+    at Object.has (/Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:219:29)
+    at processApply (/Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:379:34)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:551:9
+    at /Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/processTailwindFeatures.js:55:50
+    at async plugins (/Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/plugin.js:38:17)
+    at async LazyResult.runAsync (/Users/Apple/Documents/projects/flybeth/node_modules/next/node_modules/postcss/lib/lazy-result.js:261:11)
+    at async Span.traceAsyncFn (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/trace/trace.js:157:20)
+    at async /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js:55:22
+    at async Span.traceAsyncFn (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/trace/trace.js:157:20)
+    at tryRunOrWebpackError (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:316119)
+    at __webpack_require_module__ (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:131532)
+    at __nested_webpack_require_161494__ (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:130967)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:131824
+    at symbolIterator (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/neo-async/async.js:1:14444)
+    at done (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/neo-async/async.js:1:14824)
+    at Hook.eval [as callAsync] (eval at create (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:14:9224), <anonymous>:15:1)
+    at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:14:6378)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:130687
+    at symbolIterator (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/neo-async/async.js:1:14402)
+    at timesSync (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/neo-async/async.js:1:5027)
+    at Object.eachLimit (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/neo-async/async.js:1:14208)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:130247
+    at symbolIterator (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/neo-async/async.js:1:14444)
+    at timesSync (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/neo-async/async.js:1:5027)
+    at Object.eachLimit (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/neo-async/async.js:1:14208)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:129985
+    at symbolIterator (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/neo-async/async.js:1:14444)
+    at done (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/neo-async/async.js:1:14824)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:129496
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:110347
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:16152
+    at Array.<anonymous> (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:551693)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:16144
+    at eval (eval at create (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:14:9224), <anonymous>:27:1)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+-- inner error --
+Error: Unexpected '/'. Escaping special characters with \ may help.
+    at /Users/Apple/Documents/projects/flybeth/apps/frontend/b2c/src/app/globals.css:1175:1
+    at /Users/Apple/Documents/projects/flybeth/apps/frontend/b2c/src/app/globals.css:1175:1
+    at Root._error (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/parser.js:131:16)
+    at Root.error (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/selectors/root.js:30:19)
+    at Parser.error (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/parser.js:598:21)
+    at Parser.unexpected (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/parser.js:612:17)
+    at Parser.combinator (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/parser.js:526:12)
+    at Parser.parse (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/parser.js:900:14)
+    at Parser.loop (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/parser.js:856:12)
+    at new Parser (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/parser.js:124:10)
+    at Processor._root (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/processor.js:40:18)
+    at Processor._runSync (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/processor.js:78:21)
+    at Processor.processSync (/Users/Apple/Documents/projects/flybeth/node_modules/postcss-selector-parser/dist/processor.js:164:23)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:39:12
+    at /Users/Apple/Documents/projects/flybeth/node_modules/postcss/lib/container.js:387:18
+    at /Users/Apple/Documents/projects/flybeth/node_modules/postcss/lib/container.js:315:18
+    at Root.each (/Users/Apple/Documents/projects/flybeth/node_modules/postcss/lib/container.js:63:16)
+    at Root.walk (/Users/Apple/Documents/projects/flybeth/node_modules/postcss/lib/container.js:312:17)
+    at Root.walkRules (/Users/Apple/Documents/projects/flybeth/node_modules/postcss/lib/container.js:385:19)
+    at extractClasses (/Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:29:15)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:154:31
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/node_modules/postcss/lib/container.js:369:18
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/node_modules/postcss/lib/container.js:297:18
+    at Root.each (/Users/Apple/Documents/projects/flybeth/node_modules/next/node_modules/postcss/lib/container.js:53:16)
+    at Root.walk (/Users/Apple/Documents/projects/flybeth/node_modules/next/node_modules/postcss/lib/container.js:294:17)
+    at Root.walkRules (/Users/Apple/Documents/projects/flybeth/node_modules/next/node_modules/postcss/lib/container.js:367:19)
+    at buildLocalApplyCache (/Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:143:10)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:550:40
+    at Object.has (/Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:205:30)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:219:49
+    at Array.some (<anonymous>)
+    at Object.has (/Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:219:29)
+    at processApply (/Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:379:34)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:551:9
+    at /Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/processTailwindFeatures.js:55:50
+    at async plugins (/Users/Apple/Documents/projects/flybeth/node_modules/tailwindcss/lib/plugin.js:38:17)
+    at async LazyResult.runAsync (/Users/Apple/Documents/projects/flybeth/node_modules/next/node_modules/postcss/lib/lazy-result.js:261:11)
+    at async Span.traceAsyncFn (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/trace/trace.js:157:20)
+    at async /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js:55:22
+    at async Span.traceAsyncFn (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/trace/trace.js:157:20)
+    at Object.<anonymous> (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!/Users/Apple/Documents/projects/flybeth/apps/frontend/b2c/src/app/globals.css:1:7)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:962717
+    at Hook.eval [as call] (eval at create (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:14:9002), <anonymous>:7:1)
+    at Hook.CALL_DELEGATE [as _call] (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:14:6272)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:131565
+    at tryRunOrWebpackError (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:316073)
+    at __webpack_require_module__ (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:131532)
+    at __nested_webpack_require_161494__ (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:130967)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:131824
+    at symbolIterator (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/neo-async/async.js:1:14444)
+    at done (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/neo-async/async.js:1:14824)
+    at Hook.eval [as callAsync] (eval at create (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:14:9224), <anonymous>:15:1)
+    at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:14:6378)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:130687
+    at symbolIterator (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/neo-async/async.js:1:14402)
+    at timesSync (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/neo-async/async.js:1:5027)
+    at Object.eachLimit (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/neo-async/async.js:1:14208)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:130247
+    at symbolIterator (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/neo-async/async.js:1:14444)
+    at timesSync (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/neo-async/async.js:1:5027)
+    at Object.eachLimit (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/neo-async/async.js:1:14208)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:129985
+    at symbolIterator (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/neo-async/async.js:1:14444)
+    at done (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/neo-async/async.js:1:14824)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:129496
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:110347
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:16152
+    at Array.<anonymous> (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:551693)
+    at /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:29:16144
+    at eval (eval at create (/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/compiled/webpack/bundle5.js:14:9224), <anonymous>:27:1)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+
+Generated code for /Users/Apple/Documents/projects/flybeth/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!/Users/Apple/Documents/projects/flybeth/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!/Users/Apple/Documents/projects/flybeth/apps/frontend/b2c/src/app/globals.css
+
+Import trace for requested module:
+./src/app/globals.css
+
+
+> Build failed because of webpack errors
+npm error Lifecycle script `build` failed with error:
+npm error code 1
+npm error path /Users/Apple/Documents/projects/flybeth/apps/frontend/b2c
+npm error workspace frontend-b2c@0.0.0
+npm error location /Users/Apple/Documents/projects/flybeth/apps/frontend/b2c
+npm error command failed
+npm error command sh -c next build

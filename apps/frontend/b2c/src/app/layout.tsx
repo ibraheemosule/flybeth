@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Toaster } from "../components/ui/sonner";
+import { LayoutComponent } from "@/components/LayoutComponent";
 
 export const metadata: Metadata = {
   title: "FlyBeth",
@@ -13,7 +15,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <LayoutComponent>{children}</LayoutComponent>
+        <Toaster />
+      </body>
     </html>
   );
 }

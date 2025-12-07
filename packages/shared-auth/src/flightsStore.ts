@@ -17,9 +17,13 @@ export interface Flight {
     time: string;
     date: string;
   };
+  stops: string;
+  baggage: string;
+  amenities: string[];
   duration: string;
   price: number;
-  class: "economy" | "business" | "first";
+  flightClass: "economy" | "business" | "first";
+
   seats: {
     total: number;
     available: number;
@@ -33,7 +37,7 @@ export interface FlightsApiService {
     departDate: string;
     returnDate?: string;
     passengers: number;
-    class?: "economy" | "business" | "first";
+    flightClass?: "economy" | "business" | "first";
   }) => Promise<Flight[]>;
   getFlightDetails: (flightId: string) => Promise<Flight>;
   bookFlight: (bookingData: {
@@ -43,31 +47,25 @@ export interface FlightsApiService {
   }) => Promise<{ bookingId: string; flight: Flight }>;
 }
 
+export interface FlightSearchParamState {
+  from: string;
+  to: string;
+  departDate: string;
+  returnDate?: string;
+  passengers: number;
+  flightClass?: "economy" | "business" | "first";
+  tripType: "roundtrip" | "oneway" | "multicity";
+}
+
 export interface FlightsState {
   flights: Flight[];
   selectedFlight: Flight | null;
   returnFlights: Flight[];
   selectedReturnFlight: Flight | null;
-  searchParams: {
-    from: string;
-    to: string;
-    departDate: string;
-    returnDate?: string;
-    passengers: number;
-    class?: "economy" | "business" | "first";
-  } | null;
+  searchParams: FlightSearchParamState | null;
   isLoading: boolean;
   error: string | null;
-  isRoundTrip: boolean;
-
-  searchFlights: (params: {
-    from: string;
-    to: string;
-    departDate: string;
-    returnDate?: string;
-    passengers: number;
-    class?: "economy" | "business" | "first";
-  }) => Promise<void>;
+  searchFlights: (params: FlightSearchParamState) => Promise<void>;
   selectFlight: (flight: Flight, isReturn?: boolean) => void;
   bookFlight: (bookingData: {
     flightId: string;
@@ -77,7 +75,6 @@ export interface FlightsState {
   }) => Promise<{ bookingId: string; flight: Flight; returnFlight?: Flight }>;
   clearFlights: () => void;
   clearError: () => void;
-  toggleTripType: () => void;
 }
 
 export function createFlightsStore(
@@ -94,14 +91,12 @@ export function createFlightsStore(
         searchParams: null,
         isLoading: false,
         error: null,
-        isRoundTrip: false,
 
         searchFlights: async params => {
           set({
             isLoading: true,
             error: null,
             searchParams: params,
-            isRoundTrip: !!params.returnDate,
           });
 
           try {
@@ -166,15 +161,6 @@ export function createFlightsStore(
 
         clearError: () => {
           set({ error: null });
-        },
-
-        toggleTripType: () => {
-          const { isRoundTrip } = get();
-          set({
-            isRoundTrip: !isRoundTrip,
-            returnFlights: [],
-            selectedReturnFlight: null,
-          });
         },
       }),
       {

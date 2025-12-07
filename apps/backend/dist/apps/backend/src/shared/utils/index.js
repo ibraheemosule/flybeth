@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthUtils = exports.generateBookingReference = exports.generateApiKey = exports.comparePassword = exports.hashPassword = exports.createLogger = exports.createHelmetMiddleware = exports.createCorsMiddleware = exports.RateLimiter = exports.CacheManager = exports.SessionManager = exports.RedisClient = exports.rateLimit = exports.createProxyMiddleware = exports.winston = exports.dotenvConfig = exports.helmet = exports.cors = exports.express = void 0;
+exports.AuthUtils = exports.generateBookingReference = exports.generateApiKey = exports.comparePassword = exports.hashPassword = exports.createLogger = exports.createHelmetMiddleware = exports.createCorsMiddleware = exports.createServiceHttpClient = exports.createHttpClient = exports.HttpClient = exports.RateLimiter = exports.CacheManager = exports.SessionManager = exports.RedisClient = exports.rateLimit = exports.createProxyMiddleware = exports.winston = exports.dotenvConfig = exports.helmet = exports.cors = exports.express = void 0;
 // Import dependencies
 const express_1 = __importDefault(require("express"));
 exports.express = express_1.default;
@@ -25,6 +25,11 @@ Object.defineProperty(exports, "RedisClient", { enumerable: true, get: function 
 Object.defineProperty(exports, "SessionManager", { enumerable: true, get: function () { return redis_1.SessionManager; } });
 Object.defineProperty(exports, "CacheManager", { enumerable: true, get: function () { return redis_1.CacheManager; } });
 Object.defineProperty(exports, "RateLimiter", { enumerable: true, get: function () { return redis_1.RateLimiter; } });
+// Export HTTP client utilities (backend-only)
+var http_client_1 = require("./http-client");
+Object.defineProperty(exports, "HttpClient", { enumerable: true, get: function () { return http_client_1.HttpClient; } });
+Object.defineProperty(exports, "createHttpClient", { enumerable: true, get: function () { return http_client_1.createHttpClient; } });
+Object.defineProperty(exports, "createServiceHttpClient", { enumerable: true, get: function () { return http_client_1.createServiceHttpClient; } });
 // Common middleware factory functions
 const createCorsMiddleware = (options) => {
     return (0, cors_1.default)(options || {
