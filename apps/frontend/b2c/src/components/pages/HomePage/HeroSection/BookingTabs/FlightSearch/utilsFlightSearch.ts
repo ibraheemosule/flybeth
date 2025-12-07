@@ -1,0 +1,21 @@
+export const airports = [
+  { code: "JFK", city: "New York", name: "John F. Kennedy International" },
+  { code: "LAX", city: "Los Angeles", name: "Los Angeles International" },
+  { code: "ORD", city: "Chicago", name: "O'Hare International" },
+  { code: "DFW", city: "Dallas", name: "Dallas/Fort Worth International" },
+  { code: "DEN", city: "Denver", name: "Denver International" },
+  {
+    code: "ATL",
+    city: "Atlanta",
+    name: "Hartsfield-Jackson Atlanta International",
+  },
+  { code: "LHR", city: "London", name: "London Heathrow" },
+  { code: "CDG", city: "Paris", name: "Charles de Gaulle" },
+  { code: "NRT", city: "Tokyo", name: "Narita International" },
+  { code: "DXB", city: "Dubai", name: "Dubai International" },
+  { code: "SIN", city: "Singapore", name: "Singapore Changi" },
+  { code: "HKG", city: "Hong Kong", name: "Hong Kong International" },
+  { code: "SYD", city: "Sydney", name: "Sydney Kingsford Smith" },
+  { code: "MIA", city: "Miami", name: "Miami International" },
+  { code: "SFO", city: "San Francisco", name: "San Francisco International" },
+];
