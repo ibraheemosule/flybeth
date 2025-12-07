@@ -9,6 +9,7 @@ import { Badge } from "./ui/badge";
 import { Star, TrendingDown, Zap, MapPin } from "lucide-react";
 import { ImageWithFallback } from "./ui/ImageWithFallback";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 interface Deal {
   id: number;
@@ -78,10 +79,9 @@ const deals: Deal[] = [
 ];
 
 export function DealsSection({ onNavigate }: DealsSectionProps = {}) {
+  const router = useRouter();
   const handleViewDeal = () => {
-    if (onNavigate) {
-      onNavigate("deals");
-    }
+    router.push("/deals");
   };
 
   return (

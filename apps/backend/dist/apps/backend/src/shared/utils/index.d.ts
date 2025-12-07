@@ -9,6 +9,7 @@ export { express, cors, helmet, dotenvConfig, winston, createProxyMiddleware, ra
 export type { Express, Request, Response, NextFunction } from "express";
 export type { CorsOptions } from "cors";
 export { RedisClient, SessionManager, CacheManager, RateLimiter, } from "./redis";
+export { HttpClient, createHttpClient, createServiceHttpClient, type HttpClientConfig, } from "./http-client";
 export declare const createCorsMiddleware: (options?: any) => (req: cors.CorsRequest, res: {
     statusCode?: number | undefined;
     setHeader(key: string, value: string): any;

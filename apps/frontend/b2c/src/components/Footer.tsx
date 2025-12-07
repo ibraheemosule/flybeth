@@ -2,20 +2,24 @@
 
 import { Facebook, Twitter, Instagram, Youtube } from "lucide-react";
 import { Separator } from "./ui/separator";
+import { usePathname, useRouter } from "next/navigation";
 
-interface FooterProps {
-  onNavigate?: (page: string) => void;
-}
+export function Footer() {
+  const router = useRouter();
+  const pathname = usePathname();
 
-export function Footer({ onNavigate }: FooterProps) {
+  const hideFooter = ["/signin", "/signup", "/404", "/500"].includes(pathname);
+
   const handleNavigation = (page: string) => (e: React.MouseEvent) => {
     e.preventDefault();
-    if (onNavigate) {
-      onNavigate(page);
+    if (page === "home") {
+      router.push("/");
+    } else {
+      router.push(`/${page}` as any);
     }
   };
 
-  return (
+  return hideFooter ? null : (
     <footer className="bg-gradient-to-br from-[#1e293b] to-[#0f172a] text-white py-12 px-4 relative overflow-hidden">
       {/* Glass effect overlay */}
       <div className="absolute inset-0 bg-white/5 backdrop-blur-sm" />

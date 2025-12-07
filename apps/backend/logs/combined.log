@@ -34,3 +34,10 @@
 {"level":"info","message":"Prisma info:","service":"backend","timestamp":"2025-12-05T14:30:21.851Z"}
 {"level":"info","message":"Redis connected successfully","service":"redis-client","timestamp":"2025-12-05T14:32:13.227Z"}
 {"level":"info","message":"Redis connected successfully","service":"backend","timestamp":"2025-12-05T14:32:13.227Z"}
+{"level":"info","message":"Redis connected successfully","service":"redis-client","timestamp":"2025-12-07T14:04:45.528Z"}
+{"level":"info","message":"Redis connected successfully","service":"backend","timestamp":"2025-12-07T14:04:45.528Z"}
+{"level":"info","message":"Prisma info:","service":"backend","timestamp":"2025-12-07T14:04:45.531Z"}
+{"level":"info","message":"Database connected successfully","service":"backend","timestamp":"2025-12-07T14:04:45.536Z"}
+{"environment":"development","level":"info","message":"FlyBeth Backend running on port 5002","port":5002,"service":"flybeth-backend","timestamp":"2025-12-07T14:04:45.537Z"}
+{"level":"info","message":"SIGINT received, shutting down gracefully","service":"backend","timestamp":"2025-12-07T14:04:46.863Z"}
+{"level":"info","message":"SIGINT received, shutting down gracefully","service":"backend","timestamp":"2025-12-07T14:04:46.865Z"}

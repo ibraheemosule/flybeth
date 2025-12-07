@@ -9,6 +9,7 @@ export type {
   AuthState,
   HotelsState,
   FlightsState,
+  FlightSearchParamState,
   UserState,
   Hotel,
   Flight,

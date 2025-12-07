@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckoutPage } from "../../components/CheckoutPage";
+import CheckoutPage  from "@/components/pages/CheckoutPage";
 import { useRouter } from "next/navigation";
 
 export default function Checkout() {
