@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/
 import { Button } from "./ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Badge } from "./ui/badge";
-import { Calendar, MapPin, Plane, Hotel, Clock, CheckCircle2, XCircle, Car, ChevronLeft, ChevronRight } from "lucide-react";
+import { Calendar, MapPin, Plane, Hotel, Clock, CheckCircle2, XCircle, Car, ChevronLeft, ChevronRight, Package, Ticket } from "lucide-react";
 import { ReceiptModal } from "./ReceiptModal";
 import { TripDetailsModal } from "./TripDetailsModal";
 import { ManageBookingModal } from "./ManageBookingModal";
@@ -88,6 +88,21 @@ const bookingHistory = [
   },
   {
     id: 6,
+    destination: "Maldives",
+    type: "Vacation Package",
+    category: "package",
+    dates: "May 1 - May 8, 2025",
+    bookingRef: "FB-2025-000601",
+    status: "completed",
+    price: "$1,899",
+    details: {
+      packageName: "Paradise Getaway",
+      nights: "7 nights",
+      includes: "Flight + Resort + Meals + Activities"
+    }
+  },
+  {
+    id: 7,
     destination: "Dubai, UAE",
     type: "Hotel",
     category: "hotel",
@@ -102,7 +117,22 @@ const bookingHistory = [
     }
   },
   {
-    id: 7,
+    id: 8,
+    destination: "Santorini, Greece",
+    type: "Attraction",
+    category: "attraction",
+    dates: "Apr 18, 2025",
+    bookingRef: "FB-2025-000412",
+    status: "completed",
+    price: "$79",
+    details: {
+      attractionName: "Sunset Harbor Cruise",
+      duration: "3 hours",
+      people: "2 people"
+    }
+  },
+  {
+    id: 9,
     destination: "Los Angeles, CA",
     type: "Car Rental",
     category: "car",
@@ -118,7 +148,7 @@ const bookingHistory = [
     }
   },
   {
-    id: 8,
+    id: 10,
     destination: "London, UK",
     type: "Flight",
     category: "flight",
@@ -132,7 +162,7 @@ const bookingHistory = [
     }
   },
   {
-    id: 9,
+    id: 11,
     destination: "Rome, Italy",
     type: "Hotel",
     category: "hotel",
@@ -147,7 +177,7 @@ const bookingHistory = [
     }
   },
   {
-    id: 10,
+    id: 12,
     destination: "San Francisco, CA",
     type: "Car Rental",
     category: "car",
@@ -215,6 +245,10 @@ export function MyTripsPage() {
         return <Hotel className="h-5 w-5 text-accent" />;
       case 'car':
         return <Car className="h-5 w-5 text-primary" />;
+      case 'package':
+        return <Package className="h-5 w-5 text-primary" />;
+      case 'attraction':
+        return <Ticket className="h-5 w-5 text-primary" />;
       default:
         return <Plane className="h-5 w-5 text-primary" />;
     }
@@ -408,6 +442,50 @@ export function MyTripsPage() {
                           <div className="flex items-center gap-2 text-sm text-muted-foreground ml-13">
                             <Clock className="h-4 w-4" />
                             <span>{booking.details.days}</span>
+                          </div>
+                        </>
+                      )}
+                      
+                      {booking.category === 'package' && booking.details.packageName && (
+                        <>
+                          <div className="flex items-start gap-3">
+                            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                              <Package className="h-5 w-5 text-primary" />
+                            </div>
+                            <div>
+                              <div className="text-sm">Package</div>
+                              <p className="text-muted-foreground text-sm">{booking.details.packageName}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground ml-13">
+                            <Clock className="h-4 w-4" />
+                            <span>{booking.details.nights}</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground ml-13">
+                            <MapPin className="h-4 w-4" />
+                            <span>{booking.details.includes}</span>
+                          </div>
+                        </>
+                      )}
+                      
+                      {booking.category === 'attraction' && booking.details.attractionName && (
+                        <>
+                          <div className="flex items-start gap-3">
+                            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                              <Ticket className="h-5 w-5 text-primary" />
+                            </div>
+                            <div>
+                              <div className="text-sm">Attraction</div>
+                              <p className="text-muted-foreground text-sm">{booking.details.attractionName}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground ml-13">
+                            <Clock className="h-4 w-4" />
+                            <span>{booking.details.duration}</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground ml-13">
+                            <MapPin className="h-4 w-4" />
+                            <span>{booking.details.people}</span>
                           </div>
                         </>
                       )}

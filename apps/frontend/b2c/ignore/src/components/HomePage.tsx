@@ -5,8 +5,13 @@ import { FeaturesSection } from "./FeaturesSection";
 import { PopularDestinationsSection } from "./PopularDestinationsSection";
 import { PartnerCarousel } from "./PartnerCarousel";
 import { FlightResults } from "./FlightResults";
+import { HotelResults } from "./HotelResults";
+import { CarResults } from "./CarResults";
+import { PackageResults } from "./PackageResults";
+import { AttractionResults } from "./AttractionResults";
 import { LoadingAnimation } from "./LoadingAnimation";
 import { CheckoutPage } from "./CheckoutPage";
+import { UniversalCheckout } from "./UniversalCheckout";
 
 interface HomePageProps {
   isSignedIn?: boolean;
@@ -17,12 +22,24 @@ interface HomePageProps {
 export function HomePage({ isSignedIn = false, onNavigate, activeTab }: HomePageProps) {
   const [searchResults, setSearchResults] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedFlight, setSelectedFlight] = useState<any>(null);
+  const [selectedBooking, setSelectedBooking] = useState<any>(null);
   const [showCheckout, setShowCheckout] = useState(false);
+  const [bookingType, setBookingType] = useState<"flight" | "hotel" | "car" | "package" | "attraction">("flight");
 
   const handleSearch = (params: any) => {
     setIsLoading(true);
-    // Simulate API call
+    const bookingType = params.type || "flight";
+    setBookingType(bookingType);
+    
+    // Simulate API call with different loading messages
+    const loadingMessages: Record<string, string> = {
+      flight: "Finding the best flights for you...",
+      hotel: "Searching for amazing hotels...",
+      car: "Finding the perfect rental car...",
+      package: "Building your dream vacation package...",
+      attraction: "Discovering exciting experiences...",
+    };
+    
     setTimeout(() => {
       setIsLoading(false);
       setSearchResults(params);
@@ -31,12 +48,12 @@ export function HomePage({ isSignedIn = false, onNavigate, activeTab }: HomePage
 
   const handleCloseResults = () => {
     setSearchResults(null);
-    setSelectedFlight(null);
+    setSelectedBooking(null);
     setShowCheckout(false);
   };
 
-  const handleSelectFlight = (flight: any) => {
-    setSelectedFlight(flight);
+  const handleSelectBooking = (booking: any) => {
+    setSelectedBooking(booking);
     setShowCheckout(true);
   };
 
@@ -51,7 +68,7 @@ export function HomePage({ isSignedIn = false, onNavigate, activeTab }: HomePage
     } else {
       // Fallback: go back to home
       setSearchResults(null);
-      setSelectedFlight(null);
+      setSelectedBooking(null);
       setShowCheckout(false);
     }
   };
@@ -62,15 +79,38 @@ export function HomePage({ isSignedIn = false, onNavigate, activeTab }: HomePage
     }
   };
 
+  const loadingMessages: Record<string, string> = {
+    flight: "Finding the best flights for you...",
+    hotel: "Searching for amazing hotels...",
+    car: "Finding the perfect rental car...",
+    package: "Building your dream vacation package...",
+    attraction: "Discovering exciting experiences...",
+  };
+
   if (isLoading) {
-    return <LoadingAnimation message="Finding the best flights for you..." />;
+    return <LoadingAnimation message={loadingMessages[bookingType]} />;
   }
 
-  if (showCheckout && selectedFlight && searchResults) {
+  if (showCheckout && selectedBooking && searchResults) {
+    // Use original CheckoutPage for flights (backward compatibility)
+    if (bookingType === "flight") {
+      return (
+        <CheckoutPage
+          flight={selectedBooking}
+          searchParams={searchResults}
+          onBack={handleBackToResults}
+          onComplete={handleCheckoutComplete}
+          isSignedIn={isSignedIn}
+          onSignIn={handleSignIn}
+        />
+      );
+    }
+    
+    // Use UniversalCheckout for other booking types
     return (
-      <CheckoutPage
-        flight={selectedFlight}
-        searchParams={searchResults}
+      <UniversalCheckout
+        booking={selectedBooking}
+        bookingType={bookingType}
         onBack={handleBackToResults}
         onComplete={handleCheckoutComplete}
         isSignedIn={isSignedIn}
@@ -80,13 +120,57 @@ export function HomePage({ isSignedIn = false, onNavigate, activeTab }: HomePage
   }
 
   if (searchResults) {
-    return (
-      <FlightResults
-        searchParams={searchResults}
-        onClose={handleCloseResults}
-        onSelectFlight={handleSelectFlight}
-      />
-    );
+    // Render appropriate results page based on booking type
+    switch (bookingType) {
+      case "flight":
+        return (
+          <FlightResults
+            searchParams={searchResults}
+            onClose={handleCloseResults}
+            onSelectFlight={handleSelectBooking}
+          />
+        );
+      case "hotel":
+        return (
+          <HotelResults
+            searchParams={searchResults}
+            onClose={handleCloseResults}
+            onSelectHotel={handleSelectBooking}
+          />
+        );
+      case "car":
+        return (
+          <CarResults
+            searchParams={searchResults}
+            onClose={handleCloseResults}
+            onSelectCar={handleSelectBooking}
+          />
+        );
+      case "package":
+        return (
+          <PackageResults
+            searchParams={searchResults}
+            onClose={handleCloseResults}
+            onSelectPackage={handleSelectBooking}
+          />
+        );
+      case "attraction":
+        return (
+          <AttractionResults
+            searchParams={searchResults}
+            onClose={handleCloseResults}
+            onSelectAttraction={handleSelectBooking}
+          />
+        );
+      default:
+        return (
+          <FlightResults
+            searchParams={searchResults}
+            onClose={handleCloseResults}
+            onSelectFlight={handleSelectBooking}
+          />
+        );
+    }
   }
 
   return (
