@@ -1,7 +1,7 @@
 "use client";
 
 import { Facebook, Twitter, Instagram, Youtube } from "lucide-react";
-import { Separator } from "../../ui/separator";
+import { Separator } from "@/components/ui";
 import { usePathname, useRouter } from "next/navigation";
 
 export default function Footer() {

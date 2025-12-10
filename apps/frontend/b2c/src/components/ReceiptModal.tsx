@@ -4,9 +4,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-} from "./ui/dialog";
-import { Button } from "./ui/button";
-import { Separator } from "./ui/separator";
+  Button,
+  Separator,
+} from "@/components/ui";
 import {
   Download,
   CheckCircle2,

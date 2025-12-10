@@ -1,27 +1,24 @@
 import { useState, useRef, useEffect } from "react";
 import { Calendar, MapPin, Search, Users, ArrowRightLeft } from "lucide-react";
-import { Button } from "../../../../../ui/button";
-import { Input } from "../../../../../ui/input";
-import { Label } from "../../../../../ui/label";
-import { RadioGroup, RadioGroupItem } from "../../../../../ui/radio-group";
 import {
+  Button,
+  Input,
+  Label,
+  RadioGroup,
+  RadioGroupItem,
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "../../../../../ui/popover";
-import { Calendar as CalendarComponent } from "../../../../../ui/calendar";
+  Calendar as CalendarComponent,
+} from "@/components/ui";
 import { format } from "date-fns";
 import { airports } from "./utilsFlightSearch";
 import { useFlightsStore, FlightSearchParamState } from "@/stores";
 import { useRouter } from "next/navigation";
 
-interface FlightSearchProps {
-  onSearch: (params: any) => void;
-}
-
-export default function FlightSearch({ onSearch }: FlightSearchProps) {
+export default function FlightSearch() {
   const router = useRouter();
-  const { searchParams, searchFlights } = useFlightsStore();
+  const { searchParams } = useFlightsStore();
   const { from, to, departDate, returnDate, passengers, tripType } =
     searchParams || {};
 

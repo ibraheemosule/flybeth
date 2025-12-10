@@ -1,6 +1,6 @@
 "use client";
 
-import { SignInPage } from "../../components/SignInPage";
+import SigninPage from "@/components/pages/SigninPage";
 import { useRouter } from "next/navigation";
 
 export default function SignIn() {
@@ -18,7 +18,7 @@ export default function SignIn() {
         router.push("/deals");
         break;
       case "trips":
-        router.push("/trips");
+        router.push("/bookings");
         break;
       case "help":
         router.push("/help");
@@ -28,5 +28,5 @@ export default function SignIn() {
     }
   };
 
-  return <SignInPage onNavigate={handleNavigate} />;
+  return <SigninPage onNavigate={handleNavigate} />;
 }

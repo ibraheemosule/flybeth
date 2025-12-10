@@ -1,6 +1,4 @@
-"use client";
-
-import { DealsPage } from "../../components/DealsPage";
+import DealsPage from "@/components/pages/DealsPage";
 
 export default function Deals() {
   return <DealsPage />;

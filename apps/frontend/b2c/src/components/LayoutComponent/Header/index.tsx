@@ -15,7 +15,7 @@ import {
   Package,
   ChevronDown,
 } from "lucide-react";
-import { Button } from "../../ui/button";
+import { Button } from "@/components/ui";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
@@ -44,7 +44,7 @@ export default function Header() {
 
   const navItems = [
     { id: "home", label: "Home", icon: Home },
-    { id: "trips", label: "My Bookings", icon: Briefcase },
+    { id: "bookings", label: "My Bookings", icon: Briefcase },
     { id: "deals", label: "Deals", icon: Sparkles },
     { id: "help", label: "Help", icon: HelpCircle },
   ];

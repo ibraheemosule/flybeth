@@ -8,7 +8,7 @@ interface HeroSectionProps {
   onSearch: (params: any) => void;
 }
 
-export function HeroSection({ onSearch }: HeroSectionProps) {
+export function HeroSection() {
   return (
     <section className="relative overflow-hidden min-h-[90vh] flex items-center">
       {/* Dynamic animated gradient background */}
@@ -146,7 +146,7 @@ export function HeroSection({ onSearch }: HeroSectionProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
         >
-          <BookingTabs onSearch={onSearch} />
+          <BookingTabs />
         </motion.div>
       </div>
 

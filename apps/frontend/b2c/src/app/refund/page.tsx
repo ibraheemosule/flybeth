@@ -1,7 +1,5 @@
-"use client";
-
-import { RefundPolicyPage } from "../../components/RefundPolicyPage";
+import RefundPage from "@/components/pages/RefundPage";
 
 export default function Refund() {
-  return <RefundPolicyPage />;
+  return <RefundPage />;
 }

@@ -27,6 +27,7 @@ export const mockFlights: Flight[] = [
       total: 30,
       available: 5,
     },
+    insurance: false,
   },
   {
     id: "2",
@@ -54,6 +55,7 @@ export const mockFlights: Flight[] = [
       total: 30,
       available: 5,
     },
+    insurance: false,
   },
   {
     id: "3",
@@ -81,6 +83,7 @@ export const mockFlights: Flight[] = [
       total: 30,
       available: 5,
     },
+    insurance: false,
   },
   {
     id: "4",
@@ -109,5 +112,6 @@ export const mockFlights: Flight[] = [
       total: 30,
       available: 5,
     },
+    insurance: false,
   },
 ];

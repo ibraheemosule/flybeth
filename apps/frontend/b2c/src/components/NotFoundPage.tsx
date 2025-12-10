@@ -1,4 +1,4 @@
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui";
 import { MapPin, Home, Search, Compass } from "lucide-react";
 import { motion } from "framer-motion";
 // Logo removed - using text instead

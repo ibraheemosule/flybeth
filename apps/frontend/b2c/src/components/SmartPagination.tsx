@@ -6,7 +6,7 @@ import {
   PaginationNext,
   PaginationPrevious,
   PaginationEllipsis,
-} from "./ui/pagination";
+} from "@/components/ui";
 
 interface SmartPaginationProps {
   currentPage: number;

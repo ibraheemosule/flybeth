@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Calendar, MapPin, Search, Users } from "lucide-react";
-import { Button } from "../../../../../ui/button";
-import { Input } from "../../../../../ui/input";
-import { Label } from "../../../../../ui/label";
 import {
+  Button,
+  Input,
+  Label,
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "../../../../../ui/popover";
-import { Calendar as CalendarComponent } from "../../../../../ui/calendar";
+  Calendar as CalendarComponent,
+} from "@/components/ui";
 import { format } from "date-fns";
 
 export default function HotelSearch() {
@@ -85,7 +85,6 @@ export default function HotelSearch() {
               </PopoverContent>
             </Popover>
           </div>
-
         </div>
 
         <div className="flex flex-col md:flex-row items-end gap-4">

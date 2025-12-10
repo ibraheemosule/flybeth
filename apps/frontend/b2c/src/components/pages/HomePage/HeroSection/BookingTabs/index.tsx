@@ -1,11 +1,10 @@
 "use client";
 
 import { Plane, Hotel, Car, Package } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../../ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger, cn } from "@/components/ui";
 import FlightSearch from "./FlightSearch";
 import HotelSearch from "./HotelSearch";
 import { usePathname } from "next/navigation";
-import { cn } from "../../../../ui/utils";
 import CarSearch from "./CarSearch";
 import PackageSearch from "./PackageSearch";
 
@@ -38,7 +37,7 @@ const products = {
   },
 };
 
-export default function BookingTabs({ onSearch }: BookingTabsProps) {
+export default function BookingTabs() {
   const activeTab = usePathname().slice(1).split("#")[1] ?? "flights";
 
   return (
@@ -61,7 +60,7 @@ export default function BookingTabs({ onSearch }: BookingTabsProps) {
       </TabsList>
 
       <TabsContent value="flights">
-        <FlightSearch onSearch={onSearch} />
+        <FlightSearch />
       </TabsContent>
       <TabsContent value="hotels">
         <HotelSearch />

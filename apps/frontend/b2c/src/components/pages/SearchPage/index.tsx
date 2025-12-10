@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { Card } from "../../ui/card";
-import { Button } from "../../ui/button";
-import { Badge } from "../../ui/badge";
+import { Card, Button, Badge } from "@/components/ui";
 import {
   Plane,
   Clock,
@@ -19,7 +17,7 @@ import { Flight, useFlightsStore } from "@/stores";
 import { useRouter } from "next/navigation";
 import { LoadingAnimation } from "@/components/LoadingAnimation";
 
-export function SearchPage() {
+export default function SearchPage() {
   const { searchParams } = useFlightsStore();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);

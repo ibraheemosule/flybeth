@@ -1,11 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import { Calendar, MapPin, Search, Users, ArrowRightLeft } from "lucide-react";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Calendar as CalendarComponent } from "./ui/calendar";
+import {
+  Button,
+  Input,
+  Label,
+  RadioGroup,
+  RadioGroupItem,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Calendar as CalendarComponent,
+} from "@/components/ui";
 import { format } from "date-fns";
 
 interface FlightSearchProps {

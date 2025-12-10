@@ -28,6 +28,7 @@ export interface Flight {
     total: number;
     available: number;
   };
+  insurance: boolean;
 }
 
 export interface FlightsApiService {

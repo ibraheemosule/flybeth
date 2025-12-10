@@ -5,10 +5,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-} from "./ui/dialog";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
+  Button,
+  Input,
+  Label,
+} from "@/components/ui";
 import { Mail, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";

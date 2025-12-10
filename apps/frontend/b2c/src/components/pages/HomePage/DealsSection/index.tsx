@@ -1,13 +1,15 @@
+"use client";
+
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../../../ui/card";
-import { Badge } from "../../../ui/badge";
+  Badge,
+  ImageWithFallback,
+} from "@/components/ui";
 import { Star, TrendingDown, Zap, MapPin } from "lucide-react";
-import { ImageWithFallback } from "../../../ui/ImageWithFallback";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 

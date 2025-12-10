@@ -1,6 +1,11 @@
 import { motion } from "framer-motion";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Badge } from "./ui/badge";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Badge,
+} from "@/components/ui";
 import { Shield, CheckCircle2, Clock, AlertCircle } from "lucide-react";
 
 export function RefundPolicyPage() {
@@ -38,10 +43,14 @@ export function RefundPolicyPage() {
             </CardHeader>
             <CardContent className="space-y-3 text-muted-foreground">
               <p>
-                We offer a full refund for cancellations made within 24 hours of booking, provided that the booking was made at least 7 days before the scheduled departure date.
+                We offer a full refund for cancellations made within 24 hours of
+                booking, provided that the booking was made at least 7 days
+                before the scheduled departure date.
               </p>
               <p>
-                This applies to all flight bookings regardless of the fare type. The refund will be processed to the original payment method within 5-7 business days.
+                This applies to all flight bookings regardless of the fare type.
+                The refund will be processed to the original payment method
+                within 5-7 business days.
               </p>
             </CardContent>
           </Card>
@@ -56,12 +65,23 @@ export function RefundPolicyPage() {
             </CardHeader>
             <CardContent className="space-y-3 text-muted-foreground">
               <p>
-                For cancellations made after the 24-hour grace period, refund eligibility depends on the airline's policy and the fare type you purchased:
+                For cancellations made after the 24-hour grace period, refund
+                eligibility depends on the airline's policy and the fare type
+                you purchased:
               </p>
               <ul className="list-disc list-inside space-y-2 ml-4">
-                <li><strong>Refundable Tickets:</strong> Full refund minus any airline processing fees</li>
-                <li><strong>Non-Refundable Tickets:</strong> May be eligible for credit towards future travel, subject to change fees</li>
-                <li><strong>Basic Economy:</strong> Typically non-refundable and non-changeable</li>
+                <li>
+                  <strong>Refundable Tickets:</strong> Full refund minus any
+                  airline processing fees
+                </li>
+                <li>
+                  <strong>Non-Refundable Tickets:</strong> May be eligible for
+                  credit towards future travel, subject to change fees
+                </li>
+                <li>
+                  <strong>Basic Economy:</strong> Typically non-refundable and
+                  non-changeable
+                </li>
               </ul>
             </CardContent>
           </Card>
@@ -76,14 +96,18 @@ export function RefundPolicyPage() {
             </CardHeader>
             <CardContent className="space-y-3 text-muted-foreground">
               <p>
-                If your flight is cancelled, significantly delayed, or rescheduled by the airline, you are entitled to:
+                If your flight is cancelled, significantly delayed, or
+                rescheduled by the airline, you are entitled to:
               </p>
               <ul className="list-disc list-inside space-y-2 ml-4">
                 <li>Full refund to the original payment method, or</li>
-                <li>Rebooking on the next available flight at no additional cost</li>
+                <li>
+                  Rebooking on the next available flight at no additional cost
+                </li>
               </ul>
               <p>
-                We will notify you immediately via email and SMS if the airline makes any changes to your booking.
+                We will notify you immediately via email and SMS if the airline
+                makes any changes to your booking.
               </p>
             </CardContent>
           </Card>
@@ -103,7 +127,9 @@ export function RefundPolicyPage() {
                 <li>Bank/card issuer: 7-10 business days</li>
               </ul>
               <p className="pt-2">
-                Total time from refund request to funds appearing in your account: approximately 15-22 business days. We'll keep you updated via email throughout the process.
+                Total time from refund request to funds appearing in your
+                account: approximately 15-22 business days. We'll keep you
+                updated via email throughout the process.
               </p>
             </CardContent>
           </Card>
@@ -118,9 +144,18 @@ export function RefundPolicyPage() {
             </CardHeader>
             <CardContent className="space-y-3 text-muted-foreground">
               <ul className="list-disc list-inside space-y-2 ml-4">
-                <li>Flybeth service fees are non-refundable except during the 24-hour grace period</li>
-                <li>Refund policies vary by airline and fare class - always review before booking</li>
-                <li>Travel insurance may provide additional coverage for unforeseen circumstances</li>
+                <li>
+                  Flybeth service fees are non-refundable except during the
+                  24-hour grace period
+                </li>
+                <li>
+                  Refund policies vary by airline and fare class - always review
+                  before booking
+                </li>
+                <li>
+                  Travel insurance may provide additional coverage for
+                  unforeseen circumstances
+                </li>
                 <li>Group bookings may have different cancellation terms</li>
               </ul>
             </CardContent>
@@ -131,7 +166,10 @@ export function RefundPolicyPage() {
             <CardContent className="pt-6 text-center">
               <p className="text-muted-foreground">
                 Questions about our refund policy? Contact our support team at{" "}
-                <a href="mailto:refunds@flybeth.com" className="text-primary hover:underline">
+                <a
+                  href="mailto:refunds@flybeth.com"
+                  className="text-primary hover:underline"
+                >
                   refunds@flybeth.com
                 </a>{" "}
                 or call us at 1-800-FLYBETH
