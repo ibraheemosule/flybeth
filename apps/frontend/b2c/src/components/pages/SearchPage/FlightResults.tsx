@@ -473,7 +473,19 @@ export default function FlightResults() {
   const onClose = () => router.push("/");
   const onSelectFlight = (flight: any) => {
     useFlightsStore.setState({ selectedFlight: flight });
-    router.push("/checkout");
+
+    // Create URL with search parameters to preserve passenger count
+    const params = new URLSearchParams();
+    if (searchParams?.from) params.set("from", searchParams.from);
+    if (searchParams?.to) params.set("to", searchParams.to);
+    if (searchParams?.departure)
+      params.set("departDate", searchParams.departure);
+    if (searchParams?.return) params.set("returnDate", searchParams.return);
+    if (searchParams?.passengers)
+      params.set("passengers", searchParams.passengers.toString());
+    if (searchParams?.tripType) params.set("tripType", searchParams.tripType);
+
+    router.push(`/checkout?${params.toString()}`);
   };
 
   const oneWayFlights =
