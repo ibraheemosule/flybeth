@@ -16,6 +16,7 @@ export function createAttractionsStore(
       date: "",
       visitors: 1,
     },
+    selectedAttraction: null,
     isLoading: false,
     error: null,
     searchAttractions: async (params: any) => {

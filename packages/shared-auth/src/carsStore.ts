@@ -9,6 +9,7 @@ export function createCarsStore(apiService: CarsApiService, storeName: string) {
       pickupDate: "",
       dropoffDate: "",
     },
+    selectedCar: null,
     isLoading: false,
     error: null,
     searchCars: async (params: any) => {

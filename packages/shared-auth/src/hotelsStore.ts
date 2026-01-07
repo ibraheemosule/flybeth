@@ -1,5 +1,9 @@
 import { create } from "zustand";
-import type { HotelsState, HotelsApiService } from "./types";
+import type {
+  HotelsState,
+  HotelsApiService,
+  HotelSearchParamState,
+} from "./types";
 
 export function createHotelsStore(
   apiService: HotelsApiService,
@@ -7,6 +11,8 @@ export function createHotelsStore(
 ) {
   return create<HotelsState>((set, get) => ({
     hotels: [],
+    searchParams: null,
+    selectedHotel: null,
     isLoading: false,
     error: null,
     searchHotels: async (params: any) => {

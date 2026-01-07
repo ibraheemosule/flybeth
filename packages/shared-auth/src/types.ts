@@ -62,6 +62,7 @@ export interface FlightsState {
   roundTripFlights: RoundTripFlight[];
   multiCityFlights: MultiCityFlight[];
   searchParams: FlightSearchParamState;
+  selectedFlight: Flight | null;
   isLoading: boolean;
   error: string | null;
   searchFlights: (params: any) => Promise<void>;
@@ -79,8 +80,18 @@ export interface FlightSearchParamState {
   tripType: string;
 }
 
+export interface HotelSearchParamState {
+  destination: string;
+  checkInDate: string;
+  checkOutDate: string;
+  guests: number;
+  rooms: number;
+}
+
 export interface HotelsState {
   hotels: Hotel[];
+  searchParams: HotelSearchParamState | null;
+  selectedHotel: Hotel | null;
   isLoading: boolean;
   error: string | null;
   searchHotels: (params: any) => Promise<void>;
@@ -98,6 +109,7 @@ export interface UserState {
 export interface CarsState {
   cars: Car[];
   searchParams: CarSearchParamState;
+  selectedCar: Car | null;
   isLoading: boolean;
   error: string | null;
   searchCars: (params: any) => Promise<void>;
@@ -112,6 +124,7 @@ export interface CarSearchParamState {
 export interface PackagesState {
   packages: TravelPackage[];
   searchParams: PackageSearchParamState;
+  selectedPackage: TravelPackage | null;
   isLoading: boolean;
   error: string | null;
   searchPackages: (params: any) => Promise<void>;
@@ -126,6 +139,7 @@ export interface PackageSearchParamState {
 export interface AttractionsState {
   attractions: Attraction[];
   searchParams: AttractionSearchParamState;
+  selectedAttraction: Attraction | null;
   isLoading: boolean;
   error: string | null;
   searchAttractions: (params: any) => Promise<void>;
@@ -251,4 +265,8 @@ export interface FrontendUser {
   email: string;
   name?: string;
   role?: string;
+  profile?: {
+    firstName?: string;
+    lastName?: string;
+  };
 }

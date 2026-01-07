@@ -16,6 +16,7 @@ export function createPackagesStore(
       date: "",
       passengers: 1,
     },
+    selectedPackage: null,
     isLoading: false,
     error: null,
     searchPackages: async (params: any) => {

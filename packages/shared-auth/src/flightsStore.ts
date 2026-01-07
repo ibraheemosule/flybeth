@@ -21,6 +21,7 @@ export function createFlightsStore(
       passengers: 1,
       tripType: "round-trip",
     },
+    selectedFlight: null,
     isLoading: false,
     error: null,
     searchFlights: async (params: any) => {

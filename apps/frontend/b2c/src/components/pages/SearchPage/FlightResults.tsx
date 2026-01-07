@@ -602,29 +602,35 @@ export default function FlightResults() {
               >
                 <Card className="overflow-hidden hover:shadow-2xl transition-all duration-300 border-2 hover:border-accent/50 bg-white/80 backdrop-blur-sm">
                   <div className="p-6">
-                    <div className="flex flex-col gap-6">
+                    <div className="flex flex-col lg:flex-row gap-6">
                       {/* Flight Info */}
                       <div className="flex-1 space-y-6">
+                        {/* Header */}
                         <div className="flex items-center justify-between">
-                          <div>
-                            <h3 className="mb-1">Round-Trip Flight</h3>
+                          <div className="flex items-center gap-2">
                             <Badge
                               variant="outline"
-                              className="bg-gradient-to-r from-primary/10 to-accent/10 border-primary/20"
+                              className={
+                                roundTrip.outbound.class === "Business"
+                                  ? "bg-gradient-to-r from-amber-500/10 to-orange-500/10 border-amber-500/30"
+                                  : "bg-gradient-to-r from-primary/10 to-accent/10 border-primary/20"
+                              }
                             >
                               {roundTrip.outbound.class}
                             </Badge>
+                            {roundTrip.outbound.stops.length === 0 &&
+                              roundTrip.return.stops.length === 0 && (
+                                <Badge className="bg-accent text-white">
+                                  Both Direct
+                                </Badge>
+                              )}
                           </div>
-                          <Badge className="bg-accent text-white">
-                            <ArrowLeftRight className="h-3 w-3 mr-1" />
-                            Round-trip
-                          </Badge>
                         </div>
 
                         {/* Outbound Flight */}
                         <FlightLegDisplay
                           flight={roundTrip.outbound}
-                          label={`Outbound • ${roundTrip.outbound.date}`}
+                          label="Outbound"
                           from={roundTrip.outbound.departure.airport}
                           to={roundTrip.outbound.arrival.airport}
                         />
@@ -632,12 +638,11 @@ export default function FlightResults() {
                         {/* Divider */}
                         <div className="relative">
                           <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-dashed border-gray-300"></div>
+                            <div className="w-full border-t border-gray-200"></div>
                           </div>
                           <div className="relative flex justify-center">
-                            <span className="bg-white px-3 text-xs text-muted-foreground flex items-center gap-1">
-                              <Clock className="h-3 w-3" />
-                              Layover in {roundTrip.outbound.arrival.airport}
+                            <span className="bg-white px-3 text-sm text-muted-foreground">
+                              <ArrowLeftRight className="h-4 w-4" />
                             </span>
                           </div>
                         </div>
@@ -645,13 +650,13 @@ export default function FlightResults() {
                         {/* Return Flight */}
                         <FlightLegDisplay
                           flight={roundTrip.return}
-                          label={`Return • ${roundTrip.return.date}`}
+                          label="Return"
                           from={roundTrip.return.departure.airport}
                           to={roundTrip.return.arrival.airport}
                         />
 
                         {/* Amenities */}
-                        <div className="flex flex-wrap gap-3 text-sm text-muted-foreground border-t border-gray-100 pt-4">
+                        <div className="flex flex-wrap gap-3 text-sm text-muted-foreground pt-2 border-t border-gray-100">
                           {roundTrip.outbound.amenities.includes("wifi") && (
                             <div className="flex items-center gap-1">
                               <Wifi className="h-4 w-4 text-accent" />
@@ -679,16 +684,17 @@ export default function FlightResults() {
                       </div>
 
                       {/* Price and CTA */}
-                      <div className="flex lg:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-gradient-to-br from-primary/5 to-accent/5">
-                        <div className="text-center lg:text-left">
+                      <div className="lg:w-48 flex lg:flex-col items-center lg:items-end justify-between lg:justify-start gap-4 p-4 lg:p-0 rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 lg:bg-none">
+                        <div className="text-center lg:text-right">
                           <div className="text-3xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                             ${roundTrip.totalPrice}
                           </div>
                           <p className="text-sm text-muted-foreground">
                             per person
                           </p>
-                          <p className="text-xs text-muted-foreground">
-                            Both flights included
+                          <p className="text-xs text-muted-foreground mt-1">
+                            ${roundTrip.outbound.price} + $
+                            {roundTrip.return.price}
                           </p>
                         </div>
                         <Button
