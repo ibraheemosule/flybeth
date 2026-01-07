@@ -6,6 +6,7 @@ export { useUserStore } from "./userStore";
 export { useCarsStore } from "./carsStore";
 export { usePackagesStore } from "./packagesStore";
 export { useAttractionsStore } from "./attractionsStore";
+export { useThemeStore, themeColors, type ColorTheme } from "./themeStore";
 
 // Export types for convenience
 export type {

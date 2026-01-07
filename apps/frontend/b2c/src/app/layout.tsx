@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "@/components/ui";
 import { LayoutComponent } from "@/components/LayoutComponent";
+import { ThemeInitializer } from "@/components/ThemeInitializer";
 
 export const metadata: Metadata = {
   title: "FlyBeth",
@@ -16,6 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <ThemeInitializer />
         <LayoutComponent>{children}</LayoutComponent>
         <Toaster />
       </body>

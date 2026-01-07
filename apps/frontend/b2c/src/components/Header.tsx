@@ -1,16 +1,20 @@
 // "use client";
 
-// All content commented out
-
-export function Header() {
-  return null;
-}
+// import {
+//   Plane,
+//   Menu,
+//   User,
+//   X,
+//   Sparkles,
+//   Home,
+//   MapPin,
 //   HelpCircle,
 //   Briefcase,
 //   Hotel,
 //   Car,
 //   Package,
 //   ChevronDown,
+//   Settings,
 // } from "lucide-react";
 // import { Button } from "./ui/button";
 // import { motion, AnimatePresence } from "framer-motion";
@@ -28,19 +32,11 @@ export function Header() {
 
 //   const hideHeader = ["/signin", "/signup", "/404", "/500"].includes(pathname);
 
-//   const handleFooterNavigate = (page: string) => {
-//     if (page === "home") {
-//       router.push("/");
-//     } else {
-//       router.push(`/${page}`);
-//     }
-//   };
-
 //   const handleNavClick = (page: string, tab?: string) => {
 //     if (page === "home") {
 //       router.push("/");
 //     } else {
-//       router.push(`/${page}${tab ? `#${tab}` : ""}`);
+//       router.push(`/${page}${tab ? `#${tab}` : ""}` as Route);
 //     }
 //     setIsMobileMenuOpen(false);
 //     setIsProductsOpen(false);
@@ -48,7 +44,7 @@ export function Header() {
 
 //   const navItems = [
 //     { id: "home", label: "Home", icon: Home },
-//     { id: "trips", label: "My Bookings", icon: Briefcase },
+//     { id: "bookings", label: "My Bkings", icon: Briefcase },
 //     { id: "deals", label: "Deals", icon: Sparkles },
 //     { id: "help", label: "Help", icon: HelpCircle },
 //   ];
@@ -73,8 +69,8 @@ export function Header() {
 //               whileTap={{ scale: 0.98 }}
 //             >
 //               <div className="relative">
-//                 <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-0 group-hover:opacity-20 rounded-lg blur-xl transition-opacity duration-300" />
-//                 <span className="text-2xl font-bold text-blue-600 relative z-10 transition-transform group-hover:scale-105">
+//                 <div className="absolute inset-0 bg-gradient-to-r from-[#2563eb] to-[#10b981] opacity-0 group-hover:opacity-20 rounded-lg blur-xl transition-opacity duration-300" />
+//                 <span className="text-2xl font-bold bg-gradient-to-r from-[#2563eb] to-[#10b981] bg-clip-text text-transparent relative z-10 transition-transform group-hover:scale-105">
 //                   FlyBeth
 //                 </span>
 //               </div>
@@ -100,7 +96,7 @@ export function Header() {
 //                     {isActive && (
 //                       <motion.div
 //                         layoutId="activeTab"
-//                         className="absolute inset-0 bg-gradient-to-r from-[#2563eb] to-[#10b981] rounded-xl shadow-lg"
+//                         className="absolute inset-0 bg-gradient-to-r from-[#2563eb] to-[#10b981] rounded-xl"
 //                         transition={{
 //                           type: "spring",
 //                           bounce: 0.2,
@@ -122,47 +118,45 @@ export function Header() {
 //               <div className="relative">
 //                 <motion.button
 //                   onClick={() => setIsProductsOpen(!isProductsOpen)}
-//                   className={`relative px-4 py-2.5 rounded-xl transition-all duration-300 flex items-center gap-2 ${
-//                     isProductsOpen
-//                       ? "text-white bg-gradient-to-r from-[#2563eb] to-[#10b981]"
-//                       : "text-gray-700 hover:text-[#2563eb] hover:bg-[#2563eb]/5"
-//                   }`}
+//                   className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-gray-700 hover:text-[#2563eb] hover:bg-[#2563eb]/5 transition-all duration-300"
 //                   whileHover={{ scale: 1.05 }}
 //                   whileTap={{ scale: 0.95 }}
 //                 >
-//                   <span className="relative z-10">Products</span>
+//                   <Package className="h-4 w-4" />
+//                   <span>Services</span>
 //                   <ChevronDown
-//                     className={`h-4 w-4 relative z-10 transition-transform ${
+//                     className={`h-3 w-3 transition-transform duration-300 ${
 //                       isProductsOpen ? "rotate-180" : ""
 //                     }`}
 //                   />
 //                 </motion.button>
 
-//                 {/* Products Dropdown Menu */}
 //                 <AnimatePresence>
 //                   {isProductsOpen && (
 //                     <motion.div
 //                       initial={{ opacity: 0, y: -10 }}
 //                       animate={{ opacity: 1, y: 0 }}
 //                       exit={{ opacity: 0, y: -10 }}
-//                       className="absolute top-full mt-2 right-0 w-56 bg-white/95 backdrop-blur-xl rounded-xl border border-gray-200/50 shadow-2xl overflow-hidden"
+//                       transition={{ duration: 0.2 }}
+//                       className="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-2xl border border-gray-200/50 py-2 z-50"
 //                     >
-//                       <div className="p-2">
-//                         {productItems.map(item => {
-//                           const Icon = item.icon;
-//                           return (
-//                             <motion.button
-//                               key={item.id}
-//                               whileHover={{ scale: 1.02 }}
-//                               onClick={() => handleNavClick("home", item.tab)}
-//                               className="flex items-center gap-3 px-4 py-3 rounded-lg transition-all hover:bg-gradient-to-r hover:from-primary/10 hover:to-accent/10 text-gray-700 hover:text-primary w-full"
-//                             >
-//                               <Icon className="h-5 w-5" />
-//                               <span>{item.label}</span>
-//                             </motion.button>
-//                           );
-//                         })}
+//                       <div className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100">
+//                         Book Your Travel
 //                       </div>
+//                       {productItems.map(item => {
+//                         const Icon = item.icon;
+//                         return (
+//                           <motion.button
+//                             key={item.id}
+//                             onClick={() => handleNavClick("home", item.tab)}
+//                             className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-[#2563eb]/5 transition-all duration-200 text-gray-700 hover:text-[#2563eb]"
+//                             whileHover={{ x: 4 }}
+//                           >
+//                             <Icon className="h-4 w-4" />
+//                             <span>{item.label}</span>
+//                           </motion.button>
+//                         );
+//                       })}
 //                     </motion.div>
 //                   )}
 //                 </AnimatePresence>
@@ -171,6 +165,22 @@ export function Header() {
 
 //             {/* Right Side Actions */}
 //             <div className="flex items-center gap-3">
+//               {/* Settings Button - Desktop */}
+//               <motion.div
+//                 whileHover={{ scale: 1.05 }}
+//                 whileTap={{ scale: 0.95 }}
+//               >
+//                 <Button
+//                   variant="ghost"
+//                   size="sm"
+//                   className="hidden md:flex items-center gap-2 px-3 py-2.5 rounded-xl hover:bg-[#2563eb]/10 text-gray-700 hover:text-[#2563eb] transition-all"
+//                   onClick={() => handleNavClick("settings")}
+//                   title="Settings"
+//                 >
+//                   <Settings className="h-4 w-4" />
+//                 </Button>
+//               </motion.div>
+
 //               {/* Sign In Button - Desktop */}
 //               <motion.div
 //                 whileHover={{ scale: 1.05 }}
@@ -179,7 +189,7 @@ export function Header() {
 //                 <Button
 //                   variant="ghost"
 //                   size="sm"
-//                   className="hidden md:flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-primary/10 to-accent/10 hover:from-primary/20 hover:to-accent/20 text-primary border border-primary/20 hover:border-primary/30 transition-all shadow-sm hover:shadow-md"
+//                   className="hidden md:flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#2563eb]/10 to-[#10b981]/10 hover:from-[#2563eb]/20 hover:to-[#10b981]/20 text-[#2563eb] border border-[#2563eb]/20 hover:border-[#2563eb]/30 transition-all shadow-sm hover:shadow-md"
 //                   onClick={() => handleNavClick("signin")}
 //                 >
 //                   <User className="h-4 w-4" />
@@ -187,107 +197,118 @@ export function Header() {
 //                 </Button>
 //               </motion.div>
 
-//               {/* Mobile Menu Toggle */}
+//               {/* Mobile Menu Button */}
 //               <motion.button
-//                 whileTap={{ scale: 0.9 }}
 //                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-//                 className="md:hidden p-2 rounded-xl bg-gradient-to-r from-primary/10 to-accent/10 text-primary hover:from-primary/20 hover:to-accent/20 transition-all"
+//                 className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+//                 whileHover={{ scale: 1.05 }}
+//                 whileTap={{ scale: 0.95 }}
 //               >
 //                 {isMobileMenuOpen ? (
-//                   <X className="h-5 w-5" />
+//                   <X className="h-6 w-6 text-gray-700" />
 //                 ) : (
-//                   <Menu className="h-5 w-5" />
+//                   <Menu className="h-6 w-6 text-gray-700" />
 //                 )}
 //               </motion.button>
 //             </div>
 //           </div>
 //         </div>
-//       </header>
 
-//       {/* Mobile Menu */}
-//       <AnimatePresence>
-//         {isMobileMenuOpen && (
-//           <motion.div
-//             initial={{ opacity: 0, height: 0 }}
-//             animate={{ opacity: 1, height: "auto" }}
-//             exit={{ opacity: 0, height: 0 }}
-//             className="md:hidden fixed top-[73px] left-0 right-0 bg-white/95 backdrop-blur-xl border-b border-gray-200/50 shadow-2xl z-40 overflow-hidden"
-//           >
-//             <div className="container mx-auto px-4 py-4">
-//               <nav className="flex flex-col gap-2">
-//                 {navItems.map((item, index) => {
-//                   const Icon = item.icon;
-//                   const isActive = currentPage === item.id;
-//                   return (
-//                     <motion.button
-//                       key={item.id}
-//                       initial={{ opacity: 0, x: -20 }}
-//                       animate={{ opacity: 1, x: 0 }}
-//                       transition={{ delay: index * 0.1 }}
-//                       onClick={() => handleNavClick(item.id)}
-//                       className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
-//                         isActive
-//                           ? "bg-gradient-to-r from-primary to-accent text-white shadow-lg"
-//                           : "hover:bg-primary/5 text-gray-700"
-//                       }`}
-//                     >
-//                       <Icon className="h-5 w-5" />
-//                       <span>{item.label}</span>
-//                     </motion.button>
-//                   );
-//                 })}
-
-//                 {/* Products Section - Mobile */}
-//                 <motion.div
-//                   initial={{ opacity: 0, x: -20 }}
-//                   animate={{ opacity: 1, x: 0 }}
-//                   transition={{ delay: navItems.length * 0.1 }}
-//                   className="mt-2 pt-2 border-t border-gray-200"
-//                 >
-//                   <p className="text-xs text-muted-foreground px-4 mb-2">
-//                     Products
-//                   </p>
-//                   {productItems.map((item, index) => {
+//         {/* Mobile Menu */}
+//         <AnimatePresence>
+//           {isMobileMenuOpen && (
+//             <motion.div
+//               initial={{ opacity: 0, height: 0 }}
+//               animate={{ opacity: 1, height: "auto" }}
+//               exit={{ opacity: 0, height: 0 }}
+//               transition={{ duration: 0.3 }}
+//               className="md:hidden bg-white border-t border-gray-200"
+//             >
+//               <div className="container mx-auto px-4 py-4">
+//                 <div className="space-y-2">
+//                   {navItems.map(item => {
 //                     const Icon = item.icon;
+//                     const isActive = currentPage === item.id;
 //                     return (
 //                       <motion.button
 //                         key={item.id}
-//                         initial={{ opacity: 0, x: -20 }}
-//                         animate={{ opacity: 1, x: 0 }}
-//                         transition={{
-//                           delay: (navItems.length + index + 1) * 0.1,
-//                         }}
-//                         onClick={() => handleNavClick("home", item.tab)}
-//                         className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:bg-gradient-to-r hover:from-primary/10 hover:to-accent/10 text-gray-700 w-full"
+//                         onClick={() => handleNavClick(item.id)}
+//                         className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-left ${
+//                           isActive
+//                             ? "bg-gradient-to-r from-[#2563eb] to-[#10b981] text-white shadow-lg"
+//                             : "text-gray-700 hover:bg-gray-50"
+//                         }`}
+//                         whileHover={{ scale: 1.02 }}
+//                         whileTap={{ scale: 0.98 }}
 //                       >
 //                         <Icon className="h-5 w-5" />
-//                         <span>{item.label}</span>
+//                         {item.label}
 //                       </motion.button>
 //                     );
 //                   })}
-//                 </motion.div>
 
-//                 {/* Sign In Button - Mobile */}
-//                 <motion.div
-//                   initial={{ opacity: 0, x: -20 }}
-//                   animate={{ opacity: 1, x: 0 }}
-//                   transition={{
-//                     delay: (navItems.length + productItems.length + 1) * 0.1,
-//                   }}
-//                   className="mt-2 pt-2 border-t border-gray-200"
-//                 >
-//                   <Button
-//                     variant="ghost"
-//                     className="w-full justify-start gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-primary/10 to-accent/10 hover:from-primary/20 hover:to-accent/20 text-primary border border-primary/20"
-//                     onClick={() => handleNavClick("signin")}
-//                   >
-//                     <User className="h-5 w-5" />
-//                     Sign In
-//                   </Button>
-//                 </motion.div>
-//               </nav>
-//             </div>
-//           </motion.div>
+//                   {/* Mobile Products */}
+//                   <div className="border-t border-gray-200 pt-4 mt-4">
+//                     <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-4 mb-2">
+//                       Services
+//                     </div>
+//                     {productItems.map(item => {
+//                       const Icon = item.icon;
+//                       return (
+//                         <motion.button
+//                           key={item.id}
+//                           onClick={() => handleNavClick("home", item.tab)}
+//                           className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-50 transition-all text-left"
+//                           whileHover={{ scale: 1.02 }}
+//                           whileTap={{ scale: 0.98 }}
+//                         >
+//                           <Icon className="h-5 w-5" />
+//                           {item.label}
+//                         </motion.button>
+//                       );
+//                     })}
+//                   </div>
+
+//                   {/* Settings Button - Mobile */}
+//                   <div className="border-t border-gray-200 pt-4 mt-4">
+//                     <motion.button
+//                       onClick={() => handleNavClick("settings")}
+//                       className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-50 transition-all text-left"
+//                       whileHover={{ scale: 1.02 }}
+//                       whileTap={{ scale: 0.98 }}
+//                     >
+//                       <Settings className="h-5 w-5" />
+//                       Settings
+//                     </motion.button>
+
+//                     {/* Mobile Sign In */}
+//                     <motion.button
+//                       onClick={() => handleNavClick("signin")}
+//                       className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#10b981] text-white transition-all text-left mt-2"
+//                       whileHover={{ scale: 1.02 }}
+//                       whileTap={{ scale: 0.98 }}
+//                     >
+//                       <User className="h-5 w-5" />
+//                       Sign In
+//                     </motion.button>
+//                   </div>
+//                 </div>
+//               </div>
+//             </motion.div>
+//           )}
+//         </AnimatePresence>
+//       </header>
+
+//       {/* Backdrop for mobile menu */}
+//       <AnimatePresence>
+//         {isMobileMenuOpen && (
+//           <motion.div
+//             initial={{ opacity: 0 }}
+//             animate={{ opacity: 1 }}
+//             exit={{ opacity: 0 }}
+//             onClick={() => setIsMobileMenuOpen(false)}
+//             className="fixed inset-0 bg-black/20 backdrop-blur-sm z-30 md:hidden"
+//           />
 //         )}
 //       </AnimatePresence>
 //     </>

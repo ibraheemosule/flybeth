@@ -42,7 +42,13 @@ export default function SignupPage({ onNavigate }: SignUpPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#10b981] via-[#2563eb] to-[#10b981] relative overflow-hidden flex items-center justify-center px-4 py-12">
+    <div
+      className="min-h-screen relative overflow-hidden flex items-center justify-center px-4 py-12"
+      style={{
+        background:
+          "linear-gradient(135deg, var(--accent), var(--primary), var(--accent))",
+      }}
+    >
       {/* Animated background */}
       <div className="absolute inset-0 opacity-10">
         <div
@@ -86,11 +92,11 @@ export default function SignupPage({ onNavigate }: SignUpPageProps) {
           {/* Sign Up Form */}
           <form onSubmit={handleSignUp} className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="fullName" className="text-[#2563eb]">
+              <Label htmlFor="fullName" className="text-primary">
                 Full Name
               </Label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#10b981]" />
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-accent" />
                 <Input
                   id="fullName"
                   type="text"
@@ -104,11 +110,11 @@ export default function SignupPage({ onNavigate }: SignUpPageProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-[#2563eb]">
+              <Label htmlFor="email" className="text-primary">
                 Email Address
               </Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#10b981]" />
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-accent" />
                 <Input
                   id="email"
                   type="email"
@@ -122,16 +128,16 @@ export default function SignupPage({ onNavigate }: SignUpPageProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-[#2563eb]">
+              <Label htmlFor="password" className="text-primary">
                 Password
               </Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#10b981]" />
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-accent" />
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Create a strong password"
-                  className="pl-11 pr-11 h-12 border-2 focus:border-[#10b981] bg-white/50 backdrop-blur-sm"
+                  className="pl-11 pr-11 h-12 border-2 focus:border-accent bg-white/50 backdrop-blur-sm"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   required
@@ -185,7 +191,8 @@ export default function SignupPage({ onNavigate }: SignUpPageProps) {
 
             <Button
               type="submit"
-              className="w-full h-12 bg-gradient-to-r from-[#10b981] to-[#2563eb] hover:from-[#10b981]/90 hover:to-[#2563eb]/90 shadow-lg hover:shadow-xl transition-all"
+              className="w-full h-12 shadow-lg hover:shadow-xl transition-all text-white"
+              style={{ background: "var(--gradient-blue-green)" }}
               disabled={!fullName || !email || !password}
             >
               <Plane className="mr-2 h-5 w-5" />
