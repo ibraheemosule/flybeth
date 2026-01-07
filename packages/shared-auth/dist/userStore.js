@@ -1,15 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -49,155 +38,57 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createUserStore = createUserStore;
 var zustand_1 = require("zustand");
-var middleware_1 = require("zustand/middleware");
 function createUserStore(apiService, storeName) {
     var _this = this;
-    if (storeName === void 0) { storeName = "user"; }
-    return (0, zustand_1.create)()((0, middleware_1.persist)(function (set, get) { return ({
+    return (0, zustand_1.create)(function (set, get) { return ({
         profile: null,
         bookings: [],
         isLoading: false,
         error: null,
-        fetchUserProfile: function () { return __awaiter(_this, void 0, void 0, function () {
-            var profile, error_1, errorMessage;
-            var _a, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+        loadProfile: function () { return __awaiter(_this, void 0, void 0, function () {
+            var profile, error_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
                         set({ isLoading: true, error: null });
-                        _c.label = 1;
+                        _a.label = 1;
                     case 1:
-                        _c.trys.push([1, 3, , 4]);
+                        _a.trys.push([1, 3, , 4]);
                         return [4 /*yield*/, apiService.getUserProfile()];
                     case 2:
-                        profile = _c.sent();
+                        profile = _a.sent();
                         set({ profile: profile, isLoading: false });
                         return [3 /*break*/, 4];
                     case 3:
-                        error_1 = _c.sent();
-                        errorMessage = ((_b = (_a = error_1 === null || error_1 === void 0 ? void 0 : error_1.response) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.message) ||
-                            (error_1 === null || error_1 === void 0 ? void 0 : error_1.message) ||
-                            "Failed to fetch user profile";
-                        set({ error: errorMessage, isLoading: false });
-                        throw error_1;
+                        error_1 = _a.sent();
+                        set({ error: error_1.message, isLoading: false });
+                        return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
                 }
             });
         }); },
-        updateProfile: function (updates) { return __awaiter(_this, void 0, void 0, function () {
-            var profile, error_2, errorMessage;
-            var _a, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+        loadBookings: function () { return __awaiter(_this, void 0, void 0, function () {
+            var bookings, error_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
                         set({ isLoading: true, error: null });
-                        _c.label = 1;
+                        _a.label = 1;
                     case 1:
-                        _c.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, apiService.updateUserProfile(updates)];
-                    case 2:
-                        profile = _c.sent();
-                        set({ profile: profile, isLoading: false });
-                        return [3 /*break*/, 4];
-                    case 3:
-                        error_2 = _c.sent();
-                        errorMessage = ((_b = (_a = error_2 === null || error_2 === void 0 ? void 0 : error_2.response) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.message) ||
-                            (error_2 === null || error_2 === void 0 ? void 0 : error_2.message) ||
-                            "Failed to update profile";
-                        set({ error: errorMessage, isLoading: false });
-                        throw error_2;
-                    case 4: return [2 /*return*/];
-                }
-            });
-        }); },
-        fetchBookings: function () { return __awaiter(_this, void 0, void 0, function () {
-            var bookings, error_3, errorMessage;
-            var _a, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0:
-                        set({ isLoading: true, error: null });
-                        _c.label = 1;
-                    case 1:
-                        _c.trys.push([1, 3, , 4]);
+                        _a.trys.push([1, 3, , 4]);
                         return [4 /*yield*/, apiService.getUserBookings()];
                     case 2:
-                        bookings = _c.sent();
+                        bookings = _a.sent();
                         set({ bookings: bookings, isLoading: false });
                         return [3 /*break*/, 4];
                     case 3:
-                        error_3 = _c.sent();
-                        errorMessage = ((_b = (_a = error_3 === null || error_3 === void 0 ? void 0 : error_3.response) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.message) ||
-                            (error_3 === null || error_3 === void 0 ? void 0 : error_3.message) ||
-                            "Failed to fetch bookings";
-                        set({ error: errorMessage, isLoading: false });
-                        throw error_3;
-                    case 4: return [2 /*return*/];
-                }
-            });
-        }); },
-        cancelBooking: function (bookingId) { return __awaiter(_this, void 0, void 0, function () {
-            var bookings, updatedBookings, error_4, errorMessage;
-            var _a, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0:
-                        set({ isLoading: true, error: null });
-                        _c.label = 1;
-                    case 1:
-                        _c.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, apiService.cancelBooking(bookingId)];
-                    case 2:
-                        _c.sent();
-                        bookings = get().bookings;
-                        updatedBookings = bookings.map(function (booking) {
-                            return booking.id === bookingId
-                                ? __assign(__assign({}, booking), { status: "CANCELLED" }) : booking;
-                        });
-                        set({ bookings: updatedBookings, isLoading: false });
+                        error_2 = _a.sent();
+                        set({ error: error_2.message, isLoading: false });
                         return [3 /*break*/, 4];
-                    case 3:
-                        error_4 = _c.sent();
-                        errorMessage = ((_b = (_a = error_4 === null || error_4 === void 0 ? void 0 : error_4.response) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.message) ||
-                            (error_4 === null || error_4 === void 0 ? void 0 : error_4.message) ||
-                            "Failed to cancel booking";
-                        set({ error: errorMessage, isLoading: false });
-                        throw error_4;
                     case 4: return [2 /*return*/];
                 }
             });
         }); },
-        updatePreferences: function (preferences) { return __awaiter(_this, void 0, void 0, function () {
-            var profile, error_5, errorMessage;
-            var _a, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0:
-                        set({ isLoading: true, error: null });
-                        _c.label = 1;
-                    case 1:
-                        _c.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, apiService.updatePreferences(preferences)];
-                    case 2:
-                        profile = _c.sent();
-                        set({ profile: profile, isLoading: false });
-                        return [3 /*break*/, 4];
-                    case 3:
-                        error_5 = _c.sent();
-                        errorMessage = ((_b = (_a = error_5 === null || error_5 === void 0 ? void 0 : error_5.response) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.message) ||
-                            (error_5 === null || error_5 === void 0 ? void 0 : error_5.message) ||
-                            "Failed to update preferences";
-                        set({ error: errorMessage, isLoading: false });
-                        throw error_5;
-                    case 4: return [2 /*return*/];
-                }
-            });
-        }); },
-        clearError: function () {
-            set({ error: null });
-        },
-    }); }, {
-        name: storeName,
-    }));
+    }); });
 }
 //# sourceMappingURL=userStore.js.map

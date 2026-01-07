@@ -13,7 +13,6 @@ export function formatPrice(amount: number, currency: string = "USD"): string {
   }).format(amount);
 }
 
-export * from "./jwt";
 export * from "./constants";
 
 // Re-export schemas from shared-schemas for convenience
@@ -29,7 +28,6 @@ export {
   type HotelSearchInput,
   type TripInput,
 } from "@packages/shared-schemas";
-export * from "./auth";
 
 // Re-export axios for frontend packages
 export { default as axios } from "axios";
@@ -51,11 +49,6 @@ export interface User {
     lastName?: string;
     avatar?: string;
   };
-}
-
-export interface AuthTokens {
-  accessToken: string;
-  refreshToken: string;
 }
 
 export interface ApiResponse<T = any> {

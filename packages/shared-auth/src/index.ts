@@ -1,32 +1,44 @@
-// Auth Store
-export {
-  createAuthStore,
-  type AuthState,
-  type AuthApiService,
-  type FrontendUser,
-} from "./authStore";
+// Export all store factories
+export { createAuthStore } from "./authStore";
+export { createFlightsStore } from "./flightsStore";
+export { createUserStore } from "./userStore";
+export { createHotelsStore } from "./hotelsStore";
+export { createCarsStore } from "./carsStore";
+export { createPackagesStore } from "./packagesStore";
+export { createAttractionsStore } from "./attractionsStore";
 
-// Hotels Store
-export {
-  createHotelsStore,
-  type HotelsState,
-  type HotelsApiService,
-  type Hotel,
-} from "./hotelsStore";
+// Export all types
+export type {
+  // API Service interfaces
+  AuthApiService,
+  FlightsApiService,
+  UserApiService,
+  HotelsApiService,
+  CarsApiService,
+  PackagesApiService,
+  AttractionsApiService,
 
-// Flights Store
-export {
-  createFlightsStore,
-  type FlightsState,
-  type FlightsApiService,
-  type Flight,
-  type FlightSearchParamState,
-} from "./flightsStore";
+  // State interfaces
+  AuthState,
+  FlightsState,
+  UserState,
+  HotelsState,
+  CarsState,
+  PackagesState,
+  AttractionsState,
 
-// User Store
-export {
-  createUserStore,
-  type UserState,
-  type UserApiService,
-  type UserBooking,
-} from "./userStore";
+  // Search param interfaces
+  FlightSearchParamState,
+  CarSearchParamState,
+  PackageSearchParamState,
+  AttractionSearchParamState,
+
+  // Entity types
+  Flight,
+  Hotel,
+  Car,
+  TravelPackage,
+  Attraction,
+  UserBooking,
+  FrontendUser,
+} from "./types";

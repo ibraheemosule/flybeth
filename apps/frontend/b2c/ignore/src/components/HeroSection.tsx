@@ -12,7 +12,7 @@ export function HeroSection({ onSearch, activeTab }: HeroSectionProps) {
     <section className="relative overflow-hidden min-h-[90vh] flex items-center">
       {/* Dynamic animated gradient background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#2563eb] via-[#1d4ed8] to-[#10b981] animate-gradient-shift">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/80 to-accent animate-gradient-shift">
           <div className="absolute inset-0 opacity-20">
             <div
               className="h-full w-full"
@@ -27,9 +27,7 @@ export function HeroSection({ onSearch, activeTab }: HeroSectionProps) {
         
         {/* Animated mesh gradient overlay */}
         <div className="absolute inset-0 opacity-30">
-          <div className="absolute inset-0" style={{
-            background: 'radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(37, 99, 235, 0.3) 0%, transparent 50%)',
-          }}/>
+          <div className="absolute inset-0 bg-gradient-to-r from-accent/30 via-transparent to-primary/30" />
         </div>
       </div>
 

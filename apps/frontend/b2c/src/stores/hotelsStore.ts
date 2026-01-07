@@ -2,7 +2,7 @@ import {
   createHotelsStore,
   type HotelsApiService,
 } from "@packages/shared-auth";
-import apiService from "@/api-service";
+import apiService from "@/api-service/index";
 
 // Create an adapter to match the HotelsApiService interface
 const hotelsApiAdapter: HotelsApiService = {

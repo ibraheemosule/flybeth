@@ -7,9 +7,8 @@ export * from "./hooks";
 // Re-export types
 export * from "./types";
 
-// API and error handling
+// API service exports
 export * from "./api/base-api-service";
-export * from "./api/errors";
 
 // Browser utilities
 export * from "./utils/storage-utils";
@@ -20,25 +19,16 @@ export { http, HttpResponse } from "msw";
 // Note: Server and test setup should be imported separately in test files
 // import { setupServer, setupMSW } from '@packages/shared-frontend/test/server'
 
-// Re-export only specific items from shared-utils to avoid conflicts
+// Re-export specific items from shared-utils
 export {
   formatDate,
   capitalize,
-  decodeJWT,
-  isTokenExpired,
-  getTimeUntilExpiry,
-  getUserFromToken,
-  hasRole,
   delay,
   debounce,
   formatError,
 } from "@packages/shared-utils";
 
-export type {
-  AuthTokens,
-  ApiResponse,
-  PaginatedResponse,
-} from "@packages/shared-utils";
+export type { ApiResponse, PaginatedResponse } from "@packages/shared-utils";
 
 // Frontend-specific types
 export interface FrontendUser {
@@ -61,22 +51,15 @@ export interface FrontendUser {
       sms?: boolean;
     };
   };
-  sessions?: {
-    current?: {
-      id: string;
-      device: string;
-      location: string;
-      lastActivity: string;
-    };
-    active?: number;
-  };
 }
 
-export interface AuthState {
-  user: FrontendUser | null;
-  accessToken: string | null;
-  refreshToken: string | null;
-  isAuthenticated: boolean;
+export interface AppError {
+  message: string;
+  code?: string;
+  details?: any;
+}
+
+export interface LoadingState {
   isLoading: boolean;
-  error: string | null;
+  error?: AppError | null;
 }

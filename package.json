@@ -8,14 +8,11 @@
     "apps/frontend/b2b",
     "apps/frontend/admin",
     "apps/mobile",
-    "apps/backend",
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev:backend",
-    "dev:backend": "npm run dev --workspace=apps/backend",
+    "dev": "npm run dev:frontend",
     "dev:frontend": "concurrently \"npm run dev:admin\" \"npm run dev:b2c\" \"npm run dev:b2b\"",
-    "dev:all": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
     "dev:admin": "npm run dev --workspace=apps/frontend/admin",
     "dev:b2c": "npm run dev --workspace=apps/frontend/b2c",
     "dev:b2b": "npm run dev --workspace=apps/frontend/b2b",
@@ -25,14 +22,12 @@
     "mobile:web": "npm run web --workspace=apps/mobile",
     "build": "npm run build --workspaces",
     "build:frontend": "concurrently \"npm run build --workspace=apps/frontend/admin\" \"npm run build --workspace=apps/frontend/b2c\" \"npm run build --workspace=apps/frontend/b2b\"",
-    "build:backend": "npm run build --workspace=apps/backend",
     "test": "npm run test --workspaces",
     "test:frontend": "concurrently \"npm run test --workspace=apps/frontend/admin\" \"npm run test --workspace=apps/frontend/b2c\" \"npm run test --workspace=apps/frontend/b2b\"",
     "lint": "npm run lint --workspaces",
     "clean": "rm -rf node_modules && npm run clean --workspaces",
     "setup": "npm install && npm install --workspaces",
-    "status": "echo '🚀 Development Servers:' && echo 'Backend API: http://localhost:5002' && echo 'Admin Panel: http://localhost:4000' && echo 'B2C App: http://localhost:4100' && echo 'B2B App: http://localhost:4200'",
-    "db:setup": "cd apps/backend && npx prisma generate && npx prisma migrate dev"
+    "status": "echo '🚀 Development Servers:' && echo 'Admin Panel: http://localhost:4000' && echo 'B2C App: http://localhost:4100' && echo 'B2B App: http://localhost:4200'"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",

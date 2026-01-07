@@ -2,15 +2,12 @@ import {
   createFlightsStore,
   type FlightsApiService,
 } from "@packages/shared-auth";
-import apiService from "@/api-service";
+import apiService from "@/api-service/index";
 
 // Create an adapter to match the FlightsApiService interface
 const flightsApiAdapter: FlightsApiService = {
   searchFlights: apiService.searchFlights.bind(apiService),
-  getFlightDetails: async (flightId: string) => {
-    // TODO: Implement getFlightDetails in apiService
-    throw new Error("getFlightDetails not implemented");
-  },
+  getFlightDetails: apiService.getFlightDetails.bind(apiService),
   bookFlight: async bookingData => {
     const result = await apiService.createBooking({
       type: "flight",

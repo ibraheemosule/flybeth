@@ -1,5 +1,6 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "./ui/dialog";
 import { Button } from "./ui/button";
+import { Card } from "./ui/card";
 import { Separator } from "./ui/separator";
 import { Download, CheckCircle2, MapPin, Calendar, Users, CreditCard, Shield } from "lucide-react";
 import { motion } from "motion/react";

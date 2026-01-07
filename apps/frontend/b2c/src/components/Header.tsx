@@ -1,13 +1,10 @@
 // "use client";
 
-// import {
-//   Plane,
-//   Menu,
-//   User,
-//   X,
-//   Sparkles,
-//   Home,
-//   MapPin,
+// All content commented out
+
+export function Header() {
+  return null;
+}
 //   HelpCircle,
 //   Briefcase,
 //   Hotel,

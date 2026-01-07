@@ -12,6 +12,7 @@
     "test:coverage": "vitest --coverage"
   },
   "dependencies": {
+    "@packages/shared-auth": "file:../../../packages/shared-auth",
     "@packages/shared-frontend": "file:../../../packages/shared-frontend",
     "@packages/shared-config": "file:../../../packages/shared-config",
     "@packages/shared-utils": "file:../../../packages/shared-utils",

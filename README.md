@@ -1,22 +1,14 @@
 # FlyBeth - Travel Booking Platform
 
-A comprehensive travel booking platform built with modern web technologies, featuring authentication, flight booking (Amadeus API), hotel booking, car rental services, and multiple frontend applications for different user types.
+A modern frontend travel booking platform built with Next.js and React Native, featuring multiple applications for different user types.
 
 ## 🏗️ Project Structure
 
-This is a monorepo containing multiple applications and shared packages:
+This is a monorepo containing multiple frontend applications and shared packages:
 
 ```text
 flybeth/
 ├── apps/
-│   ├── backend/              # Node.js/Express API server
-│   │   ├── services/         # Modular services
-│   │   │   ├── auth/        # Authentication service
-│   │   │   ├── flight/      # Flight booking service
-│   │   │   ├── hotel/       # Hotel booking service
-│   │   │   └── car/         # Car rental service
-│   │   ├── src/             # Core server files
-│   │   └── prisma/          # Database schema & migrations
 │   ├── frontend/
 │   │   ├── admin/           # Admin dashboard (Next.js)
 │   │   ├── b2b/             # Business portal (Next.js)
@@ -25,8 +17,10 @@ flybeth/
 ├── packages/
 │   ├── shared-config/       # Shared configuration files
 │   ├── shared-frontend/     # Shared frontend components
+│   ├── shared-auth/         # Shared authentication stores
+│   ├── shared-schemas/      # Shared validation schemas
 │   └── shared-utils/        # Shared utilities
-└── docker/                  # Docker configuration
+└── coverage/                # Test coverage reports
 ```
 
 ## 🔌 Development Ports
@@ -37,38 +31,26 @@ flybeth/
 - **B2B Portal**: `http://localhost:4100`
 - **B2C App**: `http://localhost:4200`
 
-### Backend Services
-
-- **API Server**: `http://localhost:5000`
-
 ### Mobile
 
 - **React Native Metro**: Port 8081 (default)
-
-### Databases
-
-- **PostgreSQL**: Port 5432 (default)
 - **Redis**: Port 6379 (default)
 
 ## ✨ Features
 
-- **🔐 Authentication**: JWT + Google OAuth integration
-- **✈️ Flight Booking**: Amadeus API integration with search and booking
-- **🏨 Hotel Booking**: Hotel search and reservation system
-- **🚗 Car Rental**: Car rental booking service
-- **📊 Admin Dashboard**: Administrative interface for platform management
+- **� Admin Dashboard**: Administrative interface for platform management
 - **💼 B2B Portal**: Business-to-business booking interface
 - **🛍️ B2C App**: Consumer-facing booking application
 - **📱 Mobile App**: Cross-platform React Native application
-- **🔧 Shared Packages**: Reusable components and utilities
+- **🔧 Shared Packages**: Reusable components, stores, and utilities
+- **🎨 Modern UI**: Tailwind CSS with responsive design
+- **🔒 Type Safety**: Full TypeScript implementation across all applications
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
 - Node.js (v18+ recommended)
-- PostgreSQL
-- Redis (optional, for caching)
 
 ### Installation & Setup
 
@@ -80,23 +62,13 @@ cd flybeth
 # Install dependencies for all workspaces
 npm install
 
-# Set up environment variables (copy .env.example files)
-cp apps/backend/.env.example apps/backend/.env
-# Configure your environment variables
-
-# Set up the database
-npm run db:setup
-
-# Start all development servers
-npm run dev:all
+# Start all frontend development servers
+npm run dev
 ```
 
 ### Individual Development Commands
 
 ```bash
-# Backend only
-npm run dev:backend
-
 # All frontend apps
 npm run dev:frontend
 
@@ -116,52 +88,41 @@ npm run status
 
 ## 📱 Applications
 
-### Backend API (`apps/backend`)
-
-Node.js/Express server with modular service architecture:
-
-- **Authentication Service**: JWT tokens, Google OAuth integration
-- **Flight Service**: Amadeus API integration for flight search and booking
-- **Hotel Service**: Hotel search and reservation management
-- **Car Service**: Car rental booking functionality
-- **Database**: PostgreSQL with Prisma ORM
-- **Caching**: Redis for performance optimization
-
 ### Admin Dashboard (`apps/frontend/admin`)
 
 Next.js application for platform administration:
 
 - User management and analytics
-- Booking oversight and management
 - System configuration and monitoring
 - Restricted access with domain-based authentication
+- Modern dashboard with analytics and reporting
 
 ### B2B Portal (`apps/frontend/b2b`)
 
 Business-to-business interface:
 
-- Corporate booking management
-- Volume discounts and special rates
-- Integration tools and APIs
+- Corporate account management
 - Business analytics and reporting
+- Professional booking interface
+- Volume pricing and corporate features
 
 ### B2C App (`apps/frontend/b2c`)
 
 Consumer-facing booking application:
 
-- Flight, hotel, and car rental search
 - User registration and profile management
-- Booking history and management
-- Payment processing and confirmations
+- Modern booking interface
+- Responsive design for all devices
+- Integrated payment flows
 
 ### Mobile App (`apps/mobile`)
 
 React Native cross-platform mobile application:
 
 - Native iOS and Android experience
-- All core booking functionality
-- Push notifications
-- Offline capability for bookings
+- All core functionality available on mobile
+- Push notifications support
+- Offline capability for viewing bookings
 
 ## 🔧 Development
 
@@ -169,15 +130,13 @@ React Native cross-platform mobile application:
 
 ```bash
 # Development
-npm run dev              # Start backend only
-npm run dev:all          # Start all applications
+npm run dev              # Start all frontend applications
 npm run dev:frontend     # Start all frontend apps
 npm run dev:mobile       # Start mobile development server
 
 # Building
 npm run build            # Build all applications
 npm run build:frontend   # Build frontend applications
-npm run build:backend    # Build backend
 
 # Testing
 npm run test             # Run all tests
@@ -189,67 +148,15 @@ npm run clean            # Clean node_modules
 npm run setup            # Fresh installation
 ```
 
-### Environment Variables
+### Shared Packages
 
-Each application requires environment configuration:
+The monorepo includes several shared packages for code reuse:
 
-#### Backend (`apps/backend/.env`)
-
-```env
-# Database
-DATABASE_URL="postgresql://username:password@localhost:5432/flybeth"
-
-# Authentication
-JWT_SECRET="your-jwt-secret"
-GOOGLE_CLIENT_ID="your-google-client-id"
-GOOGLE_CLIENT_SECRET="your-google-client-secret"
-
-# External APIs
-AMADEUS_API_KEY="your-amadeus-api-key"
-AMADEUS_API_SECRET="your-amadeus-api-secret"
-
-# Optional: Redis
-REDIS_URL="redis://localhost:6379"
-```
-
-## 🐳 Docker Support
-
-Development and production Docker configurations are available:
-
-```bash
-# Development with Docker Compose
-docker-compose -f docker-compose.dev.yml up
-
-# Microservices architecture
-docker-compose -f docker-compose.microservices.yml up
-```
-
-## 📋 API Documentation
-
-### Authentication Endpoints
-
-- `POST /api/auth/login` - User login
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/google` - Google OAuth login
-- `POST /api/auth/refresh` - Refresh JWT token
-
-### Flight Endpoints
-
-- `GET /api/flights/search` - Search flights
-- `POST /api/flights/book` - Book a flight
-- `GET /api/flights/bookings` - User's flight bookings
-
-### Hotel Endpoints
-
-- `GET /api/hotels/search` - Search hotels
-- `POST /api/hotels/book` - Book a hotel
-- `GET /api/hotels/bookings` - User's hotel bookings
-
-### Car Endpoints
-
-- `GET /api/cars/search` - Search car rentals
-- `POST /api/cars/book` - Book a car
-- `GET /api/cars/bookings` - User's car bookings
+- **shared-config**: ESLint, Tailwind, TypeScript configurations
+- **shared-frontend**: Reusable React components
+- **shared-auth**: Authentication stores and utilities
+- **shared-schemas**: Validation schemas using Zod
+- **shared-utils**: Common utility functions
 
 ## 🤝 Contributing
 

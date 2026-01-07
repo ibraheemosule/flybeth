@@ -3,18 +3,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@packages/shared-frontend": [
-        "../../../packages/shared-frontend/src"
-      ],
-      "@packages/shared-utils": [
-        "../../../packages/shared-utils/src"
-      ],
-      "@packages/shared-config": [
-        "../../../packages/shared-config"
-      ]
+      "@/*": ["./src/*"],
+      "@packages/shared-auth": ["../../../packages/shared-auth/src"],
+      "@packages/shared-frontend": ["../../../packages/shared-frontend/src"],
+      "@packages/shared-utils": ["../../../packages/shared-utils/src"],
+      "@packages/shared-config": ["../../../packages/shared-config"]
     },
     "allowJs": true,
     "incremental": true,
@@ -25,8 +18,5 @@
       }
     ]
   },
-  "include": [
-    "src",
-    ".next/types/**/*.ts"
-  ]
+  "include": ["src", ".next/types/**/*.ts"]
 }

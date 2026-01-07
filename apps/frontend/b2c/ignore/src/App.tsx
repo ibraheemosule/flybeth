@@ -13,8 +13,13 @@ import { PrivacyPolicyPage } from "./components/PrivacyPolicyPage";
 import { NotFoundPage } from "./components/NotFoundPage";
 import { SignInPage } from "./components/SignInPage";
 import { SignUpPage } from "./components/SignUpPage";
+import { ResetPasswordPage } from "./components/ResetPasswordPage";
+import { SettingsPage } from "./components/SettingsPage";
+import { CompanyDashboard } from "./components/CompanyDashboard";
 import { Footer } from "./components/Footer";
 import { Toaster } from "./components/ui/sonner";
+import { ThemeProvider } from "./contexts/ThemeContext";
+import { ThemeIndicator } from "./components/ThemeIndicator";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -65,6 +70,12 @@ export default function App() {
         return <SignInPage onNavigate={handleNavigate} />;
       case "signup":
         return <SignUpPage onNavigate={handleNavigate} />;
+      case "reset-password":
+        return <ResetPasswordPage onNavigate={handleNavigate} />;
+      case "settings":
+        return <SettingsPage onNavigate={handleNavigate} />;
+      case "company-dashboard":
+        return <CompanyDashboard onBack={() => handleNavigate("settings")} />;
       case "404":
         return <NotFoundPage onNavigate={handleNavigate} />;
       default:
@@ -72,16 +83,19 @@ export default function App() {
     }
   };
 
-  const showHeaderFooter = !["signin", "signup", "404"].includes(currentPage);
+  const showHeaderFooter = !["signin", "signup", "reset-password", "404", "company-dashboard"].includes(currentPage);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {showHeaderFooter && <Header currentPage={currentPage} onNavigate={handleNavigate} />}
-      <main className={showHeaderFooter ? "flex-1" : ""}>
-        {renderPage()}
-      </main>
-      {showHeaderFooter && <Footer onNavigate={handleNavigate} />}
-      <Toaster />
-    </div>
+    <ThemeProvider>
+      <div className="min-h-screen flex flex-col">
+        {showHeaderFooter && <Header currentPage={currentPage} onNavigate={handleNavigate} />}
+        <main className={showHeaderFooter ? "flex-1" : ""}>
+          {renderPage()}
+        </main>
+        {showHeaderFooter && <Footer onNavigate={handleNavigate} />}
+        <Toaster />
+        <ThemeIndicator />
+      </div>
+    </ThemeProvider>
   );
 }

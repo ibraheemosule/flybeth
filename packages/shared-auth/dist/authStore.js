@@ -1,15 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -49,132 +38,61 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createAuthStore = createAuthStore;
 var zustand_1 = require("zustand");
-var middleware_1 = require("zustand/middleware");
 function createAuthStore(apiService, storeName) {
     var _this = this;
-    if (storeName === void 0) { storeName = "auth"; }
-    return (0, zustand_1.create)()((0, middleware_1.persist)(function (set) { return ({
+    return (0, zustand_1.create)(function (set, get) { return ({
         user: null,
-        accessToken: null,
-        refreshToken: null,
         isAuthenticated: false,
         isLoading: false,
         error: null,
-        isTokenValid: false,
         login: function (email, password) { return __awaiter(_this, void 0, void 0, function () {
-            var response, user, accessToken, refreshToken, error_1, errorMessage;
-            var _a, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var result, error_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
                         set({ isLoading: true, error: null });
-                        _c.label = 1;
+                        _a.label = 1;
                     case 1:
-                        _c.trys.push([1, 3, , 4]);
+                        _a.trys.push([1, 3, , 4]);
                         return [4 /*yield*/, apiService.login(email, password)];
                     case 2:
-                        response = _c.sent();
-                        user = response.user, accessToken = response.accessToken, refreshToken = response.refreshToken;
-                        set({
-                            user: user,
-                            accessToken: accessToken,
-                            refreshToken: refreshToken,
-                            isAuthenticated: true,
-                            isLoading: false,
-                        });
+                        result = _a.sent();
+                        set({ user: result.user, isAuthenticated: true, isLoading: false });
                         return [3 /*break*/, 4];
                     case 3:
-                        error_1 = _c.sent();
-                        errorMessage = ((_b = (_a = error_1 === null || error_1 === void 0 ? void 0 : error_1.response) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.message) ||
-                            (error_1 === null || error_1 === void 0 ? void 0 : error_1.message) ||
-                            "Login failed";
-                        set({
-                            error: errorMessage,
-                            isLoading: false,
-                        });
-                        throw error_1;
+                        error_1 = _a.sent();
+                        set({ error: error_1.message, isLoading: false });
+                        return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
                 }
             });
         }); },
-        signup: function (data) { return __awaiter(_this, void 0, void 0, function () {
-            var signupData, response, user, accessToken, refreshToken, error_2, errorMessage;
-            var _a, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+        register: function (email, password) { return __awaiter(_this, void 0, void 0, function () {
+            var result, error_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
                         set({ isLoading: true, error: null });
-                        _c.label = 1;
+                        _a.label = 1;
                     case 1:
-                        _c.trys.push([1, 3, , 4]);
-                        signupData = __assign({}, data);
-                        return [4 /*yield*/, apiService.register(signupData)];
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, apiService.register(email, password)];
                     case 2:
-                        response = _c.sent();
-                        user = response.user, accessToken = response.accessToken, refreshToken = response.refreshToken;
-                        set({
-                            user: user,
-                            accessToken: accessToken,
-                            refreshToken: refreshToken,
-                            isAuthenticated: true,
-                            isLoading: false,
-                        });
+                        result = _a.sent();
+                        set({ user: result.user, isAuthenticated: true, isLoading: false });
                         return [3 /*break*/, 4];
                     case 3:
-                        error_2 = _c.sent();
-                        errorMessage = ((_b = (_a = error_2 === null || error_2 === void 0 ? void 0 : error_2.response) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.message) ||
-                            (error_2 === null || error_2 === void 0 ? void 0 : error_2.message) ||
-                            "Signup failed";
-                        set({
-                            error: errorMessage,
-                            isLoading: false,
-                        });
-                        throw error_2;
+                        error_2 = _a.sent();
+                        set({ error: error_2.message, isLoading: false });
+                        return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
                 }
             });
         }); },
         logout: function () {
-            if (apiService.logout) {
-                apiService.logout().catch(console.error);
-            }
-            set({
-                user: null,
-                accessToken: null,
-                refreshToken: null,
-                isAuthenticated: false,
-                error: null,
-            });
+            apiService.logout();
+            set({ user: null, isAuthenticated: false });
         },
-        clearError: function () {
-            set({ error: null });
-        },
-        // Token refresh related functions - TODO: Implement properly
-        refreshTokens: function () { return __awaiter(_this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                // Stub implementation
-                console.warn("refreshTokens not implemented");
-                return [2 /*return*/];
-            });
-        }); },
-        checkTokenValidity: function () {
-            // Stub implementation
-            console.warn("checkTokenValidity not implemented");
-            return false;
-        },
-        getTimeUntilExpiry: function () {
-            // Stub implementation
-            console.warn("getTimeUntilExpiry not implemented");
-            return 0;
-        },
-    }); }, {
-        name: "flybeth-".concat(storeName),
-        partialize: function (state) { return ({
-            user: state.user,
-            accessToken: state.accessToken,
-            refreshToken: state.refreshToken,
-            isAuthenticated: state.isAuthenticated,
-        }); },
-    }));
+    }); });
 }
 //# sourceMappingURL=authStore.js.map

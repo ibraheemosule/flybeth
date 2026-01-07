@@ -1,8 +1,8 @@
-// import { useState } from "react";
-// import { Button } from "./ui/button";
-// import { Input } from "./ui/input";
-// import { Label } from "./ui/label";
-// import { Checkbox } from "./ui/checkbox";
+// All content commented out
+
+export function SignInPage() {
+  return null;
+}
 // import { Separator } from "./ui/separator";
 // import { Mail, Lock, Eye, EyeOff, Plane, Home, ArrowLeft } from "lucide-react";
 // import { motion } from "framer-motion";

@@ -13,6 +13,7 @@
     "clean": "rm -rf .next node_modules"
   },
   "dependencies": {
+    "@packages/shared-auth": "file:../../../packages/shared-auth",
     "@packages/shared-frontend": "file:../../../packages/shared-frontend",
     "@packages/shared-config": "file:../../../packages/shared-config",
     "@packages/shared-utils": "file:../../../packages/shared-utils",

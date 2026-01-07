@@ -1,19 +1,92 @@
 import { useState } from "react";
 import { Calendar, MapPin, Search, Users } from "lucide-react";
+import { Button } from "../../../../../ui/button";
+import { Input } from "../../../../../ui/input";
+import { Label } from "../../../../../ui/label";
 import {
-  Button,
-  Input,
-  Label,
   Popover,
   PopoverContent,
   PopoverTrigger,
-  Calendar as CalendarComponent,
-} from "@/components/ui";
+} from "../../../../../ui/popover";
+import { Calendar as CalendarComponent } from "../../../../../ui/calendar";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
+import {
+  useHotelsStore,
+  useFlightsStore,
+  useCarsStore,
+  usePackagesStore,
+  useAttractionsStore,
+} from "@/stores";
 
-export default function HotelSearch() {
-  const [checkInDate, setCheckInDate] = useState<Date>();
-  const [checkOutDate, setCheckOutDate] = useState<Date>();
+interface HotelSearchProps {
+  onSearch?: (params: any) => void;
+}
+
+export default function HotelSearch({ onSearch }: HotelSearchProps) {
+  const router = useRouter();
+  const { searchParams } = useHotelsStore();
+  const { location, checkIn, checkOut, guests } = searchParams || {};
+
+  const update = (updates: {
+    location?: string;
+    checkIn?: string;
+    checkOut?: string;
+    guests?: number;
+  }) => {
+    const currentParams = useHotelsStore.getState().searchParams;
+    useHotelsStore.setState({
+      searchParams: {
+        location: currentParams?.location || "",
+        checkIn: currentParams?.checkIn || "",
+        checkOut: currentParams?.checkOut || "",
+        guests: currentParams?.guests || 2,
+        ...updates,
+      },
+    });
+  };
+
+  const [destinationLocal, setDestinationLocal] = useState(location || "");
+  const [checkInDateLocal, setCheckInDateLocal] = useState<Date | undefined>(
+    checkIn ? new Date(checkIn) : undefined
+  );
+  const [checkOutDateLocal, setCheckOutDateLocal] = useState<Date | undefined>(
+    checkOut ? new Date(checkOut) : undefined
+  );
+  const [guestsLocal, setGuestsLocal] = useState(guests?.toString() || "2");
+
+  const handleSearch = () => {
+    if (!destinationLocal || !checkInDateLocal || !checkOutDateLocal) {
+      return;
+    }
+
+    if (onSearch) {
+      // If onSearch prop is provided, use it for integrated search flow
+      const searchData = {
+        type: "hotel",
+        location: destinationLocal,
+        checkIn: checkInDateLocal.toISOString(),
+        checkOut: checkOutDateLocal.toISOString(),
+        guests: parseInt(guestsLocal),
+        roomType: "standard",
+      };
+      onSearch(searchData);
+    } else {
+      // Otherwise, use Next.js navigation (existing behavior)
+      useFlightsStore.setState({ searchParams: null });
+      useCarsStore.setState({ searchParams: null });
+      usePackagesStore.setState({ searchParams: null });
+      useAttractionsStore.setState({ searchParams: null });
+
+      update({
+        location: destinationLocal,
+        checkIn: checkInDateLocal.toISOString(),
+        checkOut: checkOutDateLocal.toISOString(),
+        guests: parseInt(guestsLocal),
+      });
+      router.push("/search");
+    }
+  };
 
   return (
     <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl p-8 border border-white/50 relative overflow-hidden">
@@ -31,6 +104,11 @@ export default function HotelSearch() {
               <Input
                 id="destination"
                 placeholder="City, hotel, landmark..."
+                value={destinationLocal}
+                onChange={e => {
+                  setDestinationLocal(e.target.value);
+                  update({ location: e.target.value });
+                }}
                 className="pl-11 h-12 border-2 focus:border-primary"
               />
             </div>
@@ -47,14 +125,22 @@ export default function HotelSearch() {
                   className="w-full justify-start text-left h-12 border-2 hover:border-primary"
                 >
                   <Calendar className="mr-2 h-5 w-5 text-primary" />
-                  {checkInDate ? format(checkInDate, "PPP") : "Select date"}
+                  {checkInDateLocal
+                    ? format(checkInDateLocal, "PPP")
+                    : "Select date"}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
+              <PopoverContent
+                className="w-auto p-0 bg-white border-2 border-primary/20 shadow-2xl z-50"
+                align="start"
+              >
                 <CalendarComponent
                   mode="single"
-                  selected={checkInDate}
-                  onSelect={setCheckInDate}
+                  selected={checkInDateLocal}
+                  onSelect={date => {
+                    setCheckInDateLocal(date);
+                    if (date) update({ checkIn: date.toISOString() });
+                  }}
                   initialFocus
                 />
               </PopoverContent>
@@ -72,14 +158,22 @@ export default function HotelSearch() {
                   className="w-full justify-start text-left h-12 border-2 hover:border-primary"
                 >
                   <Calendar className="mr-2 h-5 w-5 text-primary" />
-                  {checkOutDate ? format(checkOutDate, "PPP") : "Select date"}
+                  {checkOutDateLocal
+                    ? format(checkOutDateLocal, "PPP")
+                    : "Select date"}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
+              <PopoverContent
+                className="w-auto p-0 bg-white border-2 border-primary/20 shadow-2xl z-50"
+                align="start"
+              >
                 <CalendarComponent
                   mode="single"
-                  selected={checkOutDate}
-                  onSelect={setCheckOutDate}
+                  selected={checkOutDateLocal}
+                  onSelect={date => {
+                    setCheckOutDateLocal(date);
+                    if (date) update({ checkOut: date.toISOString() });
+                  }}
                   initialFocus
                 />
               </PopoverContent>
@@ -97,12 +191,20 @@ export default function HotelSearch() {
               <Input
                 id="guests"
                 placeholder="2 Adults, 1 Room"
+                value={guestsLocal}
+                onChange={e => {
+                  setGuestsLocal(e.target.value);
+                  // Extract number from guests string (simple implementation)
+                  const match = e.target.value.match(/(\d+)/);
+                  const guestCount = match ? parseInt(match[1]) : 2;
+                  update({ guests: guestCount });
+                }}
                 className="pl-11 h-12 border-2 focus:border-primary"
               />
             </div>
           </div>
 
-          <Button className="btn-gradient-primary h-12">
+          <Button onClick={handleSearch} className="btn-gradient-primary h-12">
             <Search className="mr-2 h-5 w-5" />
             Find Hotels
           </Button>

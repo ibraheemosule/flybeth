@@ -1,4 +1,4 @@
-import { Plane, Menu, User, X, Sparkles, Home, MapPin, HelpCircle, Briefcase, Hotel, Car, Package, ChevronDown } from "lucide-react";
+import { Plane, Menu, User, X, Sparkles, Home, MapPin, HelpCircle, Briefcase, Hotel, Car, Package, ChevronDown, Settings } from "lucide-react";
 import { Button } from "./ui/button";
 import flybethLogo from "figma:asset/cc0c72fad362bbd2c66729e646104165003b6a43.png";
 import { motion, AnimatePresence } from "motion/react";
@@ -127,6 +127,19 @@ export function Header({ currentPage, onNavigate }: { currentPage?: string; onNa
 
             {/* Right Side Actions */}
             <div className="flex items-center gap-3">
+              {/* Settings Button - Desktop */}
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="hidden md:flex items-center gap-2 px-3 py-2.5 rounded-xl hover:bg-primary/10 text-gray-700 hover:text-primary transition-all"
+                  onClick={() => handleNavClick('settings')}
+                  title="Settings"
+                >
+                  <Settings className="h-4 w-4" />
+                </Button>
+              </motion.div>
+              
               {/* Sign In Button - Desktop */}
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button
@@ -230,6 +243,22 @@ export function Header({ currentPage, onNavigate }: { currentPage?: string; onNa
                   >
                     <User className="h-5 w-5" />
                     Sign In
+                  </Button>
+                </motion.div>
+                
+                {/* Settings Button - Mobile */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: (navItems.length + productItems.length + 2) * 0.1 }}
+                >
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-gray-700"
+                    onClick={() => handleNavClick('settings')}
+                  >
+                    <Settings className="h-5 w-5" />
+                    Settings
                   </Button>
                 </motion.div>
               </nav>

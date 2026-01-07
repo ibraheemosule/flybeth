@@ -94,7 +94,7 @@ src/
 
 ## API Integration
 
-The mobile app connects to the backend API at `http://localhost:3001/api`:
+The mobile app is designed to connect to your external API services. Update the API configuration in your app settings.
 
 - `POST /auth/signup` - User registration
 - `POST /auth/login` - User authentication
@@ -129,14 +129,9 @@ The mobile app connects to the backend API at `http://localhost:3001/api`:
 2. **iOS Simulator**: `simctl` errors are common on macOS without Xcode Command Line Tools
 3. **Type Versions**: @types/react version mismatch warnings (functional but should be updated)
 
-### Backend Connection
+### API Connection
 
-Ensure the backend server is running on port 3001:
-
-```bash
-cd ../backend
-npm run dev
-```
+Configure your API endpoints in the app settings to connect to your preferred backend services.
 
 ### Environment Configuration
 
@@ -175,14 +170,15 @@ eas build --platform android
 
 1. **Metro bundler issues**: Clear cache with `npx expo start --clear`
 2. **Package conflicts**: Delete node_modules and reinstall
-3. **Network issues**: Check backend server is running and accessible
-4. **Simulator not launching**: Ensure iOS Simulator or Android Emulator is properly configured
+3. **Network issues**: Check API server connectivity
+4. **Configuration**: Verify API endpoint settings
+5. **Simulator not launching**: Ensure iOS Simulator or Android Emulator is properly configured
 
 ### Debugging
 
 - Use React Native Debugger or Expo DevTools
 - Check network requests in the browser dev tools (web version)
-- Monitor backend logs for API errors
+- Monitor API logs for connection errors
 - Use console.log statements for mobile debugging
 
 ## Future Enhancements

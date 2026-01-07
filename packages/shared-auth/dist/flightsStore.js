@@ -49,103 +49,66 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createFlightsStore = createFlightsStore;
 var zustand_1 = require("zustand");
-var middleware_1 = require("zustand/middleware");
 function createFlightsStore(apiService, storeName) {
     var _this = this;
-    if (storeName === void 0) { storeName = "flights"; }
-    return (0, zustand_1.create)()((0, middleware_1.persist)(function (set, get) { return ({
+    return (0, zustand_1.create)(function (set, get) { return ({
         flights: [],
-        selectedFlight: null,
-        returnFlights: [],
-        selectedReturnFlight: null,
-        searchParams: null,
+        searchParams: {
+            from: '',
+            to: '',
+            departure: '',
+            passengers: 1,
+            tripType: 'round-trip'
+        },
         isLoading: false,
         error: null,
         searchFlights: function (params) { return __awaiter(_this, void 0, void 0, function () {
-            var flights, returnFlights, error_1, errorMessage;
-            var _a, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0:
-                        set({
-                            isLoading: true,
-                            error: null,
-                            searchParams: params,
-                        });
-                        _c.label = 1;
-                    case 1:
-                        _c.trys.push([1, 5, , 6]);
-                        return [4 /*yield*/, apiService.searchFlights(params)];
-                    case 2:
-                        flights = _c.sent();
-                        set({ flights: flights, isLoading: false });
-                        if (!params.returnDate) return [3 /*break*/, 4];
-                        return [4 /*yield*/, apiService.searchFlights(__assign(__assign({}, params), { from: params.to, to: params.from, departDate: params.returnDate, returnDate: undefined }))];
-                    case 3:
-                        returnFlights = _c.sent();
-                        set({ returnFlights: returnFlights });
-                        _c.label = 4;
-                    case 4: return [3 /*break*/, 6];
-                    case 5:
-                        error_1 = _c.sent();
-                        errorMessage = ((_b = (_a = error_1 === null || error_1 === void 0 ? void 0 : error_1.response) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.message) ||
-                            (error_1 === null || error_1 === void 0 ? void 0 : error_1.message) ||
-                            "Failed to search flights";
-                        set({ error: errorMessage, isLoading: false });
-                        throw error_1;
-                    case 6: return [2 /*return*/];
-                }
-            });
-        }); },
-        selectFlight: function (flight, isReturn) {
-            if (isReturn === void 0) { isReturn = false; }
-            if (isReturn) {
-                set({ selectedReturnFlight: flight });
-            }
-            else {
-                set({ selectedFlight: flight });
-            }
-        },
-        bookFlight: function (bookingData) { return __awaiter(_this, void 0, void 0, function () {
-            var result, error_2, errorMessage;
-            var _a, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var result, error_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
                         set({ isLoading: true, error: null });
-                        _c.label = 1;
+                        _a.label = 1;
                     case 1:
-                        _c.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, apiService.bookFlight(bookingData)];
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, apiService.searchFlights(params)];
                     case 2:
-                        result = _c.sent();
-                        set({ isLoading: false });
-                        return [2 /*return*/, result];
+                        result = _a.sent();
+                        set({ flights: result, isLoading: false });
+                        return [3 /*break*/, 4];
                     case 3:
-                        error_2 = _c.sent();
-                        errorMessage = ((_b = (_a = error_2 === null || error_2 === void 0 ? void 0 : error_2.response) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.message) ||
-                            (error_2 === null || error_2 === void 0 ? void 0 : error_2.message) ||
-                            "Failed to book flight";
-                        set({ error: errorMessage, isLoading: false });
-                        throw error_2;
+                        error_1 = _a.sent();
+                        set({ error: error_1.message, isLoading: false });
+                        return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
                 }
             });
         }); },
-        clearFlights: function () {
-            set({
-                flights: [],
-                selectedFlight: null,
-                returnFlights: [],
-                selectedReturnFlight: null,
-                searchParams: null,
+        bookFlight: function (flightId, bookingData) { return __awaiter(_this, void 0, void 0, function () {
+            var error_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        set({ isLoading: true, error: null });
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, apiService.bookFlight(__assign({ flightId: flightId }, bookingData))];
+                    case 2:
+                        _a.sent();
+                        set({ isLoading: false });
+                        return [3 /*break*/, 4];
+                    case 3:
+                        error_2 = _a.sent();
+                        set({ error: error_2.message, isLoading: false });
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
             });
+        }); },
+        setSearchParams: function (params) {
+            set({ searchParams: __assign(__assign({}, get().searchParams), params) });
         },
-        clearError: function () {
-            set({ error: null });
-        },
-    }); }, {
-        name: storeName,
-    }));
+    }); });
 }
 //# sourceMappingURL=flightsStore.js.map

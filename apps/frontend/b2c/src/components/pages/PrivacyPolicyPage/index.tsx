@@ -1,3 +1,5 @@
+"use client";
+
 import { Shield, Lock, Eye, FileText } from "lucide-react";
 import { motion } from "framer-motion";
 

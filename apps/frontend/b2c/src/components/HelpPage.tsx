@@ -1,13 +1,8 @@
-// import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
-// import { Button } from "./ui/button";
-// import { Input } from "./ui/input";
-// import { Textarea } from "./ui/textarea";
-// import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
-// import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-// import {
-//   MessageCircle,
-//   Phone,
-//   Mail,
+// All content commented out
+
+export function HelpPage() {
+  return null;
+}
 //   Search,
 //   BookOpen,
 //   CreditCard,

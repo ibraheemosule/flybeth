@@ -2,12 +2,13 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { Checkbox } from "./ui/checkbox";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Separator } from "./ui/separator";
-import { Mail, Lock, Eye, EyeOff, Plane, Home, ArrowLeft } from "lucide-react";
+import { Checkbox } from "./ui/checkbox";
 import { motion } from "motion/react";
-import { LoadingAnimation } from "./LoadingAnimation";
+import { Eye, EyeOff, Mail, Lock, Sparkles, Home, Plane } from "lucide-react";
 import { ForgotPasswordModal } from "./ForgotPasswordModal";
+import { LoadingAnimation } from "./LoadingAnimation";
 import { toast } from "sonner@2.0.3";
 import flybethLogo from "figma:asset/cc0c72fad362bbd2c66729e646104165003b6a43.png";
 
@@ -223,6 +224,7 @@ export function SignInPage({ onNavigate }: SignInPageProps) {
       <ForgotPasswordModal
         open={showForgotPassword}
         onOpenChange={setShowForgotPassword}
+        onNavigate={onNavigate}
       />
     </div>
   );

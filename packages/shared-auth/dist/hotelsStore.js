@@ -38,79 +38,34 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createHotelsStore = createHotelsStore;
 var zustand_1 = require("zustand");
-var middleware_1 = require("zustand/middleware");
 function createHotelsStore(apiService, storeName) {
     var _this = this;
-    if (storeName === void 0) { storeName = "hotels"; }
-    return (0, zustand_1.create)()((0, middleware_1.persist)(function (set) { return ({
+    return (0, zustand_1.create)(function (set, get) { return ({
         hotels: [],
-        selectedHotel: null,
-        searchParams: null,
         isLoading: false,
         error: null,
         searchHotels: function (params) { return __awaiter(_this, void 0, void 0, function () {
-            var hotels, error_1, errorMessage;
-            var _a, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0:
-                        set({ isLoading: true, error: null, searchParams: params });
-                        _c.label = 1;
-                    case 1:
-                        _c.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, apiService.searchHotels(params)];
-                    case 2:
-                        hotels = _c.sent();
-                        set({ hotels: hotels, isLoading: false });
-                        return [3 /*break*/, 4];
-                    case 3:
-                        error_1 = _c.sent();
-                        errorMessage = ((_b = (_a = error_1 === null || error_1 === void 0 ? void 0 : error_1.response) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.message) ||
-                            (error_1 === null || error_1 === void 0 ? void 0 : error_1.message) ||
-                            "Failed to search hotels";
-                        set({ error: errorMessage, isLoading: false });
-                        throw error_1;
-                    case 4: return [2 /*return*/];
-                }
-            });
-        }); },
-        selectHotel: function (hotel) {
-            set({ selectedHotel: hotel });
-        },
-        bookHotel: function (bookingData) { return __awaiter(_this, void 0, void 0, function () {
-            var result, error_2, errorMessage;
-            var _a, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var result, error_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
                         set({ isLoading: true, error: null });
-                        _c.label = 1;
+                        _a.label = 1;
                     case 1:
-                        _c.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, apiService.bookHotel(bookingData)];
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, apiService.searchHotels(params)];
                     case 2:
-                        result = _c.sent();
-                        set({ isLoading: false });
-                        return [2 /*return*/, result];
+                        result = _a.sent();
+                        set({ hotels: result, isLoading: false });
+                        return [3 /*break*/, 4];
                     case 3:
-                        error_2 = _c.sent();
-                        errorMessage = ((_b = (_a = error_2 === null || error_2 === void 0 ? void 0 : error_2.response) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.message) ||
-                            (error_2 === null || error_2 === void 0 ? void 0 : error_2.message) ||
-                            "Failed to book hotel";
-                        set({ error: errorMessage, isLoading: false });
-                        throw error_2;
+                        error_1 = _a.sent();
+                        set({ error: error_1.message, isLoading: false });
+                        return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
                 }
             });
         }); },
-        clearHotels: function () {
-            set({ hotels: [], selectedHotel: null, searchParams: null });
-        },
-        clearError: function () {
-            set({ error: null });
-        },
-    }); }, {
-        name: storeName,
-    }));
+    }); });
 }
 //# sourceMappingURL=hotelsStore.js.map

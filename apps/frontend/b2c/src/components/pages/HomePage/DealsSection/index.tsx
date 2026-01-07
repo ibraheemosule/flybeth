@@ -83,7 +83,11 @@ const deals: Deal[] = [
 export default function DealsSection({ onNavigate }: DealsSectionProps = {}) {
   const router = useRouter();
   const handleViewDeal = () => {
-    router.push("/deals");
+    if (onNavigate) {
+      onNavigate("deals");
+    } else {
+      router.push("/deals");
+    }
   };
 
   return (

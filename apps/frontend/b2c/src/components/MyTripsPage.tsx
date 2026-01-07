@@ -1,13 +1,8 @@
-// import { useState, useEffect } from "react";
-// import {
-//   Card,
-//   CardContent,
-//   CardDescription,
-//   CardHeader,
-//   CardTitle,
-// } from "./ui/card";
-// import { Button } from "./ui/button";
-// import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+// All content commented out
+
+export function MyTripsPage() {
+  return null;
+}
 // import { Badge } from "./ui/badge";
 // import {
 //   Calendar,

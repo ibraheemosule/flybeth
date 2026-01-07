@@ -12,6 +12,7 @@ import { AttractionResults } from "./AttractionResults";
 import { LoadingAnimation } from "./LoadingAnimation";
 import { CheckoutPage } from "./CheckoutPage";
 import { UniversalCheckout } from "./UniversalCheckout";
+import { ResetPasswordTestLink } from "./ResetPasswordTestLink";
 
 interface HomePageProps {
   isSignedIn?: boolean;
@@ -26,24 +27,23 @@ export function HomePage({ isSignedIn = false, onNavigate, activeTab }: HomePage
   const [showCheckout, setShowCheckout] = useState(false);
   const [bookingType, setBookingType] = useState<"flight" | "hotel" | "car" | "package" | "attraction">("flight");
 
+  const loadingMessages: Record<string, string> = {
+    flight: "Finding the best flights for you...",
+    hotel: "Searching for amazing hotels...",
+    car: "Finding the perfect rental car...",
+    package: "Building your dream vacation package...",
+    attraction: "Discovering exciting experiences...",
+  };
+
   const handleSearch = (params: any) => {
     setIsLoading(true);
     const bookingType = params.type || "flight";
     setBookingType(bookingType);
     
-    // Simulate API call with different loading messages
-    const loadingMessages: Record<string, string> = {
-      flight: "Finding the best flights for you...",
-      hotel: "Searching for amazing hotels...",
-      car: "Finding the perfect rental car...",
-      package: "Building your dream vacation package...",
-      attraction: "Discovering exciting experiences...",
-    };
-    
     setTimeout(() => {
       setIsLoading(false);
       setSearchResults(params);
-    }, 2000);
+    }, 5000);
   };
 
   const handleCloseResults = () => {
@@ -77,14 +77,6 @@ export function HomePage({ isSignedIn = false, onNavigate, activeTab }: HomePage
     if (onNavigate) {
       onNavigate("signin");
     }
-  };
-
-  const loadingMessages: Record<string, string> = {
-    flight: "Finding the best flights for you...",
-    hotel: "Searching for amazing hotels...",
-    car: "Finding the perfect rental car...",
-    package: "Building your dream vacation package...",
-    attraction: "Discovering exciting experiences...",
   };
 
   if (isLoading) {
@@ -180,6 +172,9 @@ export function HomePage({ isSignedIn = false, onNavigate, activeTab }: HomePage
       <DealsSection onNavigate={(page) => onNavigate?.(page)} />
       <PartnerCarousel />
       <FeaturesSection />
+      
+      {/* Test Link - Remove this after testing */}
+      {onNavigate && <ResetPasswordTestLink onNavigate={onNavigate} />}
     </>
   );
 }

@@ -1,12 +1,10 @@
 // "use client";
 
-// import { Facebook, Twitter, Instagram, Youtube } from "lucide-react";
-// import { Separator } from "./ui/separator";
-// import { usePathname, useRouter } from "next/navigation";
+// All content commented out
 
-// export function Footer() {
-//   const router = useRouter();
-//   const pathname = usePathname();
+export function Footer() {
+  return null;
+}
 
 //   const hideFooter = ["/signin", "/signup", "/404", "/500"].includes(pathname);
 

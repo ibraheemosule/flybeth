@@ -91,9 +91,11 @@ export default function BookingSummary() {
               <Calendar className="h-5 w-5 text-[#2563eb]" />
               Travel Date
             </h4>
-            <p className="text-sm">
-              {formatDate(new Date(searchParams!.departDate))}
-            </p>
+            {searchParams?.departDate && (
+              <p className="text-sm">
+                {formatDate(new Date(searchParams.departDate))}
+              </p>
+            )}
             {searchParams?.returnDate && (
               <p className="text-sm text-muted-foreground">
                 Return: {formatDate(new Date(searchParams.returnDate))}

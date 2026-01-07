@@ -2,45 +2,6 @@ import { http, HttpResponse } from "msw";
 
 // Mock API handlers for testing
 export const handlers = [
-  // Auth endpoints
-  http.post("/api/auth/login", ({ request }) => {
-    return HttpResponse.json({
-      success: true,
-      data: {
-        user: {
-          id: "1",
-          email: "test@example.com",
-          role: "USER",
-        },
-        tokens: {
-          accessToken: "mock-access-token",
-          refreshToken: "mock-refresh-token",
-        },
-      },
-    });
-  }),
-
-  http.post("/api/auth/register", ({ request }) => {
-    return HttpResponse.json({
-      success: true,
-      data: {
-        user: {
-          id: "2",
-          email: "newuser@example.com",
-          role: "USER",
-        },
-        tokens: {
-          accessToken: "mock-access-token",
-          refreshToken: "mock-refresh-token",
-        },
-      },
-    });
-  }),
-
-  http.post("/api/auth/logout", ({ request }) => {
-    return HttpResponse.json({ success: true });
-  }),
-
   // Travel search endpoints
   http.get("/api/travel/search", ({ request }) => {
     const url = new URL(request.url);
@@ -48,6 +9,20 @@ export const handlers = [
 
     if (type === "flights") {
       return HttpResponse.json({
+        success: true,
+        data: [
+          {
+            id: "flight-1",
+            airline: "Test Airways",
+            departure: "2024-06-01T10:00:00Z",
+            arrival: "2024-06-01T14:00:00Z",
+            price: 299,
+            origin: "NYC",
+            destination: "LAX",
+          },
+        ],
+      });
+    }
         success: true,
         data: [
           {

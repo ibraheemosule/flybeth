@@ -3,16 +3,17 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { Mail, ArrowLeft, CheckCircle2 } from "lucide-react";
+import { Mail, ArrowLeft, CheckCircle2, ExternalLink } from "lucide-react";
 import { motion } from "motion/react";
 import { toast } from "sonner@2.0.3";
 
 interface ForgotPasswordModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onNavigate?: (page: string) => void;
 }
 
-export function ForgotPasswordModal({ open, onOpenChange }: ForgotPasswordModalProps) {
+export function ForgotPasswordModal({ open, onOpenChange, onNavigate }: ForgotPasswordModalProps) {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

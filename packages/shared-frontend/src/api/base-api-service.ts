@@ -1,225 +1,249 @@
-import { axios, AxiosInstance, AxiosResponse, AxiosError, AxiosRequestConfig, decodeJWT, isTokenExpired } from '@packages/shared-utils'
-
-export interface ApiServiceConfig {
-  baseUrl: string
-  isProduction: boolean
-  getToken: () => string | null
-  getRefreshToken?: () => string | null
-  onUnauthorized: () => void
-  onTokenRefresh?: (tokens: { accessToken: string; refreshToken?: string }) => void
-  refreshEndpoint?: string
-}
-
-export interface RefreshTokenResponse {
-  success: boolean
-  accessToken: string
-  refreshToken?: string
-  message?: string
-}
-
 /**
- * Base API Service with automatic token refresh and retry logic
- * Frontend-specific implementation with browser APIs
+ * Base API service for external API calls
+ * This service provides common HTTP functionality that can be extended by each app
  */
+
+export class ApiError extends Error {
+  constructor(message: string, public status?: number, public code?: string) {
+    super(message);
+    this.name = "ApiError";
+  }
+}
+
+export interface ApiConfig {
+  baseUrl?: string;
+  getToken?: () => string | null;
+  onUnauthorized?: () => void;
+  storageKey?: string;
+}
+
 export class BaseApiService {
-  protected api: AxiosInstance
-  protected config: ApiServiceConfig
-  private isRefreshing = false
-  private failedQueue: Array<{
-    resolve: (value: any) => void
-    reject: (error: any) => void
-  }> = []
+  protected baseUrl: string;
+  protected getToken: () => string | null;
+  protected onUnauthorized: () => void;
+  protected storageKey: string;
 
-  constructor(config: ApiServiceConfig) {
-    this.config = config
-    
-    this.api = axios.create({
-      baseURL: config.baseUrl,
-      timeout: 10000,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-
-    this.setupInterceptors()
+  constructor(config: ApiConfig = {}) {
+    this.baseUrl =
+      config.baseUrl ||
+      process.env.NEXT_PUBLIC_API_URL ||
+      "https://api.flybeth.com";
+    this.getToken = config.getToken || this.getAuthToken.bind(this);
+    this.onUnauthorized =
+      config.onUnauthorized || this.handleUnauthorized.bind(this);
+    this.storageKey = config.storageKey || "flybeth-auth";
   }
 
-  private setupInterceptors() {
-    // Request interceptor to add auth token
-    this.api.interceptors.request.use(
-      (config) => {
-        const token = this.config.getToken()
-        if (token && !config.url?.includes('/auth/refresh')) {
-          config.headers.Authorization = `Bearer ${token}`
-        }
-        return config
-      },
-      (error) => Promise.reject(error)
-    )
+  protected async makeRequest<T>(
+    endpoint: string,
+    options: RequestInit = {}
+  ): Promise<T> {
+    const url = `${this.baseUrl}${endpoint}`;
 
-    // Response interceptor for token refresh
-    this.api.interceptors.response.use(
-      (response) => response,
-      async (error: AxiosError) => {
-        const originalRequest = error.config as AxiosRequestConfig & { _retry?: boolean }
+    const defaultHeaders = {
+      "Content-Type": "application/json",
+      ...options.headers,
+    };
 
-        if (error.response?.status === 401 && !originalRequest._retry) {
-          if (originalRequest.url?.includes('/auth/refresh')) {
-            // Refresh token is also invalid
-            this.config.onUnauthorized()
-            return Promise.reject(error)
-          }
+    // Add authorization token if available
+    const token = this.getToken();
+    if (token) {
+      defaultHeaders["Authorization"] = `Bearer ${token}`;
+    }
 
-          if (this.isRefreshing) {
-            // A refresh is already in progress, queue this request
-            return new Promise((resolve, reject) => {
-              this.failedQueue.push({ resolve, reject })
-            }).then(token => {
-              if (originalRequest.headers) {
-                originalRequest.headers.Authorization = `Bearer ${token}`
-              }
-              return this.api(originalRequest)
-            }).catch(err => {
-              return Promise.reject(err)
-            })
-          }
+    try {
+      const response = await fetch(url, {
+        ...options,
+        headers: defaultHeaders,
+      });
 
-          originalRequest._retry = true
-          this.isRefreshing = true
-
-          try {
-            const refreshToken = this.config.getRefreshToken?.()
-            if (!refreshToken) {
-              this.config.onUnauthorized()
-              return Promise.reject(error)
-            }
-
-            const newTokens = await this.refreshToken(refreshToken)
-            
-            // Update stored tokens
-            this.config.onTokenRefresh?.(newTokens)
-
-            // Process queued requests
-            this.processQueue(newTokens.accessToken, null)
-
-            // Retry original request
-            if (originalRequest.headers) {
-              originalRequest.headers.Authorization = `Bearer ${newTokens.accessToken}`
-            }
-            
-            return this.api(originalRequest)
-          } catch (refreshError) {
-            this.processQueue(null, refreshError)
-            this.config.onUnauthorized()
-            return Promise.reject(refreshError)
-          } finally {
-            this.isRefreshing = false
-          }
-        }
-
-        return Promise.reject(error)
+      if (response.status === 401) {
+        this.onUnauthorized();
+        throw new ApiError("Unauthorized", 401, "UNAUTHORIZED");
       }
-    )
-  }
 
-  private async refreshToken(refreshToken: string): Promise<RefreshTokenResponse> {
-    const endpoint = this.config.refreshEndpoint || '/api/auth/refresh'
-    
-    // Use fetch for refresh to avoid circular interceptor calls
-    const response = await fetch(`${this.config.baseUrl}${endpoint}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ refreshToken }),
-    })
-
-    if (!response.ok) {
-      throw new Error('Token refresh failed')
-    }
-
-    const data = await response.json()
-    
-    if (!data.success) {
-      throw new Error(data.message || 'Token refresh failed')
-    }
-
-    return data
-  }
-
-  private processQueue(token: string | null, error: any) {
-    this.failedQueue.forEach(({ resolve, reject }) => {
-      if (error) {
-        reject(error)
-      } else {
-        resolve(token)
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new ApiError(
+          errorData.message ||
+            `HTTP ${response.status}: ${response.statusText}`,
+          response.status,
+          errorData.code
+        );
       }
-    })
-    
-    this.failedQueue = []
+
+      return await response.json();
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(`Network error: ${error.message}`);
+    }
   }
 
-  /**
-   * Check if current token is valid or needs refresh
-   */
-  public isTokenValid(): boolean {
-    const token = this.config.getToken()
-    if (!token) return false
-    
-    return !isTokenExpired(token, 5) // 5 minute buffer
+  protected getAuthToken(): string | null {
+    try {
+      // Try cookie first (SSR compatible)
+      if (typeof document !== "undefined") {
+        const cookieAuth = this.getCookie(this.storageKey);
+        if (cookieAuth) {
+          const authState = JSON.parse(cookieAuth);
+          return authState.accessToken;
+        }
+      }
+
+      // Fallback to localStorage (CSR)
+      if (typeof window !== "undefined") {
+        const localAuth = localStorage.getItem(this.storageKey);
+        if (localAuth) {
+          const authState = JSON.parse(localAuth);
+          return authState.state?.accessToken || authState.accessToken;
+        }
+      }
+
+      return null;
+    } catch (error) {
+      console.warn("Error getting auth token:", error);
+      return null;
+    }
   }
 
-  /**
-   * Manually refresh token
-   */
-  public async forceRefresh(): Promise<void> {
-    const refreshToken = this.config.getRefreshToken?.()
-    if (!refreshToken) {
-      throw new Error('No refresh token available')
+  protected getCookie(name: string): string | null {
+    if (typeof document === "undefined") return null;
+
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) {
+      return parts.pop()?.split(";").shift() || null;
+    }
+    return null;
+  }
+
+  protected setAuthTokens(tokens: {
+    accessToken: string;
+    refreshToken: string;
+    user?: any;
+  }) {
+    const authState = { ...tokens };
+
+    // Set in localStorage for client-side
+    if (typeof window !== "undefined") {
+      localStorage.setItem(
+        this.storageKey,
+        JSON.stringify({ state: authState })
+      );
     }
 
-    const newTokens = await this.refreshToken(refreshToken)
-    this.config.onTokenRefresh?.(newTokens)
+    // Set in cookie for SSR compatibility
+    if (typeof document !== "undefined") {
+      document.cookie = `${this.storageKey}=${JSON.stringify(
+        authState
+      )}; path=/; max-age=${7 * 24 * 60 * 60}`; // 7 days
+    }
   }
 
-  /**
-   * Make authenticated API request
-   */
-  public async makeRequest<T = any>(
-    url: string,
-    config: AxiosRequestConfig = {}
-  ): Promise<AxiosResponse<T>> {
-    return this.api.request<T>({
-      url,
-      ...config,
-    })
+  protected clearAuthTokens() {
+    // Clear localStorage
+    if (typeof window !== "undefined") {
+      localStorage.removeItem(this.storageKey);
+    }
+
+    // Clear cookie
+    if (typeof document !== "undefined") {
+      document.cookie = `${this.storageKey}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    }
   }
 
-  /**
-   * Get axios instance for advanced usage
-   */
-  public getInstance(): AxiosInstance {
-    return this.api
+  protected handleUnauthorized() {
+    this.clearAuthTokens();
+    // Default behavior - apps can override this
+    if (typeof window !== "undefined") {
+      window.location.href = "/login";
+    }
   }
 
-  // Convenience methods
-  public async get<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.makeRequest<T>(url, { ...config, method: 'GET' })
+  // Base authentication methods that can be overridden
+  async login(credentials: { email: string; password: string }) {
+    const response = await this.makeRequest<{
+      accessToken: string;
+      refreshToken: string;
+      user: any;
+    }>("/auth/login", {
+      method: "POST",
+      body: JSON.stringify(credentials),
+    });
+
+    this.setAuthTokens(response);
+    return response;
   }
 
-  public async post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.makeRequest<T>(url, { ...config, method: 'POST', data })
+  async register(userData: {
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+  }) {
+    const response = await this.makeRequest<{
+      accessToken: string;
+      refreshToken: string;
+      user: any;
+    }>("/auth/register", {
+      method: "POST",
+      body: JSON.stringify(userData),
+    });
+
+    this.setAuthTokens(response);
+    return response;
   }
 
-  public async put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.makeRequest<T>(url, { ...config, method: 'PUT', data })
+  async logout() {
+    try {
+      await this.makeRequest("/auth/logout", { method: "POST" });
+    } catch (error) {
+      console.warn("Logout API call failed:", error);
+    } finally {
+      this.clearAuthTokens();
+    }
   }
 
-  public async patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.makeRequest<T>(url, { ...config, method: 'PATCH', data })
+  // Base CRUD methods
+  async get<T>(endpoint: string): Promise<T> {
+    return this.makeRequest(endpoint);
   }
 
-  public async delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.makeRequest<T>(url, { ...config, method: 'DELETE' })
+  async post<T>(endpoint: string, data?: any): Promise<T> {
+    return this.makeRequest(endpoint, {
+      method: "POST",
+      body: data ? JSON.stringify(data) : undefined,
+    });
   }
+
+  async put<T>(endpoint: string, data?: any): Promise<T> {
+    return this.makeRequest(endpoint, {
+      method: "PUT",
+      body: data ? JSON.stringify(data) : undefined,
+    });
+  }
+
+  async patch<T>(endpoint: string, data?: any): Promise<T> {
+    return this.makeRequest(endpoint, {
+      method: "PATCH",
+      body: data ? JSON.stringify(data) : undefined,
+    });
+  }
+
+  async delete<T>(endpoint: string): Promise<T> {
+    return this.makeRequest(endpoint, {
+      method: "DELETE",
+    });
+  }
+}
+
+// Helper function to create API error
+export function createApiError(
+  message: string,
+  status?: number,
+  code?: string
+) {
+  return new ApiError(message, status, code);
 }

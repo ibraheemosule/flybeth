@@ -1,12 +1,7 @@
-// import { useState } from "react";
-// import { HeroSection } from "./HeroSection";
-// import { DealsSection } from "./DealsSection";
-// import { FeaturesSection } from "./FeaturesSection";
-// import { PopularDestinationsSection } from "./PopularDestinationsSection";
-// import { PartnerCarousel } from "./PartnerCarousel";
-// import { FlightResults } from "./FlightResults";
-// import { LoadingAnimation } from "./LoadingAnimation";
-// import { CheckoutPage } from "./CheckoutPage";
+// This file has been moved to /components/pages/HomePage/index.tsx
+// Keeping this file to avoid breaking any existing imports
+
+export { HomePage } from "./pages/HomePage";
 
 // interface HomePageProps {
 //   isSignedIn?: boolean;

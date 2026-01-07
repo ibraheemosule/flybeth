@@ -4,14 +4,14 @@ Centralized Zod validation schemas for the FlyBeth application.
 
 ## 📖 Overview
 
-This package contains all validation schemas used across the FlyBeth monorepo, ensuring consistency between frontend and backend validation logic.
+This package contains all validation schemas used across the FlyBeth frontend monorepo, ensuring consistency across all client applications.
 
 ## 🚀 Why Centralized Schemas?
 
 ### Problems Solved:
 
 - **Schema Duplication**: No more identical schemas defined in multiple files
-- **Type Inconsistency**: Frontend and backend always use the same validation rules
+- **Type Consistency**: All frontend applications use the same validation rules
 - **Maintenance Overhead**: Single place to update validation logic
 - **Testing Complexity**: Centralized schemas are easier to test comprehensively
 
@@ -85,7 +85,7 @@ const LoginForm = () => {
 };
 ```
 
-### Backend Validation
+### Frontend Validation
 
 ```typescript
 import { loginSchema, type LoginInput } from "@packages/shared-schemas";

@@ -1,8 +1,8 @@
-// import { Shield, Lock, Eye, FileText } from "lucide-react";
-// import { motion } from "framer-motion";
+// All content commented out
 
-// export function PrivacyPolicyPage() {
-//   return (
+export function PrivacyPolicyPage() {
+  return null;
+}
 //     <div className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-white py-16 px-4">
 //       <div className="container mx-auto max-w-4xl">
 //         {/* Header */}

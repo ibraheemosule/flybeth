@@ -1,8 +1,8 @@
-// import { useState } from "react";
-// import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
-// import { Input } from "./ui/input";
-// import { Button } from "./ui/button";
-// import { Badge } from "./ui/badge";
+// All content commented out
+
+export function SupportPage() {
+  return null;
+}
 // import { motion } from "framer-motion";
 // import {
 //   Search,

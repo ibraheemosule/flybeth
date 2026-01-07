@@ -1,0 +1,410 @@
+"use client";
+
+import {
+  Package,
+  Plane,
+  Hotel,
+  MapPin,
+  Star,
+  ArrowRight,
+  Car,
+} from "lucide-react";
+import { motion } from "framer-motion";
+import { Card } from "../../ui/card";
+import { Button } from "../../ui/button";
+import { Badge } from "../../ui/badge";
+
+interface PackageResultsPageProps {
+  searchParams: {
+    destination: string;
+    departDate: string;
+    returnDate: string;
+    travelers: string;
+    includes?: {
+      flights?: boolean;
+      hotels?: boolean;
+      cars?: boolean;
+      activities?: boolean;
+    };
+  };
+  onClose: () => void;
+  onSelectPackage: (pkg: any) => void;
+}
+
+const mockPackages = [
+  {
+    id: 1,
+    name: "Paradise Getaway",
+    destination: "Maldives",
+    price: 1899,
+    originalPrice: 2499,
+    savings: 600,
+    image:
+      "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYWxkaXZlcyUyMHJlc29ydHxlbnwxfHx8fDE3NjM2MTc5Mzl8MA&ixlib=rb-4.0.3&q=80&w=1080",
+    rating: 4.9,
+    reviews: 543,
+    nights: 7,
+    includes: {
+      flight: "Round-trip flights",
+      hotel: "5-Star Resort",
+      car: "Airport Transfer & Car Rental",
+      meals: "All-Inclusive",
+      activities: "Snorkeling & Spa",
+    },
+    highlights: ["Private Beach", "Water Villa", "Airport Transfer"],
+  },
+  {
+    id: 2,
+    name: "European Explorer",
+    destination: "Paris & Rome",
+    price: 1599,
+    originalPrice: 2199,
+    savings: 600,
+    image:
+      "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwYXJpcyUyMGVpZmZlbCUyMHRvd2VyfGVufDF8fHx8MTc2MzYxNzkzOXww&ixlib=rb-4.0.3&q=80&w=1080",
+    rating: 4.7,
+    reviews: 892,
+    nights: 10,
+    includes: {
+      flight: "Multi-city flights",
+      hotel: "4-Star Hotels",
+      car: "Car Rental 5 Days",
+      meals: "Breakfast included",
+      activities: "City Tours",
+    },
+    highlights: [
+      "Eiffel Tower Tour",
+      "Colosseum Visit",
+      "Train Between Cities",
+    ],
+  },
+  {
+    id: 3,
+    name: "Tropical Adventure",
+    destination: "Costa Rica",
+    price: 1299,
+    originalPrice: 1799,
+    savings: 500,
+    image:
+      "https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3N0YSUyMHJpY2ElMjBiZWFjaHxlbnwxfHx8fDE3NjM2MTc5Mzl8MA&ixlib=rb-4.0.3&q=80&w=1080",
+    rating: 4.8,
+    reviews: 678,
+    nights: 8,
+    includes: {
+      flight: "Round-trip flights",
+      hotel: "Eco-Lodge & Beach Resort",
+      car: "4x4 SUV Rental",
+      meals: "Breakfast & Dinner",
+      activities: "Zip-lining & Wildlife Tour",
+    },
+    highlights: ["Rainforest Trek", "Beach Time", "Volcano Visit"],
+  },
+  {
+    id: 4,
+    name: "Asian Discovery",
+    destination: "Thailand & Bali",
+    price: 1749,
+    originalPrice: 2399,
+    savings: 650,
+    image:
+      "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0aGFpbGFuZCUyMHRlbXBsZXxlbnwxfHx8fDE3NjM2MTc5Mzl8MA&ixlib=rb-4.0.3&q=80&w=1080",
+    rating: 4.9,
+    reviews: 1234,
+    nights: 12,
+    includes: {
+      flight: "Multi-city flights",
+      hotel: "Boutique Hotels",
+      car: "Scooter & Driver Service",
+      meals: "Breakfast included",
+      activities: "Temple Tours & Beach Activities",
+    },
+    highlights: ["Bangkok Temples", "Bali Beaches", "Cultural Shows"],
+  },
+  {
+    id: 5,
+    name: "Safari Adventure",
+    destination: "Kenya & Tanzania",
+    price: 2299,
+    originalPrice: 2999,
+    savings: 700,
+    image:
+      "https://images.unsplash.com/photo-1516426122078-c23e76319801?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZnJpY2ElMjBzYWZhcml8ZW58MXx8fHwxNzYzNjE3OTM5fDA&ixlib=rb-4.0.3&q=80&w=1080",
+    rating: 4.9,
+    reviews: 456,
+    nights: 9,
+    includes: {
+      flight: "Round-trip flights",
+      hotel: "Safari Lodge & Camp",
+      car: "Safari Vehicle & Driver",
+      meals: "Full Board",
+      activities: "Game Drives & Cultural Tours",
+    },
+    highlights: ["Big 5 Safari", "Maasai Village", "Balloon Safari"],
+  },
+  {
+    id: 6,
+    name: "Mediterranean Cruise",
+    destination: "Italy, Spain, France",
+    price: 1999,
+    originalPrice: 2599,
+    savings: 600,
+    image:
+      "https://images.unsplash.com/photo-1544551763-46a013bb70d5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZWRpdGVycmFuZWFuJTIwY3J1aXNlfGVufDF8fHx8MTc2MzYxNzkzOXww&ixlib=rb-4.0.3&q=80&w=1080",
+    rating: 4.6,
+    reviews: 1678,
+    nights: 14,
+    includes: {
+      flight: "Flights to Barcelona",
+      hotel: "Cruise Ship Cabin",
+      car: "Shore Excursions",
+      meals: "All Meals & Drinks",
+      activities: "Entertainment & Shows",
+    },
+    highlights: ["Mediterranean Ports", "All-Inclusive", "Entertainment"],
+  },
+];
+
+export default function PackageResultsPage({
+  searchParams = {
+    destination: "Anywhere",
+    departDate: "Dec 15, 2024",
+    returnDate: "Dec 25, 2024",
+    travelers: "2 Adults",
+    includes: {
+      flights: true,
+      hotels: true,
+      cars: true,
+      activities: true,
+    },
+  },
+  onClose,
+  onSelectPackage,
+}: Partial<PackageResultsPageProps>) {
+  // Filter packages based on user's selections
+  const shouldShowCarInfo = searchParams.includes?.cars;
+
+  const handleClose = () => {
+    if (onClose) onClose();
+    console.log("Close search results");
+  };
+
+  const handleSelectPackage = (pkg: any) => {
+    if (onSelectPackage) onSelectPackage(pkg);
+    console.log("Selected package:", pkg);
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-8 px-4"
+    >
+      <div className="container mx-auto max-w-5xl">
+        {/* Header with glass effect */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8 p-6 rounded-2xl bg-white/70 backdrop-blur-lg border border-white/50 shadow-xl"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-3xl font-bold mb-2">Vacation Packages</h2>
+              <p className="text-muted-foreground">
+                {searchParams.destination} • {searchParams.departDate} -{" "}
+                {searchParams.returnDate}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {searchParams.travelers}
+              </p>
+            </div>
+            <Button variant="outline" onClick={handleClose}>
+              New Search
+            </Button>
+          </div>
+
+          <div className="flex gap-2 flex-wrap">
+            <Badge
+              variant="secondary"
+              className="bg-gradient-to-r from-primary/10 to-accent/10 border-primary/20"
+            >
+              {mockPackages.length} packages found
+            </Badge>
+            <Badge
+              variant="secondary"
+              className="bg-gradient-to-r from-primary/10 to-accent/10 border-primary/20"
+            >
+              Save up to $700
+            </Badge>
+            {searchParams.includes?.cars && (
+              <Badge
+                variant="secondary"
+                className="bg-gradient-to-r from-primary/10 to-accent/10 border-primary/20"
+              >
+                <Car className="h-3 w-3 mr-1" />
+                Includes Car Rental
+              </Badge>
+            )}
+          </div>
+        </motion.div>
+
+        {/* Package Cards */}
+        <div className="space-y-6">
+          {mockPackages.map((pkg, index) => (
+            <motion.div
+              key={pkg.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <Card className="overflow-hidden hover:shadow-2xl transition-all duration-300 border-2 hover:border-primary/30 bg-white/80 backdrop-blur-sm">
+                <div className="flex flex-col md:flex-row">
+                  {/* Package Image */}
+                  <div className="md:w-1/3 relative overflow-hidden">
+                    <img
+                      src={pkg.image}
+                      alt={pkg.name}
+                      className="w-full h-full object-cover min-h-[300px] hover:scale-110 transition-transform duration-500"
+                    />
+                    <Badge className="absolute top-4 left-4 bg-accent text-white font-bold">
+                      Save ${pkg.savings}
+                    </Badge>
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <div className="flex items-center gap-2 bg-white/90 backdrop-blur-sm rounded-lg p-2">
+                        <Star className="h-4 w-4 fill-primary text-primary" />
+                        <span className="font-semibold">{pkg.rating}</span>
+                        <span className="text-sm text-muted-foreground">
+                          ({pkg.reviews} reviews)
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Package Details */}
+                  <div className="md:w-2/3 p-6 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <h3 className="text-xl font-bold mb-2">{pkg.name}</h3>
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+                            <MapPin className="h-4 w-4" />
+                            <span>
+                              {pkg.destination} • {pkg.nights} nights
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* What's Included */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                        {searchParams.includes?.flights !== false && (
+                          <div className="flex items-start gap-2 p-3 rounded-lg bg-gradient-to-r from-primary/5 to-accent/5 border border-primary/10">
+                            <Plane className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                            <div>
+                              <p className="text-sm font-semibold">Flights</p>
+                              <p className="text-xs text-muted-foreground">
+                                {pkg.includes.flight}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                        {searchParams.includes?.hotels !== false && (
+                          <div className="flex items-start gap-2 p-3 rounded-lg bg-gradient-to-r from-accent/5 to-primary/5 border border-accent/10">
+                            <Hotel className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
+                            <div>
+                              <p className="text-sm font-semibold">Hotel</p>
+                              <p className="text-xs text-muted-foreground">
+                                {pkg.includes.hotel}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                        {shouldShowCarInfo && (
+                          <div className="flex items-start gap-2 p-3 rounded-lg bg-gradient-to-r from-primary/5 to-accent/5 border border-primary/10">
+                            <Car className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                            <div>
+                              <p className="text-sm font-semibold">
+                                Car Rental
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                                {pkg.includes.car}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                        {searchParams.includes?.activities !== false && (
+                          <div className="flex items-start gap-2 p-3 rounded-lg bg-gradient-to-r from-accent/5 to-primary/5 border border-accent/10">
+                            <Package className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
+                            <div>
+                              <p className="text-sm font-semibold">
+                                Activities
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                                {pkg.includes.activities}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Highlights */}
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {pkg.highlights.map(highlight => (
+                          <Badge
+                            key={highlight}
+                            variant="outline"
+                            className="bg-gradient-to-r from-primary/5 to-accent/5"
+                          >
+                            {highlight}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Price and Book Button */}
+                    <div className="flex items-end justify-between pt-4 border-t">
+                      <div>
+                        <p className="text-sm text-muted-foreground mb-1 line-through">
+                          ${pkg.originalPrice}
+                        </p>
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                            ${pkg.price}
+                          </span>
+                          <span className="text-sm text-muted-foreground">
+                            per person
+                          </span>
+                        </div>
+                      </div>
+                      <Button
+                        onClick={() =>
+                          handleSelectPackage({ ...pkg, searchParams })
+                        }
+                        className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 h-12 px-8 shadow-lg hover:shadow-xl transition-all"
+                      >
+                        Book Package
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Footer note */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+          className="mt-8 p-6 rounded-2xl bg-gradient-to-r from-primary/5 to-accent/5 border border-primary/10 text-center"
+        >
+          <p className="text-muted-foreground">
+            All packages include comprehensive travel insurance. Terms and
+            conditions apply. 📦
+          </p>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+}
