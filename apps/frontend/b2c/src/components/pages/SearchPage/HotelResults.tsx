@@ -1,18 +1,22 @@
+import { useRouter } from "next/navigation";
+import { useHotelsStore } from "@/stores";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Hotel, Star, MapPin, Wifi, Coffee, ParkingCircle, Utensils, ArrowRight } from "lucide-react";
+import {
+  Hotel,
+  Star,
+  MapPin,
+  Wifi,
+  Coffee,
+  ParkingCircle,
+  Utensils,
+  ArrowRight,
+} from "lucide-react";
 import { motion } from "framer-motion";
 
 interface HotelResultsProps {
-  searchParams: {
-    location: string;
-    checkIn: string;
-    checkOut: string;
-    guests: number;
-  };
-  onClose: () => void;
-  onSelectHotel: (hotel: any) => void;
+  // No props needed - component uses store directly
 }
 
 const mockHotels = [
@@ -23,7 +27,8 @@ const mockHotels = [
     pricePerNight: true,
     rating: 4.8,
     reviews: 1234,
-    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBob3RlbHxlbnwxfHx8fDE3NjM2MTc5Mzl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    image:
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBob3RlbHxlbnwxfHx8fDE3NjM2MTc5Mzl8MA&ixlib=rb-4.1.0&q=80&w=1080",
     location: "Downtown",
     amenities: ["wifi", "parking", "pool", "spa", "restaurant", "gym"],
     type: "Luxury Hotel",
@@ -36,7 +41,8 @@ const mockHotels = [
     pricePerNight: true,
     rating: 4.5,
     reviews: 892,
-    image: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxob3RlbCUyMHJvb218ZW58MXx8fHwxNzYzNjE3OTM5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    image:
+      "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwyfHxob3RlbCUyMHJvb218ZW58MXx8fHwxNzYzNjE3OTM5fDA&ixlib=rb-4.1.0&q=80&w=1080",
     location: "City Center",
     amenities: ["wifi", "restaurant", "bar", "gym"],
     type: "Business Hotel",
@@ -49,7 +55,8 @@ const mockHotels = [
     pricePerNight: true,
     rating: 4.9,
     reviews: 567,
-    image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZXNvcnQlMjBob3RlbHxlbnwxfHx8fDE3NjM2MTc5Mzl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    image:
+      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZXNvcnQlMjBob3RlbHxlbnwxfHx8fDE3NjM2MTc5Mzl8MA&ixlib=rb-4.1.0&q=80&w=1080",
     location: "Beach Front",
     amenities: ["wifi", "pool", "spa", "restaurant", "beach", "water-sports"],
     type: "Beach Resort",
@@ -69,7 +76,22 @@ const amenityIcons = {
   "water-sports": "🏄",
 };
 
-export default function HotelResults({ searchParams, onClose, onSelectHotel }: HotelResultsProps) {
+export default function HotelResults() {
+  const router = useRouter();
+  const hotelsStore = useHotelsStore();
+  const searchParams = hotelsStore.searchParams;
+
+  const onClose = () => router.push("/");
+  const onSelectHotel = (hotel: any) => {
+    useHotelsStore.setState({ selectedHotel: hotel });
+    router.push("/checkout");
+  };
+
+  if (!searchParams) {
+    router.push("/");
+    return null;
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -87,19 +109,26 @@ export default function HotelResults({ searchParams, onClose, onSelectHotel }: H
             <div>
               <h2 className="mb-2">Hotels</h2>
               <p className="text-muted-foreground">
-                {searchParams.location} • {searchParams.checkIn} - {searchParams.checkOut} • {searchParams.guests} guests
+                {searchParams.location} • {searchParams.checkIn} -{" "}
+                {searchParams.checkOut} • {searchParams.guests} guests
               </p>
             </div>
             <Button variant="outline" onClick={onClose}>
               New Search
             </Button>
           </div>
-          
+
           <div className="flex gap-2">
-            <Badge variant="secondary" className="bg-gradient-to-r from-accent/10 to-primary/10 border-accent/20">
+            <Badge
+              variant="secondary"
+              className="bg-gradient-to-r from-accent/10 to-primary/10 border-accent/20"
+            >
               {mockHotels.length} hotels found
             </Badge>
-            <Badge variant="secondary" className="bg-gradient-to-r from-accent/10 to-primary/10 border-accent/20">
+            <Badge
+              variant="secondary"
+              className="bg-gradient-to-r from-accent/10 to-primary/10 border-accent/20"
+            >
               Best rates guaranteed
             </Badge>
           </div>
@@ -123,7 +152,9 @@ export default function HotelResults({ searchParams, onClose, onSelectHotel }: H
                       alt={hotel.name}
                       className="w-full h-full object-cover min-h-[250px] hover:scale-110 transition-transform duration-500"
                     />
-                    <Badge className="absolute top-4 left-4 bg-accent">{hotel.type}</Badge>
+                    <Badge className="absolute top-4 left-4 bg-accent">
+                      {hotel.type}
+                    </Badge>
                   </div>
 
                   {/* Hotel Details */}
@@ -134,12 +165,16 @@ export default function HotelResults({ searchParams, onClose, onSelectHotel }: H
                           <h3 className="mb-2">{hotel.name}</h3>
                           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
                             <MapPin className="h-4 w-4" />
-                            <span>{hotel.location} • {hotel.distanceFromCenter}</span>
+                            <span>
+                              {hotel.location} • {hotel.distanceFromCenter}
+                            </span>
                           </div>
                           <div className="flex items-center gap-2">
                             <div className="flex items-center gap-1 bg-primary text-white px-2 py-1 rounded-md">
                               <Star className="h-4 w-4 fill-current" />
-                              <span className="font-semibold">{hotel.rating}</span>
+                              <span className="font-semibold">
+                                {hotel.rating}
+                              </span>
                             </div>
                             <span className="text-sm text-muted-foreground">
                               ({hotel.reviews} reviews)
@@ -150,10 +185,15 @@ export default function HotelResults({ searchParams, onClose, onSelectHotel }: H
 
                       {/* Amenities */}
                       <div className="mb-4">
-                        <h4 className="text-sm font-semibold mb-2">Popular amenities</h4>
+                        <h4 className="text-sm font-semibold mb-2">
+                          Popular amenities
+                        </h4>
                         <div className="flex flex-wrap gap-2">
-                          {hotel.amenities.map((amenity) => {
-                            const IconComponent = amenityIcons[amenity as keyof typeof amenityIcons];
+                          {hotel.amenities.map(amenity => {
+                            const IconComponent =
+                              amenityIcons[
+                                amenity as keyof typeof amenityIcons
+                              ];
                             return (
                               <Badge
                                 key={amenity}
@@ -165,7 +205,8 @@ export default function HotelResults({ searchParams, onClose, onSelectHotel }: H
                                 ) : typeof IconComponent === "function" ? (
                                   <IconComponent className="h-3 w-3" />
                                 ) : null}
-                                {amenity.charAt(0).toUpperCase() + amenity.slice(1)}
+                                {amenity.charAt(0).toUpperCase() +
+                                  amenity.slice(1)}
                               </Badge>
                             );
                           })}
@@ -183,7 +224,9 @@ export default function HotelResults({ searchParams, onClose, onSelectHotel }: H
                     {/* Price and Book Button */}
                     <div className="flex items-end justify-between pt-4 border-t mt-4">
                       <div>
-                        <p className="text-sm text-muted-foreground mb-1">From</p>
+                        <p className="text-sm text-muted-foreground mb-1">
+                          From
+                        </p>
                         <div className="flex items-baseline gap-2">
                           <span className="text-3xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">
                             ${hotel.price}

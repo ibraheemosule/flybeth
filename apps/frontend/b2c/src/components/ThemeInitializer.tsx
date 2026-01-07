@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useThemeStore } from "../stores/themeStore";
+import { useThemeStore } from "../stores";
 
 export function ThemeInitializer() {
   const { currentTheme, isCustomTheme, customTheme } = useThemeStore();

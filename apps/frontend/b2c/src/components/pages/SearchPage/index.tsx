@@ -9,7 +9,6 @@ import {
   useCarsStore,
   usePackagesStore,
   useAttractionsStore,
-  Flight,
 } from "@/stores";
 
 // Import result components
@@ -40,8 +39,6 @@ export default function SearchPage() {
   const attractionsStore = useAttractionsStore();
 
   const returnHome = () => router.push("/");
-
-  // Determine which search type was performed
   const determineSearchType = (): SearchType => {
     if (flightsStore.searchParams) return "flights";
     if (hotelsStore.searchParams) return "hotels";
@@ -88,112 +85,23 @@ export default function SearchPage() {
     return <LoadingAnimation message="Loading..." />;
   }
 
-  // Handlers for each search type
-  const onSelectFlight = (flight: Flight) => {
-    useFlightsStore.setState({ selectedFlight: flight });
-    router.push("/checkout");
-  };
-
-  const onSelectHotel = (hotel: any) => {
-    useHotelsStore.setState({ selectedHotel: hotel });
-    router.push("/checkout");
-  };
-
-  const onSelectCar = (car: any) => {
-    useCarsStore.setState({ selectedCar: car });
-    router.push("/checkout");
-  };
-
-  const onSelectPackage = (pkg: any) => {
-    usePackagesStore.setState({ selectedPackage: pkg });
-    router.push("/checkout");
-  };
-
-  const onSelectAttraction = (attraction: any) => {
-    useAttractionsStore.setState({ selectedAttraction: attraction });
-    router.push("/checkout");
-  };
-
   // Render appropriate results component based on search type
   const renderResults = () => {
     switch (searchType) {
       case "flights":
-        if (!flightsStore.searchParams) return null;
-        return (
-          <FlightResults
-          // searchParams={flightsStore.searchParams}
-          // onClose={returnHome}
-          // onSelectFlight={onSelectFlight}
-          />
-        );
+        return <FlightResults />;
 
       case "hotels":
-        if (!hotelsStore.searchParams) return null;
-        return (
-          <HotelResults
-            searchParams={hotelsStore.searchParams}
-            onClose={returnHome}
-            onSelectHotel={onSelectHotel}
-          />
-        );
+        return <HotelResults />;
 
       case "cars":
-        if (!carsStore.searchParams) return null;
-        return (
-          <CarResults
-            searchParams={{
-              pickupLocation: carsStore.searchParams.pickUpLocation,
-              dropoffLocation:
-                carsStore.searchParams.dropOffLocation ||
-                carsStore.searchParams.pickUpLocation,
-              pickupDate: carsStore.searchParams.pickUpDate,
-              pickupTime: carsStore.searchParams.pickUpTime || "09:00",
-              returnDate:
-                carsStore.searchParams.dropOffDate ||
-                carsStore.searchParams.pickUpDate,
-              returnTime: carsStore.searchParams.dropOffTime || "18:00",
-              serviceType: carsStore.searchParams.serviceType,
-            }}
-            onClose={returnHome}
-            onSelectCar={onSelectCar}
-          />
-        );
+        return <CarResults />;
 
       case "packages":
-        if (!packagesStore.searchParams) return null;
-        return (
-          <PackageResults
-            searchParams={{
-              destination: packagesStore.searchParams.destination,
-              departDate: packagesStore.searchParams.departDate,
-              returnDate: packagesStore.searchParams.returnDate,
-              travelers: packagesStore.searchParams.travelers,
-              packageType: packagesStore.searchParams.packageType || "standard",
-              budget: {
-                min: packagesStore.searchParams.budgetMin || 0,
-                max: packagesStore.searchParams.budgetMax || 10000,
-              },
-              includes: packagesStore.searchParams.inclusions,
-            }}
-            onClose={returnHome}
-            onSelectPackage={onSelectPackage}
-          />
-        );
+        return <PackageResults />;
 
       case "attractions":
-        if (!attractionsStore.searchParams) return null;
-        return (
-          <AttractionResults
-            searchParams={{
-              destination: attractionsStore.searchParams.destination,
-              date: attractionsStore.searchParams.date,
-              category:
-                attractionsStore.searchParams.attractionTypes?.[0] || "all",
-            }}
-            onClose={returnHome}
-            onSelectAttraction={onSelectAttraction}
-          />
-        );
+        return <AttractionResults />;
 
       default:
         return null;

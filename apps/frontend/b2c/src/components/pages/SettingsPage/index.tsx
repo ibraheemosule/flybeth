@@ -573,7 +573,7 @@ export function SettingsPage({ onNavigate }: SettingsPageProps) {
                     <div>
                       <Label className="mb-3 block">Profile Picture</Label>
                       <div className="flex items-center gap-4">
-                        <div className="w-20 h-20 rounded-full bg-gradient-to-r from-[#2563eb] to-[#10b981] flex items-center justify-center text-white text-2xl">
+                        <div className="w-20 h-20 rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center text-white text-2xl">
                           {savedProfile.firstName[0]}
                           {savedProfile.lastName[0]}
                         </div>
@@ -659,7 +659,7 @@ export function SettingsPage({ onNavigate }: SettingsPageProps) {
                     <div>
                       <Label className="mb-3 block">Profile Picture</Label>
                       <div className="flex items-center gap-4">
-                        <div className="w-20 h-20 rounded-full bg-gradient-to-r from-[#2563eb] to-[#10b981] flex items-center justify-center text-white text-2xl">
+                        <div className="w-20 h-20 rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center text-white text-2xl">
                           {profileForm.firstName?.[0] || "U"}
                           {profileForm.lastName?.[0] || "S"}
                         </div>
@@ -833,7 +833,7 @@ export function SettingsPage({ onNavigate }: SettingsPageProps) {
                       )}
                       <Button
                         onClick={handleProfileSaveRequest}
-                        className="bg-gradient-to-r from-[#2563eb] to-[#10b981] text-white hover:opacity-90"
+                        className="bg-gradient-to-r from-primary to-accent text-white hover:opacity-90"
                       >
                         <Save className="mr-2 h-4 w-4" />
                         Save Changes
@@ -889,7 +889,7 @@ export function SettingsPage({ onNavigate }: SettingsPageProps) {
                     <Button
                       onClick={handleEditCompany}
                       variant="outline"
-                      className="border-[#2563eb] text-[#2563eb] hover:bg-[#2563eb]/5"
+                      className="border-primary text-primary hover:bg-primary/5"
                     >
                       <Edit className="mr-2 h-4 w-4" />
                       Edit Company
@@ -925,7 +925,7 @@ export function SettingsPage({ onNavigate }: SettingsPageProps) {
                   /* VIEW MODE */
                   <div className="space-y-6">
                     {/* Company Dashboard Button */}
-                    <div className="p-6 rounded-xl bg-gradient-to-r from-[#2563eb]/10 to-[#10b981]/10 border border-[#2563eb]/20">
+                    <div className="p-6 rounded-xl bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20">
                       <div className="flex items-center justify-between">
                         <div>
                           <h3 className="text-lg font-semibold mb-1">
@@ -938,7 +938,7 @@ export function SettingsPage({ onNavigate }: SettingsPageProps) {
                         </div>
                         <Button
                           onClick={() => onNavigate?.("company-dashboard")}
-                          className="bg-gradient-to-r from-[#2563eb] to-[#10b981] text-white hover:opacity-90"
+                          className="bg-gradient-to-r from-primary to-accent text-white hover:opacity-90"
                         >
                           Open Dashboard
                           <ArrowRight className="ml-2 h-4 w-4" />
@@ -1191,7 +1191,7 @@ export function SettingsPage({ onNavigate }: SettingsPageProps) {
                       </Button>
                       <Button
                         onClick={handleCompanySaveRequest}
-                        className="bg-gradient-to-r from-[#2563eb] to-[#10b981] text-white hover:opacity-90"
+                        className="bg-gradient-to-r from-primary to-accent text-white hover:opacity-90"
                       >
                         <Save className="mr-2 h-4 w-4" />
                         Save Company Details
@@ -1218,7 +1218,7 @@ export function SettingsPage({ onNavigate }: SettingsPageProps) {
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <Shield className="h-5 w-5 text-[#2563eb]" />
+              <Shield className="h-5 w-5 text-primary" />
               Verify Your {otpType === "profile" ? "Email" : "Company Email"}
             </DialogTitle>
             <DialogDescription>
@@ -1240,9 +1240,9 @@ export function SettingsPage({ onNavigate }: SettingsPageProps) {
             {!otpSent ? (
               /* Send OTP Step */
               <div className="space-y-4">
-                <div className="p-4 rounded-lg bg-[#2563eb]/5 border border-[#2563eb]/10">
+                <div className="p-4 rounded-lg bg-primary/5 border border-primary/10">
                   <div className="flex items-center gap-3">
-                    <Mail className="h-5 w-5 text-[#2563eb]" />
+                    <Mail className="h-5 w-5 text-primary" />
                     <div>
                       <p className="text-sm font-medium">Email Address</p>
                       <p className="text-sm text-muted-foreground">
@@ -1256,7 +1256,7 @@ export function SettingsPage({ onNavigate }: SettingsPageProps) {
 
                 <Button
                   onClick={handleSendOtp}
-                  className="w-full bg-gradient-to-r from-[#2563eb] to-[#10b981] text-white hover:opacity-90"
+                  className="w-full bg-gradient-to-r from-primary to-accent text-white hover:opacity-90"
                 >
                   <Mail className="mr-2 h-4 w-4" />
                   Send Verification Code
@@ -1301,7 +1301,7 @@ export function SettingsPage({ onNavigate }: SettingsPageProps) {
                   <Button
                     onClick={handleVerifyOtp}
                     disabled={isVerifying}
-                    className="flex-1 bg-gradient-to-r from-[#2563eb] to-[#10b981] text-white hover:opacity-90"
+                    className="flex-1 bg-gradient-to-r from-primary to-accent text-white hover:opacity-90"
                   >
                     {isVerifying ? (
                       <>
@@ -1327,7 +1327,7 @@ export function SettingsPage({ onNavigate }: SettingsPageProps) {
 
                 <button
                   onClick={handleSendOtp}
-                  className="w-full text-sm text-[#2563eb] hover:underline"
+                  className="w-full text-sm text-primary hover:underline"
                 >
                   Didn't receive the code? Resend
                 </button>

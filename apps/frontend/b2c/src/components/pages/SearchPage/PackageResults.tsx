@@ -11,25 +11,8 @@ import {
   Car,
 } from "lucide-react";
 import { motion } from "framer-motion";
-
-interface PackageResultsProps {
-  searchParams: {
-    destination: string;
-    departDate: string;
-    returnDate: string;
-    travelers: number;
-    packageType: string;
-    budget: { min: number; max: number };
-    includes: {
-      flights: boolean;
-      hotels: boolean;
-      cars: boolean;
-      activities: boolean;
-    };
-  };
-  onClose: () => void;
-  onSelectPackage: (pkg: any) => void;
-}
+import { usePackagesStore } from "@/stores";
+import { useRouter } from "next/navigation";
 
 const mockPackages = [
   {
@@ -97,13 +80,21 @@ const mockPackages = [
   },
 ];
 
-export default function PackageResults({
-  searchParams,
-  onClose,
-  onSelectPackage,
-}: PackageResultsProps) {
+export default function PackageResults() {
+  const { searchParams, setSelectedPackage } = usePackagesStore();
+  const router = useRouter();
+
   // Filter packages based on user's selections
-  const shouldShowCarInfo = searchParams.includes?.cars;
+  const shouldShowCarInfo = searchParams?.includes?.cars;
+
+  const onClose = () => {
+    router.back();
+  };
+
+  const onSelectPackage = (pkg: any) => {
+    setSelectedPackage({ ...pkg, searchParams });
+    router.push("/booking/package");
+  };
 
   return (
     <motion.div
@@ -122,8 +113,8 @@ export default function PackageResults({
             <div>
               <h2 className="mb-2">Vacation Packages</h2>
               <p className="text-muted-foreground">
-                {searchParams.destination} • {searchParams.departDate} -{" "}
-                {searchParams.returnDate}
+                {searchParams?.destination} • {searchParams?.departDate} -{" "}
+                {searchParams?.returnDate}
               </p>
             </div>
             <Button variant="outline" onClick={onClose}>
@@ -285,9 +276,7 @@ export default function PackageResults({
                         </div>
                       </div>
                       <Button
-                        onClick={() =>
-                          onSelectPackage({ ...pkg, searchParams })
-                        }
+                        onClick={() => onSelectPackage(pkg)}
                         className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 px-8 py-3 shadow-lg hover:shadow-xl transition-all"
                       >
                         Book Package

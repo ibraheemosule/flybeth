@@ -17,7 +17,9 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "types": ["node"],
+    "skipLibCheck": true
   },
   "include": ["src", "app", ".next/types/**/*.ts"]
 }

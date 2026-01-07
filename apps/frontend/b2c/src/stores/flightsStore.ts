@@ -14,8 +14,8 @@ const flightsApiAdapter: FlightsApiService = {
       ...bookingData,
     });
     return {
-      bookingId: result.id,
-      flight: result.details,
+      bookingId: (result as any).id,
+      flight: (result as any).details,
     };
   },
 };
