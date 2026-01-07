@@ -59,12 +59,15 @@ export interface AuthState {
 
 export interface FlightsState {
   flights: Flight[];
+  roundTripFlights: RoundTripFlight[];
+  multiCityFlights: MultiCityFlight[];
   searchParams: FlightSearchParamState;
   isLoading: boolean;
   error: string | null;
   searchFlights: (params: any) => Promise<void>;
   bookFlight: (flightId: string, bookingData: any) => Promise<void>;
   setSearchParams: (params: Partial<FlightSearchParamState>) => void;
+  setFlightResults: (results: FlightDetails) => void;
 }
 
 export interface FlightSearchParamState {
@@ -135,6 +138,35 @@ export interface AttractionSearchParamState {
 }
 
 // Entity types
+export interface FlightStop {
+  city: string;
+  airport: string;
+  layover: string;
+}
+
+export interface FlightLeg {
+  id: string;
+  airline: string;
+  flightNumber: string;
+  date: string;
+  departure: {
+    time: string;
+    city: string;
+    airport: string;
+  };
+  arrival: {
+    time: string;
+    city: string;
+    airport: string;
+  };
+  duration: string;
+  stops: FlightStop[];
+  class: string;
+  amenities: string[];
+  baggage: string;
+  price: number;
+}
+
 export interface Flight {
   id: string;
   airline: string;
@@ -152,6 +184,30 @@ export interface Flight {
     airport: string;
     date: string;
   };
+  duration?: string;
+  stops?: FlightStop[];
+  class?: string;
+  amenities?: string[];
+  baggage?: string;
+}
+
+export interface RoundTripFlight {
+  id: string;
+  outbound: FlightLeg;
+  return: FlightLeg;
+  totalPrice: number;
+}
+
+export interface MultiCityFlight {
+  id: string;
+  legs: FlightLeg[];
+  totalPrice: number;
+}
+
+export interface FlightDetails {
+  oneWay: Flight[];
+  roundTrip: RoundTripFlight[];
+  multiCity: MultiCityFlight[];
 }
 
 export interface Hotel {

@@ -3,6 +3,7 @@ import type {
   FlightsState,
   FlightsApiService,
   FlightSearchParamState,
+  FlightDetails,
 } from "./types";
 
 export function createFlightsStore(
@@ -11,6 +12,8 @@ export function createFlightsStore(
 ) {
   return create<FlightsState>((set, get) => ({
     flights: [],
+    roundTripFlights: [],
+    multiCityFlights: [],
     searchParams: {
       from: "",
       to: "",
@@ -40,6 +43,13 @@ export function createFlightsStore(
     },
     setSearchParams: (params: Partial<FlightSearchParamState>) => {
       set({ searchParams: { ...get().searchParams, ...params } });
+    },
+    setFlightResults: (results: FlightDetails) => {
+      set({
+        flights: results.oneWay,
+        roundTripFlights: results.roundTrip,
+        multiCityFlights: results.multiCity,
+      });
     },
   }));
 }
