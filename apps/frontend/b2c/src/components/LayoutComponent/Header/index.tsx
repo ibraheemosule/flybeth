@@ -15,6 +15,7 @@ import {
   Package,
   ChevronDown,
   Settings,
+  Building2,
 } from "lucide-react";
 import { Button } from "../../ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -46,6 +47,7 @@ export default function Header() {
   const navItems = [
     { id: "home", label: "Home", icon: Home },
     { id: "bookings", label: "My Bookings", icon: Briefcase },
+    { id: "company-dashboard", label: "Company", icon: Building2 },
     { id: "deals", label: "Deals", icon: Sparkles },
     { id: "help", label: "Help", icon: HelpCircle },
   ];

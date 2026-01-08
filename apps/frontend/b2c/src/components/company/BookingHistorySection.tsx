@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import {
   Clock,
   Filter,
@@ -30,6 +30,7 @@ import {
 } from "../ui/select";
 import { toast } from "sonner";
 import { CompanyBookingDetailsPage } from "./CompanyBookingDetailsPage";
+import { useThemeStore } from "../../stores";
 
 interface Booking {
   id: string;
@@ -201,6 +202,9 @@ const mockBookings: Booking[] = [
 ];
 
 export function BookingHistorySection() {
+  const { getCurrentColors } = useThemeStore();
+  const themeColors = getCurrentColors();
+
   const [bookings, setBookings] = useState<Booking[]>(mockBookings);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterEmployee, setFilterEmployee] = useState("all");
@@ -209,7 +213,9 @@ export function BookingHistorySection() {
   const [filterDepartment, setFilterDepartment] = useState("all");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
-  const [selectedBookingId, setSelectedBookingId] = useState<string | null>(null);
+  const [selectedBookingId, setSelectedBookingId] = useState<string | null>(
+    null
+  );
   const [viewState, setViewState] = useState<"list" | "details">("list");
 
   // Mock detailed data - in real app, this would be fetched when viewing details
@@ -226,9 +232,7 @@ export function BookingHistorySection() {
             title: "New York (JFK) → London (LHR)",
             details: "British Airways BA112 • Business Class • 1 Passenger",
             amount: "$2,450",
-            passengers: [
-              { name: booking.employeeName, type: "Adult" },
-            ],
+            passengers: [{ name: booking.employeeName, type: "Adult" }],
             flightDetails: {
               airline: "British Airways",
               flightNumber: "BA112",
@@ -244,9 +248,7 @@ export function BookingHistorySection() {
             title: "London (LHR) → Paris (CDG)",
             details: "Air France AF1280 • Business Class • 1 Passenger",
             amount: "$420",
-            passengers: [
-              { name: booking.employeeName, type: "Adult" },
-            ],
+            passengers: [{ name: booking.employeeName, type: "Adult" }],
             flightDetails: {
               airline: "Air France",
               flightNumber: "AF1280",
@@ -262,9 +264,7 @@ export function BookingHistorySection() {
             title: "Paris (CDG) → Berlin (BER)",
             details: "Lufthansa LH2227 • Business Class • 1 Passenger",
             amount: "$380",
-            passengers: [
-              { name: booking.employeeName, type: "Adult" },
-            ],
+            passengers: [{ name: booking.employeeName, type: "Adult" }],
             flightDetails: {
               airline: "Lufthansa",
               flightNumber: "LH2227",
@@ -280,9 +280,7 @@ export function BookingHistorySection() {
             title: "Berlin (BER) → Dubai (DXB)",
             details: "Emirates EK044 • Business Class • 1 Passenger",
             amount: "$1,850",
-            passengers: [
-              { name: booking.employeeName, type: "Adult" },
-            ],
+            passengers: [{ name: booking.employeeName, type: "Adult" }],
             flightDetails: {
               airline: "Emirates",
               flightNumber: "EK044",
@@ -298,9 +296,7 @@ export function BookingHistorySection() {
             title: "Dubai (DXB) → New York (JFK)",
             details: "Emirates EK201 • Business Class • 1 Passenger",
             amount: "$2,980",
-            passengers: [
-              { name: booking.employeeName, type: "Adult" },
-            ],
+            passengers: [{ name: booking.employeeName, type: "Adult" }],
             flightDetails: {
               airline: "Emirates",
               flightNumber: "EK201",
@@ -423,9 +419,7 @@ export function BookingHistorySection() {
           title: booking.title,
           details: booking.details,
           amount: booking.amount,
-          passengers: [
-            { name: booking.employeeName, type: "Adult" },
-          ],
+          passengers: [{ name: booking.employeeName, type: "Adult" }],
           flightDetails: {
             airline: "British Airways",
             flightNumber: "BA178",
@@ -458,7 +452,11 @@ export function BookingHistorySection() {
             name: "Hilton San Francisco",
             address: "333 O'Farrell St, San Francisco, CA 94102",
             checkIn: booking.travelDate,
-            checkOut: new Date(new Date(booking.travelDate).getTime() + 3 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+            checkOut: new Date(
+              new Date(booking.travelDate).getTime() + 3 * 24 * 60 * 60 * 1000
+            )
+              .toISOString()
+              .split("T")[0],
             nights: 3,
             roomType: "Executive Suite",
             guests: 1,
@@ -489,7 +487,11 @@ export function BookingHistorySection() {
             pickupLocation: "San Francisco Airport (SFO)",
             dropoffLocation: "San Francisco Airport (SFO)",
             pickupDate: booking.travelDate,
-            dropoffDate: new Date(new Date(booking.travelDate).getTime() + 5 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+            dropoffDate: new Date(
+              new Date(booking.travelDate).getTime() + 5 * 24 * 60 * 60 * 1000
+            )
+              .toISOString()
+              .split("T")[0],
             days: 5,
           },
         },
@@ -512,14 +514,16 @@ export function BookingHistorySection() {
           title: "Miami (MIA) → Fort Lauderdale (FLL)",
           details: "American Airlines AA123 • Economy • 1 Passenger",
           amount: "$420",
-          passengers: [
-            { name: booking.employeeName, type: "Adult" },
-          ],
+          passengers: [{ name: booking.employeeName, type: "Adult" }],
           flightDetails: {
             airline: "American Airlines",
             flightNumber: "AA123",
             departure: { city: "Miami", airport: "MIA", time: "9:00 AM" },
-            arrival: { city: "Fort Lauderdale", airport: "FLL", time: "9:45 AM" },
+            arrival: {
+              city: "Fort Lauderdale",
+              airport: "FLL",
+              time: "9:45 AM",
+            },
             duration: "45m",
             class: "Economy",
           },
@@ -533,7 +537,11 @@ export function BookingHistorySection() {
             name: "Fontainebleau Miami Beach",
             address: "4441 Collins Ave, Miami Beach, FL 33140",
             checkIn: booking.travelDate,
-            checkOut: new Date(new Date(booking.travelDate).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+            checkOut: new Date(
+              new Date(booking.travelDate).getTime() + 7 * 24 * 60 * 60 * 1000
+            )
+              .toISOString()
+              .split("T")[0],
             nights: 7,
             roomType: "Ocean View Suite",
             guests: 1,
@@ -550,7 +558,11 @@ export function BookingHistorySection() {
             pickupLocation: "Miami Beach",
             dropoffLocation: "Miami Beach",
             pickupDate: booking.travelDate,
-            dropoffDate: new Date(new Date(booking.travelDate).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+            dropoffDate: new Date(
+              new Date(booking.travelDate).getTime() + 7 * 24 * 60 * 60 * 1000
+            )
+              .toISOString()
+              .split("T")[0],
             days: 7,
           },
         },
@@ -580,16 +592,19 @@ export function BookingHistorySection() {
     return baseDetails;
   };
 
-  const filteredBookings = bookings.filter((booking) => {
+  const filteredBookings = bookings.filter(booking => {
     const matchesSearch =
       booking.employeeName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      booking.bookingReference.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      booking.bookingReference
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()) ||
       booking.title.toLowerCase().includes(searchQuery.toLowerCase());
 
     const matchesEmployee =
       filterEmployee === "all" || booking.employeeName === filterEmployee;
     const matchesType = filterType === "all" || booking.type === filterType;
-    const matchesStatus = filterStatus === "all" || booking.status === filterStatus;
+    const matchesStatus =
+      filterStatus === "all" || booking.status === filterStatus;
     const matchesDepartment =
       filterDepartment === "all" || booking.department === filterDepartment;
 
@@ -609,8 +624,14 @@ export function BookingHistorySection() {
     );
   });
 
-  const employees = ["all", ...Array.from(new Set(bookings.map((b) => b.employeeName)))];
-  const departments = ["all", ...Array.from(new Set(bookings.map((b) => b.department)))];
+  const employees = [
+    "all",
+    ...Array.from(new Set(bookings.map(b => b.employeeName))),
+  ];
+  const departments = [
+    "all",
+    ...Array.from(new Set(bookings.map(b => b.department))),
+  ];
 
   const totalSpent = filteredBookings.reduce((sum, booking) => {
     return sum + parseFloat(booking.amount.replace("$", "").replace(",", ""));
@@ -663,10 +684,15 @@ export function BookingHistorySection() {
 
   // If viewing details, show the details page
   if (viewState === "details" && selectedBookingId) {
-    const booking = bookings.find((b) => b.id === selectedBookingId);
+    const booking = bookings.find(b => b.id === selectedBookingId);
     if (booking) {
       const bookingDetails = getBookingDetails(booking);
-      return <CompanyBookingDetailsPage booking={bookingDetails} onBack={handleBackToList} />;
+      return (
+        <CompanyBookingDetailsPage
+          booking={bookingDetails}
+          onBack={handleBackToList}
+        />
+      );
     }
   }
 
@@ -683,7 +709,11 @@ export function BookingHistorySection() {
         <Button
           onClick={handleExportData}
           variant="outline"
-          className="border-primary text-primary hover:bg-primary/5"
+          className="border hover:bg-opacity-5"
+          style={{
+            borderColor: themeColors.primary,
+            color: themeColors.primary,
+          }}
         >
           <Download className="mr-2 h-4 w-4" />
           Export Data
@@ -701,15 +731,27 @@ export function BookingHistorySection() {
         </Card>
         <Card className="p-4">
           <p className="text-sm text-muted-foreground mb-1">Total Spent</p>
-          <p className="text-2xl font-bold text-primary">
+          <p
+            className="text-2xl font-bold"
+            style={{ color: themeColors.primary }}
+          >
             ${totalSpent.toLocaleString()}
           </p>
-          <p className="text-xs text-muted-foreground mt-1">in filtered period</p>
+          <p className="text-xs text-muted-foreground mt-1">
+            in filtered period
+          </p>
         </Card>
         <Card className="p-4">
-          <p className="text-sm text-muted-foreground mb-1">Avg. Booking Value</p>
+          <p className="text-sm text-muted-foreground mb-1">
+            Avg. Booking Value
+          </p>
           <p className="text-2xl font-bold">
-            ${filteredBookings.length > 0 ? Math.round(totalSpent / filteredBookings.length).toLocaleString() : 0}
+            $
+            {filteredBookings.length > 0
+              ? Math.round(
+                  totalSpent / filteredBookings.length
+                ).toLocaleString()
+              : 0}
           </p>
           <p className="text-xs text-muted-foreground mt-1">per booking</p>
         </Card>
@@ -718,7 +760,7 @@ export function BookingHistorySection() {
       {/* Filters */}
       <Card className="p-6">
         <div className="flex items-center gap-2 mb-4">
-          <Filter className="h-4 w-4 text-primary" />
+          <Filter className="h-4 w-4" style={{ color: themeColors.primary }} />
           <h3 className="font-semibold">Filters</h3>
         </div>
 
@@ -730,7 +772,7 @@ export function BookingHistorySection() {
               <Input
                 placeholder="Search by employee, reference, or booking..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={e => setSearchQuery(e.target.value)}
                 className="pl-10"
               />
             </div>
@@ -743,7 +785,7 @@ export function BookingHistorySection() {
             </Label>
             <Select
               value={filterEmployee}
-              onValueChange={(e) => setFilterEmployee(e)}
+              onValueChange={e => setFilterEmployee(e)}
               className="w-full h-10 px-3 rounded-md border border-input bg-background"
             >
               <SelectTrigger className="w-full h-10 px-3 rounded-md border border-input bg-background">
@@ -752,7 +794,7 @@ export function BookingHistorySection() {
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>
-                {employees.map((emp) => (
+                {employees.map(emp => (
                   <SelectItem key={emp} value={emp}>
                     {emp === "all" ? "All Employees" : emp}
                   </SelectItem>
@@ -768,7 +810,7 @@ export function BookingHistorySection() {
             </Label>
             <Select
               value={filterType}
-              onValueChange={(e) => setFilterType(e)}
+              onValueChange={e => setFilterType(e)}
               className="w-full h-10 px-3 rounded-md border border-input bg-background"
             >
               <SelectTrigger className="w-full h-10 px-3 rounded-md border border-input bg-background">
@@ -793,7 +835,7 @@ export function BookingHistorySection() {
             </Label>
             <Select
               value={filterStatus}
-              onValueChange={(e) => setFilterStatus(e)}
+              onValueChange={e => setFilterStatus(e)}
               className="w-full h-10 px-3 rounded-md border border-input bg-background"
             >
               <SelectTrigger className="w-full h-10 px-3 rounded-md border border-input bg-background">
@@ -818,16 +860,18 @@ export function BookingHistorySection() {
             </Label>
             <Select
               value={filterDepartment}
-              onValueChange={(e) => setFilterDepartment(e)}
+              onValueChange={e => setFilterDepartment(e)}
               className="w-full h-10 px-3 rounded-md border border-input bg-background"
             >
               <SelectTrigger className="w-full h-10 px-3 rounded-md border border-input bg-background">
                 <SelectValue>
-                  {filterDepartment === "all" ? "All Departments" : filterDepartment}
+                  {filterDepartment === "all"
+                    ? "All Departments"
+                    : filterDepartment}
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>
-                {departments.map((dept) => (
+                {departments.map(dept => (
                   <SelectItem key={dept} value={dept}>
                     {dept === "all" ? "All Departments" : dept}
                   </SelectItem>
@@ -844,7 +888,7 @@ export function BookingHistorySection() {
             <Input
               type="date"
               value={dateFrom}
-              onChange={(e) => setDateFrom(e.target.value)}
+              onChange={e => setDateFrom(e.target.value)}
             />
           </div>
 
@@ -856,7 +900,7 @@ export function BookingHistorySection() {
             <Input
               type="date"
               value={dateTo}
-              onChange={(e) => setDateTo(e.target.value)}
+              onChange={e => setDateTo(e.target.value)}
             />
           </div>
 
@@ -884,120 +928,112 @@ export function BookingHistorySection() {
       {/* Bookings List */}
       {viewState === "list" && (
         <div className="space-y-3">
-          {filteredBookings.length === 0 ? (
-            /* Empty State */
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="text-center py-16 px-4"
-            >
-              <div className="max-w-md mx-auto space-y-6">
-                {/* Icon */}
-                <motion.div
-                  className="inline-flex p-8 rounded-full bg-gradient-to-r from-primary/10 to-accent/10"
-                  animate={{
-                    scale: [1, 1.05, 1],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <Calendar className="h-16 w-16 text-primary" />
-                </motion.div>
-
-                {/* Title and Message */}
-                <div className="space-y-3">
-                  <h3 className="text-2xl font-bold text-gray-900">
-                    No Bookings Found
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    {searchQuery || filterEmployee !== "all" || filterType !== "all" || filterStatus !== "all" || filterDepartment !== "all" || dateFrom || dateTo
-                      ? "No bookings match your current filters. Try adjusting your search criteria or clearing filters."
-                      : "Your company hasn't made any bookings yet. Bookings made by employees will appear here for easy tracking and management."}
-                  </p>
-                </div>
-
-                {/* Action Button */}
-                {(searchQuery || filterEmployee !== "all" || filterType !== "all" || filterStatus !== "all" || filterDepartment !== "all" || dateFrom || dateTo) && (
-                  <Button
-                    onClick={() => {
-                      setSearchQuery("");
-                      setFilterEmployee("all");
-                      setFilterType("all");
-                      setFilterStatus("all");
-                      setFilterDepartment("all");
-                      setDateFrom("");
-                      setDateTo("");
-                    }}
-                    className="bg-gradient-to-r from-primary to-accent text-white hover:opacity-90"
-                  >
-                    Clear All Filters
-                  </Button>
-                )}
-              </div>
-            </motion.div>
-          ) : (
-            filteredBookings.map((booking) => {
-              const TypeIcon = getTypeIcon(booking.type);
-              return (
-                <motion.div
-                  key={booking.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  layout
-                >
-                  <Card className="p-5 hover:shadow-lg transition-shadow">
-                    <div className="flex flex-col md:flex-row md:items-center gap-4">
-                      {/* Icon */}
-                      <div className="flex-shrink-0">
-                        <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-primary/10 to-accent/10 flex items-center justify-center">
-                          <TypeIcon className="h-6 w-6 text-primary" />
-                        </div>
-                      </div>
-
-                      {/* Content */}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex flex-wrap items-center gap-2 mb-1">
-                          <h3 className="font-semibold">{booking.title}</h3>
-                          <Badge variant="outline" className={getStatusColor(booking.status)}>
-                            {booking.status}
-                          </Badge>
-                        </div>
-                        <p className="text-sm text-muted-foreground mb-2">
-                          {booking.details}
-                        </p>
-                        <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
-                          <span>👤 {booking.employeeName}</span>
-                          <span>📅 Booked: {new Date(booking.bookingDate).toLocaleDateString()}</span>
-                          <span>✈️ Travel: {new Date(booking.travelDate).toLocaleDateString()}</span>
-                          <span>🏢 {booking.department}</span>
-                        </div>
-                      </div>
-
-                      {/* Amount & Action */}
-                      <div className="flex items-center gap-4 flex-shrink-0">
-                        <div className="text-right">
-                          <p className="text-xs text-muted-foreground mb-1">Amount</p>
-                          <p className="text-xl font-bold text-primary">{booking.amount}</p>
-                          <p className="text-xs text-muted-foreground mt-1">
-                            {booking.bookingReference}
-                          </p>
-                        </div>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleViewDetails(booking)}
-                        >
-                          <Eye className="h-4 w-4" />
-                        </Button>
+          {filteredBookings.map(booking => {
+            const TypeIcon = getTypeIcon(booking.type);
+            return (
+              <motion.div
+                key={booking.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                layout
+              >
+                <Card className="p-5 hover:shadow-lg transition-shadow">
+                  <div className="flex flex-col md:flex-row md:items-center gap-4">
+                    {/* Icon */}
+                    <div className="flex-shrink-0">
+                      <div
+                        className="w-12 h-12 rounded-lg flex items-center justify-center"
+                        style={{
+                          background: `linear-gradient(to right, ${themeColors.primary}1A, ${themeColors.accent}1A)`,
+                        }}
+                      >
+                        <TypeIcon
+                          className="h-6 w-6"
+                          style={{ color: themeColors.primary }}
+                        />
                       </div>
                     </div>
-                  </Card>
-                </motion.div>
-              );
-            })
+
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-wrap items-center gap-2 mb-1">
+                        <h3 className="font-semibold">{booking.title}</h3>
+                        <Badge
+                          variant="outline"
+                          className={getStatusColor(booking.status)}
+                        >
+                          {booking.status}
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        {booking.details}
+                      </p>
+                      <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
+                        <span>👤 {booking.employeeName}</span>
+                        <span>
+                          📅 Booked:{" "}
+                          {new Date(booking.bookingDate).toLocaleDateString()}
+                        </span>
+                        <span>
+                          ✈️ Travel:{" "}
+                          {new Date(booking.travelDate).toLocaleDateString()}
+                        </span>
+                        <span>🏢 {booking.department}</span>
+                      </div>
+                    </div>
+
+                    {/* Amount & Action */}
+                    <div className="flex items-center gap-4 flex-shrink-0">
+                      <div className="text-right">
+                        <p className="text-xs text-muted-foreground mb-1">
+                          Amount
+                        </p>
+                        <p
+                          className="text-xl font-bold"
+                          style={{ color: themeColors.primary }}
+                        >
+                          {booking.amount}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          {booking.bookingReference}
+                        </p>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleViewDetails(booking)}
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              </motion.div>
+            );
+          })}
+
+          {filteredBookings.length === 0 && (
+            <Card className="p-12 text-center">
+              <Calendar className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+              <p className="text-muted-foreground">
+                No bookings found matching your filters
+              </p>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setSearchQuery("");
+                  setFilterEmployee("all");
+                  setFilterType("all");
+                  setFilterStatus("all");
+                  setFilterDepartment("all");
+                  setDateFrom("");
+                  setDateTo("");
+                }}
+                className="mt-4"
+              >
+                Clear Filters
+              </Button>
+            </Card>
           )}
         </div>
       )}

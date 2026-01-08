@@ -20,12 +20,16 @@ interface JoinCompanySectionProps {
   userCompany: string | null;
   onJoinCompany: (companyName: string) => void;
   onLeaveCompany: () => void;
+  savedCompany?: any;
+  onNavigate?: (page: string) => void;
 }
 
 export function JoinCompanySection({
   userCompany,
   onJoinCompany,
   onLeaveCompany,
+  savedCompany,
+  onNavigate,
 }: JoinCompanySectionProps) {
   const [inviteCode, setInviteCode] = useState("");
   const [isValidating, setIsValidating] = useState(false);

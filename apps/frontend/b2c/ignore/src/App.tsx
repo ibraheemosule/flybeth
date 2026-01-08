@@ -75,7 +75,7 @@ export default function App() {
       case "settings":
         return <SettingsPage onNavigate={handleNavigate} />;
       case "company-dashboard":
-        return <CompanyDashboard onBack={() => handleNavigate("settings")} />;
+        return <CompanyDashboard onBack={() => handleNavigate("home")} />;
       case "404":
         return <NotFoundPage onNavigate={handleNavigate} />;
       default:

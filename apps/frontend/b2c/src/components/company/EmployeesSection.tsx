@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import {
   Users,
   Search,
@@ -17,7 +17,6 @@ import {
   Copy,
   Check,
   RefreshCw,
-  UserPlus,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -46,6 +45,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { toast } from "sonner";
+import { useThemeStore } from "../../stores";
 
 interface Employee {
   id: string;
@@ -150,19 +150,22 @@ const mockEmployees: Employee[] = [
 ];
 
 export function EmployeesSection() {
+  const { getCurrentColors } = useThemeStore();
+  const currentThemeColors = getCurrentColors();
+
   const [employees, setEmployees] = useState<Employee[]>(mockEmployees);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterDepartment, setFilterDepartment] = useState<string>("all");
   const [filterAccessLevel, setFilterAccessLevel] = useState<string>("all");
-  const [filterRole, setFilterRole] = useState<string>("all");
-  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(
+    null
+  );
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [currentInviteCode, setCurrentInviteCode] = useState("");
   const [inviteCodeCopied, setInviteCodeCopied] = useState(false);
   const [editForm, setEditForm] = useState<Partial<Employee>>({});
-  const [showAddModal, setShowAddModal] = useState(false);
 
   // Load or generate invite code on mount
   useEffect(() => {
@@ -172,7 +175,7 @@ export function EmployeesSection() {
     }
   }, []);
 
-  const filteredEmployees = employees.filter((emp) => {
+  const filteredEmployees = employees.filter(emp => {
     const matchesSearch =
       emp.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       emp.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -181,29 +184,36 @@ export function EmployeesSection() {
       filterDepartment === "all" || emp.department === filterDepartment;
     const matchesAccessLevel =
       filterAccessLevel === "all" || emp.accessLevel === filterAccessLevel;
-    const matchesRole = filterRole === "all" || emp.role === filterRole;
-    return matchesSearch && matchesDepartment && matchesAccessLevel && matchesRole;
+    return matchesSearch && matchesDepartment && matchesAccessLevel;
   });
 
-  const departments = ["all", ...Array.from(new Set(employees.map((e) => e.department)))];
+  const departments = [
+    "all",
+    ...Array.from(new Set(employees.map(e => e.department))),
+  ];
 
   const generateInviteCode = () => {
     // Generate a unique invite code
     const timestamp = Date.now().toString(36);
     const random = Math.random().toString(36).substring(2, 8).toUpperCase();
     const newCode = `FLYBETH-${timestamp}-${random}`;
-    
+
     // Store the new code (invalidates old one)
     localStorage.setItem("flybeth-company-invite-code", newCode);
-    
+
     // Store company info with the code
-    const companyDetails = JSON.parse(localStorage.getItem("flybeth-company-details") || "{}");
-    localStorage.setItem(`flybeth-invite-${newCode}`, JSON.stringify({
-      companyName: companyDetails.companyName || "Tech Innovations Inc.",
-      companyEmail: companyDetails.companyEmail,
-      createdAt: new Date().toISOString(),
-    }));
-    
+    const companyDetails = JSON.parse(
+      localStorage.getItem("flybeth-company-details") || "{}"
+    );
+    localStorage.setItem(
+      `flybeth-invite-${newCode}`,
+      JSON.stringify({
+        companyName: companyDetails.companyName || "Tech Innovations Inc.",
+        companyEmail: companyDetails.companyEmail,
+        createdAt: new Date().toISOString(),
+      })
+    );
+
     setCurrentInviteCode(newCode);
     setShowInviteModal(true);
     setInviteCodeCopied(false);
@@ -218,9 +228,9 @@ export function EmployeesSection() {
     textArea.style.left = "-999999px";
     document.body.appendChild(textArea);
     textArea.select();
-    
+
     try {
-      document.execCommand('copy');
+      document.execCommand("copy");
       setInviteCodeCopied(true);
       toast.success("Invite code copied to clipboard!");
       setTimeout(() => setInviteCodeCopied(false), 3000);
@@ -252,7 +262,7 @@ export function EmployeesSection() {
     if (!selectedEmployee) return;
 
     setEmployees(
-      employees.map((emp) =>
+      employees.map(emp =>
         emp.id === selectedEmployee.id ? { ...emp, ...editForm } : emp
       )
     );
@@ -263,7 +273,7 @@ export function EmployeesSection() {
   const handleToggleStatus = (employee: Employee) => {
     const newStatus = employee.status === "active" ? "inactive" : "active";
     setEmployees(
-      employees.map((emp) =>
+      employees.map(emp =>
         emp.id === employee.id ? { ...emp, status: newStatus } : emp
       )
     );
@@ -273,8 +283,12 @@ export function EmployeesSection() {
   };
 
   const handleRemoveEmployee = (employee: Employee) => {
-    if (confirm(`Are you sure you want to remove ${employee.name} from the company?`)) {
-      setEmployees(employees.filter((emp) => emp.id !== employee.id));
+    if (
+      confirm(
+        `Are you sure you want to remove ${employee.name} from the company?`
+      )
+    ) {
+      setEmployees(employees.filter(emp => emp.id !== employee.id));
       toast.success(`${employee.name} removed from company`);
       setShowDetailsModal(false);
     }
@@ -303,28 +317,53 @@ export function EmployeesSection() {
 
       {/* Current Invite Code Display */}
       {currentInviteCode && (
-        <Card className="p-6 bg-gradient-to-r from-primary/5 to-accent/5 border-primary/20">
+        <Card
+          className="p-6 border"
+          style={{
+            background: `linear-gradient(to right, ${currentThemeColors.primary}0D, ${currentThemeColors.accent}0D)`,
+            borderColor: `${currentThemeColors.primary}33`,
+          }}
+        >
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6">
             <div className="flex-1">
               <h3 className="font-semibold mb-1 flex items-center gap-2">
-                <Shield className="h-4 w-4 text-primary" />
+                <Shield
+                  className="h-4 w-4"
+                  style={{ color: currentThemeColors.primary }}
+                />
                 Current Invite Code
               </h3>
               <p className="text-sm text-muted-foreground mb-4">
                 Share this code with employees to join the company
               </p>
-              <div className="flex items-center gap-3 p-4 rounded-lg bg-white border border-primary/20 max-w-fit">
-                <code className="font-mono text-lg font-semibold text-primary">{currentInviteCode}</code>
+              <div
+                className="flex items-center gap-3 p-4 rounded-lg bg-white border max-w-fit"
+                style={{ borderColor: `${currentThemeColors.primary}33` }}
+              >
+                <code
+                  className="font-mono text-lg font-semibold"
+                  style={{ color: currentThemeColors.primary }}
+                >
+                  {currentInviteCode}
+                </code>
                 <Button
                   size="sm"
                   variant="ghost"
                   onClick={copyInviteCode}
-                  className="h-8 w-8 p-0 hover:bg-primary/10"
+                  className="h-8 w-8 p-0"
+                  style={
+                    {
+                      "--hover-bg": `${currentThemeColors.primary}1A`,
+                    } as React.CSSProperties
+                  }
                 >
                   {inviteCodeCopied ? (
                     <Check className="h-4 w-4 text-green-600" />
                   ) : (
-                    <Copy className="h-4 w-4 text-primary" />
+                    <Copy
+                      className="h-4 w-4"
+                      style={{ color: currentThemeColors.primary }}
+                    />
                   )}
                 </Button>
               </div>
@@ -332,7 +371,11 @@ export function EmployeesSection() {
             <Button
               variant="outline"
               onClick={generateInviteCode}
-              className="border-primary text-primary hover:bg-primary/5 sm:shrink-0"
+              className="border hover:bg-opacity-5"
+              style={{
+                borderColor: currentThemeColors.primary,
+                color: currentThemeColors.primary,
+              }}
             >
               <RefreshCw className="mr-2 h-4 w-4" />
               Generate New Code
@@ -351,7 +394,7 @@ export function EmployeesSection() {
               <Input
                 placeholder="Search employees..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={e => setSearchQuery(e.target.value)}
                 className="pl-10"
               />
             </div>
@@ -361,16 +404,18 @@ export function EmployeesSection() {
           <div>
             <Select
               value={filterDepartment}
-              onValueChange={(e) => setFilterDepartment(e)}
+              onValueChange={e => setFilterDepartment(e)}
               className="w-full h-10 px-3 rounded-md border border-input bg-background"
             >
               <SelectTrigger className="w-full h-10 px-3 rounded-md border border-input bg-background">
                 <SelectValue>
-                  {filterDepartment === "all" ? "All Departments" : filterDepartment}
+                  {filterDepartment === "all"
+                    ? "All Departments"
+                    : filterDepartment}
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>
-                {departments.map((dept) => (
+                {departments.map(dept => (
                   <SelectItem key={dept} value={dept}>
                     {dept === "all" ? "All Departments" : dept}
                   </SelectItem>
@@ -383,12 +428,14 @@ export function EmployeesSection() {
           <div>
             <Select
               value={filterAccessLevel}
-              onValueChange={(e) => setFilterAccessLevel(e)}
+              onValueChange={e => setFilterAccessLevel(e)}
               className="w-full h-10 px-3 rounded-md border border-input bg-background"
             >
               <SelectTrigger className="w-full h-10 px-3 rounded-md border border-input bg-background">
                 <SelectValue>
-                  {filterAccessLevel === "all" ? "All Access Levels" : filterAccessLevel}
+                  {filterAccessLevel === "all"
+                    ? "All Access Levels"
+                    : filterAccessLevel}
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>
@@ -396,30 +443,6 @@ export function EmployeesSection() {
                 <SelectItem value="admin">Admin</SelectItem>
                 <SelectItem value="manager">Manager</SelectItem>
                 <SelectItem value="employee">Employee</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Role Filter */}
-          <div>
-            <Select
-              value={filterRole}
-              onValueChange={(e) => setFilterRole(e)}
-              className="w-full h-10 px-3 rounded-md border border-input bg-background"
-            >
-              <SelectTrigger className="w-full h-10 px-3 rounded-md border border-input bg-background">
-                <SelectValue>
-                  {filterRole === "all" ? "All Roles" : filterRole}
-                </SelectValue>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Roles</SelectItem>
-                <SelectItem value="Sales Director">Sales Director</SelectItem>
-                <SelectItem value="VP Engineering">VP Engineering</SelectItem>
-                <SelectItem value="Marketing Manager">Marketing Manager</SelectItem>
-                <SelectItem value="Product Manager">Product Manager</SelectItem>
-                <SelectItem value="Senior Developer">Senior Developer</SelectItem>
-                <SelectItem value="Sales Associate">Sales Associate</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -435,177 +458,138 @@ export function EmployeesSection() {
 
       {/* Employees Grid */}
       <div className="grid md:grid-cols-2 gap-4">
-        {filteredEmployees.length === 0 ? (
-          /* Empty State */
-          <div className="md:col-span-2">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="text-center py-16 px-4"
-            >
-              <div className="max-w-md mx-auto space-y-6">
-                {/* Icon */}
-                <motion.div
-                  className="inline-flex p-8 rounded-full bg-gradient-to-r from-primary/10 to-accent/10"
-                  animate={{
-                    scale: [1, 1.05, 1],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <Users className="h-16 w-16 text-primary" />
-                </motion.div>
-
-                {/* Title and Message */}
-                <div className="space-y-3">
-                  <h3 className="text-2xl font-bold text-gray-900">
-                    No Employees Found
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    {searchQuery || filterDepartment !== "all" || filterRole !== "all"
-                      ? "No employees match your current filters. Try adjusting your search criteria or clearing filters."
-                      : "You haven't added any employees yet. Click 'Add Employee' to start building your team."}
-                  </p>
+        {filteredEmployees.map(employee => (
+          <motion.div
+            key={employee.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            layout
+          >
+            <Card className="p-5 hover:shadow-lg transition-all">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-12 h-12 rounded-full flex items-center justify-center text-white font-semibold text-lg"
+                    style={{
+                      background: `linear-gradient(to right, ${currentThemeColors.primary}, ${currentThemeColors.accent})`,
+                    }}
+                  >
+                    {employee.name
+                      .split(" ")
+                      .map(n => n[0])
+                      .join("")}
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">{employee.name}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {employee.role}
+                    </p>
+                  </div>
                 </div>
 
-                {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  {searchQuery || filterDepartment !== "all" || filterRole !== "all" ? (
-                    <Button
-                      onClick={() => {
-                        setSearchQuery("");
-                        setFilterDepartment("all");
-                        setFilterRole("all");
-                      }}
-                      className="bg-gradient-to-r from-primary to-accent text-white hover:opacity-90"
-                    >
-                      Clear All Filters
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm">
+                      <MoreVertical className="h-4 w-4" />
                     </Button>
-                  ) : (
-                    <Button
-                      onClick={() => setShowAddModal(true)}
-                      className="bg-gradient-to-r from-primary to-accent text-white hover:opacity-90"
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem
+                      onClick={() => handleViewDetails(employee)}
                     >
-                      <UserPlus className="mr-2 h-4 w-4" />
-                      Add Your First Employee
-                    </Button>
-                  )}
+                      <Eye className="mr-2 h-4 w-4" />
+                      View Details
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => handleEditEmployee(employee)}
+                    >
+                      <Edit className="mr-2 h-4 w-4" />
+                      Edit Role & Access
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => handleToggleStatus(employee)}
+                    >
+                      {employee.status === "active" ? (
+                        <>
+                          <UserX className="mr-2 h-4 w-4" />
+                          Deactivate
+                        </>
+                      ) : (
+                        <>
+                          <UserCheck className="mr-2 h-4 w-4" />
+                          Activate
+                        </>
+                      )}
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={() => handleRemoveEmployee(employee)}
+                      className="text-destructive"
+                    >
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      Remove from Company
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+
+              <div className="space-y-2 mb-4">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Mail className="h-3.5 w-3.5" />
+                  {employee.email}
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <MapPin className="h-3.5 w-3.5" />
+                  {employee.location}
                 </div>
               </div>
-            </motion.div>
-          </div>
-        ) : (
-          filteredEmployees.map((employee) => (
-            <motion.div
-              key={employee.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              layout
-            >
-              <Card className="p-5 hover:shadow-lg transition-all">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center text-white font-semibold text-lg">
-                      {employee.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </div>
-                    <div>
-                      <h3 className="font-semibold">{employee.name}</h3>
-                      <p className="text-sm text-muted-foreground">{employee.role}</p>
-                    </div>
-                  </div>
 
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm">
-                        <MoreVertical className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => handleViewDetails(employee)}>
-                        <Eye className="mr-2 h-4 w-4" />
-                        View Details
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleEditEmployee(employee)}>
-                        <Edit className="mr-2 h-4 w-4" />
-                        Edit Role & Access
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleToggleStatus(employee)}>
-                        {employee.status === "active" ? (
-                          <>
-                            <UserX className="mr-2 h-4 w-4" />
-                            Deactivate
-                          </>
-                        ) : (
-                          <>
-                            <UserCheck className="mr-2 h-4 w-4" />
-                            Activate
-                          </>
-                        )}
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        onClick={() => handleRemoveEmployee(employee)}
-                        className="text-destructive"
-                      >
-                        <Trash2 className="mr-2 h-4 w-4" />
-                        Remove from Company
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Mail className="h-3.5 w-3.5" />
-                    {employee.email}
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <MapPin className="h-3.5 w-3.5" />
-                    {employee.location}
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-2 mb-4">
+                <Badge
+                  variant="outline"
+                  className={getAccessLevelColor(employee.accessLevel)}
+                >
+                  <Shield className="mr-1 h-3 w-3" />
+                  {employee.accessLevel.charAt(0).toUpperCase() +
+                    employee.accessLevel.slice(1)}
+                </Badge>
+                <Badge variant="outline">{employee.department}</Badge>
+                {employee.status === "active" ? (
+                  <Badge className="bg-green-100 text-green-700 border-green-200">
+                    Active
+                  </Badge>
+                ) : (
                   <Badge
                     variant="outline"
-                    className={getAccessLevelColor(employee.accessLevel)}
+                    className="bg-gray-100 text-gray-700"
                   >
-                    <Shield className="mr-1 h-3 w-3" />
-                    {employee.accessLevel.charAt(0).toUpperCase() +
-                      employee.accessLevel.slice(1)}
+                    Inactive
                   </Badge>
-                  <Badge variant="outline">{employee.department}</Badge>
-                  {employee.status === "active" ? (
-                    <Badge className="bg-green-100 text-green-700 border-green-200">
-                      Active
-                    </Badge>
-                  ) : (
-                    <Badge variant="outline" className="bg-gray-100 text-gray-700">
-                      Inactive
-                    </Badge>
-                  )}
-                </div>
+                )}
+              </div>
 
-                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-100">
-                  <div>
-                    <p className="text-xs text-muted-foreground mb-1">Total Bookings</p>
-                    <p className="font-semibold">{employee.totalBookings}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground mb-1">Total Spent</p>
-                    <p className="font-semibold text-primary">{employee.totalSpent}</p>
-                  </div>
+              <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-100">
+                <div>
+                  <p className="text-xs text-muted-foreground mb-1">
+                    Total Bookings
+                  </p>
+                  <p className="font-semibold">{employee.totalBookings}</p>
                 </div>
-              </Card>
-            </motion.div>
-          ))
-        )}
+                <div>
+                  <p className="text-xs text-muted-foreground mb-1">
+                    Total Spent
+                  </p>
+                  <p
+                    className="font-semibold"
+                    style={{ color: currentThemeColors.primary }}
+                  >
+                    {employee.totalSpent}
+                  </p>
+                </div>
+              </div>
+            </Card>
+          </motion.div>
+        ))}
       </div>
 
       {/* Invite Code Modal */}
@@ -613,7 +597,10 @@ export function EmployeesSection() {
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <Send className="h-5 w-5 text-primary" />
+              <Send
+                className="h-5 w-5"
+                style={{ color: currentThemeColors.primary }}
+              />
               Company Invite Code Generated
             </DialogTitle>
             <DialogDescription>
@@ -623,14 +610,28 @@ export function EmployeesSection() {
 
           <div className="space-y-6 py-4">
             {/* Invite Code Display */}
-            <div className="p-6 rounded-xl bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 text-center">
-              <p className="text-sm text-muted-foreground mb-3">Your Invite Code</p>
-              <div className="font-mono text-2xl font-bold text-primary mb-4 break-all">
+            <div
+              className="p-6 rounded-xl bg-white border text-center"
+              style={{
+                background: `linear-gradient(to right, ${currentThemeColors.primary}1A, ${currentThemeColors.accent}1A)`,
+                borderColor: `${currentThemeColors.primary}33`,
+              }}
+            >
+              <p className="text-sm text-muted-foreground mb-3">
+                Your Invite Code
+              </p>
+              <div
+                className="font-mono text-2xl font-bold mb-4 break-all"
+                style={{ color: currentThemeColors.primary }}
+              >
                 {currentInviteCode}
               </div>
               <Button
                 onClick={copyInviteCode}
-                className="w-full bg-gradient-to-r from-primary to-accent text-white"
+                className="w-full text-white"
+                style={{
+                  background: `linear-gradient(to right, ${currentThemeColors.primary}, ${currentThemeColors.accent})`,
+                }}
               >
                 {inviteCodeCopied ? (
                   <>
@@ -660,7 +661,9 @@ export function EmployeesSection() {
             {/* Warning */}
             <div className="p-4 rounded-lg bg-yellow-50 border border-yellow-200">
               <p className="text-sm text-yellow-800">
-                <strong>Note:</strong> Generating a new invite code will invalidate this one. Share it with your team before creating a new code.
+                <strong>Note:</strong> Generating a new invite code will
+                invalidate this one. Share it with your team before creating a
+                new code.
               </p>
             </div>
           </div>
@@ -679,24 +682,40 @@ export function EmployeesSection() {
 
           {selectedEmployee && (
             <div className="space-y-6 py-4">
-              <div className="flex items-center gap-4 p-4 rounded-lg bg-gradient-to-r from-primary/10 to-accent/10">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center text-white font-bold text-2xl">
+              <div
+                className="flex items-center gap-4 p-4 rounded-lg"
+                style={{
+                  background: `linear-gradient(to right, ${currentThemeColors.primary}1A, ${currentThemeColors.accent}1A)`,
+                }}
+              >
+                <div
+                  className="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-2xl"
+                  style={{
+                    background: `linear-gradient(to right, ${currentThemeColors.primary}, ${currentThemeColors.accent})`,
+                  }}
+                >
                   {selectedEmployee.name
                     .split(" ")
-                    .map((n) => n[0])
+                    .map(n => n[0])
                     .join("")}
                 </div>
                 <div className="flex-1">
                   <h3 className="text-xl font-bold">{selectedEmployee.name}</h3>
-                  <p className="text-muted-foreground">{selectedEmployee.role}</p>
+                  <p className="text-muted-foreground">
+                    {selectedEmployee.role}
+                  </p>
                   <div className="flex gap-2 mt-2">
                     <Badge
                       variant="outline"
-                      className={getAccessLevelColor(selectedEmployee.accessLevel)}
+                      className={getAccessLevelColor(
+                        selectedEmployee.accessLevel
+                      )}
                     >
                       {selectedEmployee.accessLevel}
                     </Badge>
-                    <Badge variant="outline">{selectedEmployee.department}</Badge>
+                    <Badge variant="outline">
+                      {selectedEmployee.department}
+                    </Badge>
                   </div>
                 </div>
               </div>
@@ -729,13 +748,17 @@ export function EmployeesSection() {
                 <h4 className="font-semibold mb-3">Booking Statistics</h4>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="p-4 rounded-lg bg-blue-50 border border-blue-100">
-                    <p className="text-sm text-muted-foreground mb-1">Total Bookings</p>
+                    <p className="text-sm text-muted-foreground mb-1">
+                      Total Bookings
+                    </p>
                     <p className="text-2xl font-bold text-blue-700">
                       {selectedEmployee.totalBookings}
                     </p>
                   </div>
                   <div className="p-4 rounded-lg bg-green-50 border border-green-100">
-                    <p className="text-sm text-muted-foreground mb-1">Total Spent</p>
+                    <p className="text-sm text-muted-foreground mb-1">
+                      Total Spent
+                    </p>
                     <p className="text-2xl font-bold text-green-700">
                       {selectedEmployee.totalSpent}
                     </p>
@@ -774,7 +797,8 @@ export function EmployeesSection() {
           <DialogHeader>
             <DialogTitle>Edit Employee</DialogTitle>
             <DialogDescription>
-              Update role, access level, and other details for {selectedEmployee?.name}
+              Update role, access level, and other details for{" "}
+              {selectedEmployee?.name}
             </DialogDescription>
           </DialogHeader>
 
@@ -784,7 +808,9 @@ export function EmployeesSection() {
               <Input
                 id="edit-role"
                 value={editForm.role || ""}
-                onChange={(e) => setEditForm({ ...editForm, role: e.target.value })}
+                onChange={e =>
+                  setEditForm({ ...editForm, role: e.target.value })
+                }
                 className="mt-2"
               />
             </div>
@@ -794,7 +820,7 @@ export function EmployeesSection() {
               <select
                 id="edit-access"
                 value={editForm.accessLevel || "employee"}
-                onChange={(e) =>
+                onChange={e =>
                   setEditForm({
                     ...editForm,
                     accessLevel: e.target.value as Employee["accessLevel"],
@@ -813,7 +839,7 @@ export function EmployeesSection() {
               <Input
                 id="edit-department"
                 value={editForm.department || ""}
-                onChange={(e) =>
+                onChange={e =>
                   setEditForm({ ...editForm, department: e.target.value })
                 }
                 className="mt-2"
@@ -825,7 +851,9 @@ export function EmployeesSection() {
               <Input
                 id="edit-phone"
                 value={editForm.phone || ""}
-                onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
+                onChange={e =>
+                  setEditForm({ ...editForm, phone: e.target.value })
+                }
                 className="mt-2"
               />
             </div>
@@ -835,13 +863,19 @@ export function EmployeesSection() {
               <Input
                 id="edit-location"
                 value={editForm.location || ""}
-                onChange={(e) => setEditForm({ ...editForm, location: e.target.value })}
+                onChange={e =>
+                  setEditForm({ ...editForm, location: e.target.value })
+                }
                 className="mt-2"
               />
             </div>
 
             <div className="flex gap-3 pt-4">
-              <Button variant="outline" onClick={() => setShowEditModal(false)} className="flex-1">
+              <Button
+                variant="outline"
+                onClick={() => setShowEditModal(false)}
+                className="flex-1"
+              >
                 Cancel
               </Button>
               <Button
@@ -849,136 +883,6 @@ export function EmployeesSection() {
                 className="flex-1 bg-gradient-to-r from-primary to-accent text-white"
               >
                 Save Changes
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Add Employee Modal */}
-      <Dialog open={showAddModal} onOpenChange={setShowAddModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Add Employee</DialogTitle>
-            <DialogDescription>
-              Add a new employee to your company
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="space-y-4 py-4">
-            <div>
-              <Label htmlFor="add-name">Name</Label>
-              <Input
-                id="add-name"
-                value={editForm.name || ""}
-                onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                className="mt-2"
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="add-email">Email</Label>
-              <Input
-                id="add-email"
-                value={editForm.email || ""}
-                onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
-                className="mt-2"
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="add-phone">Phone</Label>
-              <Input
-                id="add-phone"
-                value={editForm.phone || ""}
-                onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
-                className="mt-2"
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="add-role">Job Role</Label>
-              <Input
-                id="add-role"
-                value={editForm.role || ""}
-                onChange={(e) => setEditForm({ ...editForm, role: e.target.value })}
-                className="mt-2"
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="add-access">Access Level</Label>
-              <select
-                id="add-access"
-                value={editForm.accessLevel || "employee"}
-                onChange={(e) =>
-                  setEditForm({
-                    ...editForm,
-                    accessLevel: e.target.value as Employee["accessLevel"],
-                  })
-                }
-                className="w-full h-10 px-3 rounded-md border border-input bg-background mt-2"
-              >
-                <option value="employee">Employee</option>
-                <option value="manager">Manager</option>
-                <option value="admin">Admin</option>
-              </select>
-            </div>
-
-            <div>
-              <Label htmlFor="add-department">Department</Label>
-              <Input
-                id="add-department"
-                value={editForm.department || ""}
-                onChange={(e) =>
-                  setEditForm({ ...editForm, department: e.target.value })
-                }
-                className="mt-2"
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="add-location">Location</Label>
-              <Input
-                id="add-location"
-                value={editForm.location || ""}
-                onChange={(e) => setEditForm({ ...editForm, location: e.target.value })}
-                className="mt-2"
-              />
-            </div>
-
-            <div className="flex gap-3 pt-4">
-              <Button variant="outline" onClick={() => setShowAddModal(false)} className="flex-1">
-                Cancel
-              </Button>
-              <Button
-                onClick={() => {
-                  if (editForm.name && editForm.email && editForm.phone && editForm.role && editForm.accessLevel && editForm.department && editForm.location) {
-                    const newEmployee: Employee = {
-                      id: (employees.length + 1).toString(),
-                      name: editForm.name,
-                      email: editForm.email,
-                      phone: editForm.phone,
-                      role: editForm.role,
-                      accessLevel: editForm.accessLevel,
-                      department: editForm.department,
-                      joinDate: new Date().toISOString(),
-                      status: "active",
-                      totalBookings: 0,
-                      totalSpent: "$0",
-                      location: editForm.location,
-                    };
-                    setEmployees([...employees, newEmployee]);
-                    toast.success(`${editForm.name} added to the company`);
-                    setShowAddModal(false);
-                    setEditForm({});
-                  } else {
-                    toast.error("Please fill in all fields");
-                  }
-                }}
-                className="flex-1 bg-gradient-to-r from-primary to-accent text-white"
-              >
-                Add Employee
               </Button>
             </div>
           </div>

@@ -16,6 +16,7 @@ import {
   Mail,
   Shield,
   ArrowRight,
+  Clock,
 } from "lucide-react";
 import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
@@ -32,6 +33,8 @@ import {
   DialogDescription,
 } from "../../ui/dialog";
 import { JoinCompanySection } from "../../JoinCompanySection";
+import { CompanyOwnerCard } from "../../CompanyOwnerCard";
+import { CompanyMemberCard } from "../../CompanyMemberCard";
 
 interface UserProfile {
   firstName: string;
@@ -61,7 +64,7 @@ interface SettingsPageProps {
 }
 
 export function SettingsPage({ onNavigate }: SettingsPageProps) {
-  const [activeTab, setActiveTab] = useState<"theme" | "profile" | "company">(
+  const [activeTab, setActiveTab] = useState<"theme" | "profile" | "business">(
     "theme"
   );
   const {
@@ -98,6 +101,12 @@ export function SettingsPage({ onNavigate }: SettingsPageProps) {
   const [inviteCode, setInviteCode] = useState("");
   const [isJoiningCompany, setIsJoiningCompany] = useState(false);
   const [userCompany, setUserCompany] = useState<string | null>(null);
+
+  // Company access states
+  const [hasCompanyAccess, setHasCompanyAccess] = useState(false);
+  const [isRequestingAccess, setIsRequestingAccess] = useState(false);
+  const [accessRequestPending, setAccessRequestPending] = useState(false);
+  const [accessRequestApproved, setAccessRequestApproved] = useState(false);
 
   // Company states
   const [isEditingCompany, setIsEditingCompany] = useState(false);
@@ -144,6 +153,14 @@ export function SettingsPage({ onNavigate }: SettingsPageProps) {
     );
     if (membershipCompany) {
       setUserCompany(membershipCompany);
+    }
+
+    // Load company access status
+    const companyAccess = localStorage.getItem(
+      "flybeth-company-access-granted"
+    );
+    if (companyAccess === "true") {
+      setHasCompanyAccess(true);
     }
   }, []);
 
@@ -226,6 +243,37 @@ export function SettingsPage({ onNavigate }: SettingsPageProps) {
     }
   };
 
+  const handleRequestCompanyAccess = () => {
+    setIsRequestingAccess(true);
+
+    // Simulate request submission
+    setTimeout(() => {
+      setIsRequestingAccess(false);
+      setAccessRequestPending(true);
+      localStorage.setItem("flybeth-company-access-pending", "true");
+      toast.success("Access request submitted successfully!");
+
+      // Simulate approval after 5 seconds (in real app, this would be admin approval)
+      setTimeout(() => {
+        setAccessRequestPending(false);
+        setAccessRequestApproved(true);
+        setHasCompanyAccess(true);
+        localStorage.removeItem("flybeth-company-access-pending");
+        localStorage.setItem("flybeth-company-access-granted", "true");
+        toast.success("Your company access has been approved!");
+
+        // Dispatch custom event to notify header
+        window.dispatchEvent(new Event("company-access-granted"));
+      }, 5000); // Approval after 5 seconds for demo
+    }, 1500);
+  };
+
+  const tabs = [
+    { id: "theme", label: "Appearance", icon: Palette },
+    { id: "profile", label: "Profile", icon: User },
+    { id: "business", label: "Business", icon: Building2 },
+  ] as const;
+
   const handleVerifyOtp = () => {
     const otpValue = otpCode.join("");
 
@@ -286,12 +334,6 @@ export function SettingsPage({ onNavigate }: SettingsPageProps) {
     }
     setIsEditingCompany(false);
   };
-
-  const tabs = [
-    { id: "theme", label: "Theme", icon: Palette },
-    { id: "profile", label: "Profile", icon: User },
-    { id: "company", label: "Company", icon: Building2 },
-  ];
 
   return (
     <>
@@ -873,339 +915,239 @@ export function SettingsPage({ onNavigate }: SettingsPageProps) {
               </div>
             )}
 
-            {/* COMPANY TAB */}
-            {activeTab === "company" && (
+            {/* BUSINESS TAB */}
+            {activeTab === "business" && (
               <div className="space-y-6">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h2 className="text-2xl mb-2">Company Details</h2>
-                    <p className="text-muted-foreground">
-                      {savedCompany && !isEditingCompany
-                        ? "Your company information for business travel bookings"
-                        : "Manage your company information for business travel bookings"}
-                    </p>
-                  </div>
-                  {savedCompany && !isEditingCompany && hasCompany && (
-                    <Button
-                      onClick={handleEditCompany}
-                      variant="outline"
-                      className="border-primary text-primary hover:bg-primary/5"
-                    >
-                      <Edit className="mr-2 h-4 w-4" />
-                      Edit Company
-                    </Button>
-                  )}
+                <div>
+                  <h2 className="text-2xl mb-2">Business Settings</h2>
+                  <p className="text-muted-foreground">
+                    Manage your company access, join company invites, and
+                    business profile
+                  </p>
                 </div>
 
                 <Separator />
 
-                {/* Toggle Company */}
-                {!savedCompany && !hasCompany && (
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                    <div>
-                      <p className="font-medium">Link Company Profile</p>
-                      <p className="text-sm text-muted-foreground">
-                        Enable this to add company details for business bookings
-                      </p>
-                    </div>
-                    <Button
-                      onClick={() => {
-                        setHasCompany(true);
-                        setIsEditingCompany(true);
+                {/* Show Company Owner Card if they created a company */}
+                {savedCompany ? (
+                  <CompanyOwnerCard
+                    company={savedCompany}
+                    onNavigate={onNavigate}
+                  />
+                ) : userCompany ? (
+                  /* Show Company Member Card if they joined a company */
+                  <CompanyMemberCard
+                    companyName={userCompany}
+                    onLeaveCompany={() => {
+                      console.log(
+                        "📞 [SettingsPage] onLeaveCompany callback received"
+                      );
+                      setUserCompany(null);
+                      console.log(
+                        "📞 [SettingsPage] setUserCompany called with: null"
+                      );
+                    }}
+                    onNavigate={onNavigate}
+                  />
+                ) : (
+                  <>
+                    {/* Join Company Section - only show if not a company owner or member */}
+                    <JoinCompanySection
+                      userCompany={userCompany}
+                      onJoinCompany={companyName => {
+                        console.log(
+                          "📞 [SettingsPage] onJoinCompany callback received with:",
+                          companyName
+                        );
+                        console.log(
+                          "📞 [SettingsPage] Current userCompany before setState:",
+                          userCompany
+                        );
+                        setUserCompany(companyName);
+                        console.log(
+                          "📞 [SettingsPage] setUserCompany called with:",
+                          companyName
+                        );
                       }}
-                      variant="outline"
-                    >
-                      <Plus className="mr-2 h-4 w-4" />
-                      Add Company
-                    </Button>
-                  </div>
-                )}
-
-                {savedCompany && !isEditingCompany && hasCompany ? (
-                  /* VIEW MODE */
-                  <div className="space-y-6">
-                    {/* Company Dashboard Button */}
-                    <div className="p-6 rounded-xl bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <h3 className="text-lg font-semibold mb-1">
-                            Company Dashboard
-                          </h3>
-                          <p className="text-sm text-muted-foreground">
-                            View employees, bookings, transactions, and manage
-                            access levels
-                          </p>
-                        </div>
-                        <Button
-                          onClick={() => onNavigate?.("company-dashboard")}
-                          className="bg-gradient-to-r from-primary to-accent text-white hover:opacity-90"
-                        >
-                          Open Dashboard
-                          <ArrowRight className="ml-2 h-4 w-4" />
-                        </Button>
-                      </div>
-                    </div>
+                      onLeaveCompany={() => {
+                        console.log(
+                          "📞 [SettingsPage] onLeaveCompany callback received"
+                        );
+                        setUserCompany(null);
+                        console.log(
+                          "📞 [SettingsPage] setUserCompany called with: null"
+                        );
+                      }}
+                      savedCompany={savedCompany}
+                      onNavigate={onNavigate}
+                    />
 
                     <Separator />
+                  </>
+                )}
 
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div className="md:col-span-2">
-                        <Label className="text-muted-foreground">
-                          Company Name
-                        </Label>
-                        <p className="mt-2 text-lg">
-                          {savedCompany.companyName}
-                        </p>
+                {/* Request Company Access Section - only show if no company and not a member */}
+                {!savedCompany && !userCompany && (
+                  <>
+                    <Separator />
+                    {!hasCompanyAccess && !accessRequestPending ? (
+                      /* Initial State - Request Button */
+                      <div className="p-6 rounded-xl bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5 border border-primary/20">
+                        <div className="flex items-start gap-4">
+                          <div className="p-3 rounded-lg bg-white shadow-sm">
+                            <Building2 className="h-6 w-6 text-primary" />
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="text-lg font-semibold mb-2">
+                              Company Dashboard Access
+                            </h3>
+                            <p className="text-muted-foreground mb-4">
+                              Request access to manage your company's bookings,
+                              employees, and business travel. Once approved,
+                              you'll see the "Company" tab in the main
+                              navigation.
+                            </p>
+                            <div className="flex flex-wrap gap-3">
+                              <Button
+                                onClick={handleRequestCompanyAccess}
+                                disabled={isRequestingAccess}
+                                className="bg-gradient-to-r from-primary to-accent text-white hover:opacity-90"
+                              >
+                                {isRequestingAccess ? (
+                                  <>
+                                    <motion.div
+                                      className="mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full"
+                                      animate={{ rotate: 360 }}
+                                      transition={{
+                                        duration: 1,
+                                        repeat: Infinity,
+                                        ease: "linear",
+                                      }}
+                                    />
+                                    Processing Request...
+                                  </>
+                                ) : (
+                                  <>
+                                    <Building2 className="mr-2 h-4 w-4" />
+                                    Request Company Access
+                                  </>
+                                )}
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-
-                      <div>
-                        <Label className="text-muted-foreground">
-                          Company Email
-                        </Label>
-                        <p className="mt-2 text-lg">
-                          {savedCompany.companyEmail}
-                        </p>
-                      </div>
-
-                      <div>
-                        <Label className="text-muted-foreground">
-                          Company Phone
-                        </Label>
-                        <p className="mt-2 text-lg">
-                          {savedCompany.companyPhone}
-                        </p>
-                      </div>
-
-                      <div className="md:col-span-2">
-                        <Label className="text-muted-foreground">
-                          Company Address
-                        </Label>
-                        <p className="mt-2 text-lg">
-                          {savedCompany.companyAddress || "Not set"}
-                        </p>
-                      </div>
-
-                      <div>
-                        <Label className="text-muted-foreground">City</Label>
-                        <p className="mt-2 text-lg">
-                          {savedCompany.companyCity || "Not set"}
-                        </p>
-                      </div>
-
-                      <div>
-                        <Label className="text-muted-foreground">Country</Label>
-                        <p className="mt-2 text-lg">
-                          {savedCompany.companyCountry || "Not set"}
-                        </p>
-                      </div>
-
-                      <div>
-                        <Label className="text-muted-foreground">
-                          Tax ID / VAT Number
-                        </Label>
-                        <p className="mt-2 text-lg">
-                          {savedCompany.taxId || "Not set"}
-                        </p>
-                      </div>
-
-                      <div>
-                        <Label className="text-muted-foreground">
-                          Industry
-                        </Label>
-                        <p className="mt-2 text-lg">
-                          {savedCompany.industry || "Not set"}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex justify-end pt-4">
-                      <Button
-                        variant="outline"
-                        onClick={() => {
-                          setHasCompany(false);
-                          setSavedCompany(null);
-                          localStorage.removeItem("flybeth-company-details");
-                          toast.success("Company profile removed");
-                        }}
-                        className="text-destructive border-destructive hover:bg-destructive/5"
+                    ) : !hasCompanyAccess && accessRequestPending ? (
+                      /* Pending State - Beautiful Placeholder */
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="p-8 rounded-xl bg-gradient-to-br from-amber-50 via-orange-50 to-amber-50 border-2 border-amber-200 shadow-lg"
                       >
-                        <X className="mr-2 h-4 w-4" />
-                        Remove Company
-                      </Button>
-                    </div>
-                  </div>
-                ) : hasCompany || isEditingCompany ? (
-                  /* EDIT MODE */
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="space-y-6"
-                  >
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div className="md:col-span-2">
-                        <Label htmlFor="companyName">Company Name *</Label>
-                        <Input
-                          id="companyName"
-                          value={companyForm.companyName}
-                          onChange={e =>
-                            setCompanyForm({
-                              ...companyForm,
-                              companyName: e.target.value,
-                            })
-                          }
-                          placeholder="Acme Corporation"
-                          className="mt-2"
-                        />
-                      </div>
+                        <div className="text-center space-y-6">
+                          {/* Animated Clock Icon */}
+                          <motion.div
+                            className="inline-flex p-6 rounded-full bg-gradient-to-r from-amber-400 to-orange-400 shadow-xl"
+                            animate={{
+                              scale: [1, 1.05, 1],
+                              rotate: [0, 5, -5, 0],
+                            }}
+                            transition={{
+                              duration: 2,
+                              repeat: Infinity,
+                              ease: "easeInOut",
+                            }}
+                          >
+                            <Clock className="h-12 w-12 text-white" />
+                          </motion.div>
 
-                      <div>
-                        <Label htmlFor="companyEmail">Company Email *</Label>
-                        <Input
-                          id="companyEmail"
-                          type="email"
-                          value={companyForm.companyEmail}
-                          onChange={e =>
-                            setCompanyForm({
-                              ...companyForm,
-                              companyEmail: e.target.value,
-                            })
-                          }
-                          placeholder="contact@company.com"
-                          className="mt-2"
-                        />
-                      </div>
+                          {/* Title and Message */}
+                          <div className="space-y-3">
+                            <h3 className="text-2xl font-bold text-gray-900">
+                              Request Pending Review
+                            </h3>
+                            <p className="text-gray-700 max-w-md mx-auto leading-relaxed">
+                              Your company access request has been submitted
+                              successfully! Our team will review your
+                              application and get back to you within{" "}
+                              <span className="font-semibold text-amber-700">
+                                3 working days
+                              </span>
+                              .
+                            </p>
+                          </div>
 
-                      <div>
-                        <Label htmlFor="companyPhone">Company Phone *</Label>
-                        <Input
-                          id="companyPhone"
-                          type="tel"
-                          value={companyForm.companyPhone}
-                          onChange={e =>
-                            setCompanyForm({
-                              ...companyForm,
-                              companyPhone: e.target.value,
-                            })
-                          }
-                          placeholder="+1 234 567 8900"
-                          className="mt-2"
-                        />
-                      </div>
+                          {/* Status Badge */}
+                          <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.2 }}
+                            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white shadow-md border border-amber-200"
+                          >
+                            <motion.div
+                              className="w-2 h-2 rounded-full bg-amber-500"
+                              animate={{ opacity: [1, 0.3, 1] }}
+                              transition={{ duration: 1.5, repeat: Infinity }}
+                            />
+                            <span className="text-sm font-medium text-gray-700">
+                              Status: Under Review
+                            </span>
+                          </motion.div>
 
-                      <div className="md:col-span-2">
-                        <Label htmlFor="companyAddress">Company Address</Label>
-                        <Input
-                          id="companyAddress"
-                          value={companyForm.companyAddress}
-                          onChange={e =>
-                            setCompanyForm({
-                              ...companyForm,
-                              companyAddress: e.target.value,
-                            })
-                          }
-                          placeholder="123 Business Avenue"
-                          className="mt-2"
-                        />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="companyCity">City</Label>
-                        <Input
-                          id="companyCity"
-                          value={companyForm.companyCity}
-                          onChange={e =>
-                            setCompanyForm({
-                              ...companyForm,
-                              companyCity: e.target.value,
-                            })
-                          }
-                          placeholder="New York"
-                          className="mt-2"
-                        />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="companyCountry">Country</Label>
-                        <Input
-                          id="companyCountry"
-                          value={companyForm.companyCountry}
-                          onChange={e =>
-                            setCompanyForm({
-                              ...companyForm,
-                              companyCountry: e.target.value,
-                            })
-                          }
-                          placeholder="United States"
-                          className="mt-2"
-                        />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="taxId">Tax ID / VAT Number</Label>
-                        <Input
-                          id="taxId"
-                          value={companyForm.taxId}
-                          onChange={e =>
-                            setCompanyForm({
-                              ...companyForm,
-                              taxId: e.target.value,
-                            })
-                          }
-                          placeholder="12-3456789"
-                          className="mt-2"
-                        />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="industry">Industry</Label>
-                        <Input
-                          id="industry"
-                          value={companyForm.industry}
-                          onChange={e =>
-                            setCompanyForm({
-                              ...companyForm,
-                              industry: e.target.value,
-                            })
-                          }
-                          placeholder="Technology"
-                          className="mt-2"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="flex justify-end gap-3 pt-4">
-                      <Button
-                        variant="outline"
-                        onClick={() => {
-                          if (savedCompany) {
-                            handleCancelCompanyEdit();
-                          } else {
-                            setHasCompany(false);
-                            setIsEditingCompany(false);
-                          }
-                        }}
+                          {/* Additional Info */}
+                          <div className="pt-4 space-y-2 text-sm text-gray-600">
+                            <p className="flex items-center justify-center gap-2">
+                              <Check className="h-4 w-4 text-green-600" />
+                              You'll receive an email notification once approved
+                            </p>
+                            <p className="flex items-center justify-center gap-2">
+                              <Check className="h-4 w-4 text-green-600" />
+                              The "Company" tab will appear in your navigation
+                            </p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ) : hasCompanyAccess && !savedCompany ? (
+                      /* Approved State - Company Form Required */
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="p-8 rounded-xl bg-gradient-to-br from-green-50 via-emerald-50 to-green-50 border-2 border-green-200 shadow-lg"
                       >
-                        <X className="mr-2 h-4 w-4" />
-                        Cancel
-                      </Button>
-                      <Button
-                        onClick={handleCompanySaveRequest}
-                        className="bg-gradient-to-r from-primary to-accent text-white hover:opacity-90"
-                      >
-                        <Save className="mr-2 h-4 w-4" />
-                        Save Company Details
-                      </Button>
-                    </div>
-                  </motion.div>
-                ) : (
-                  <div className="text-center py-12">
-                    <Building2 className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                    <p className="text-muted-foreground">
-                      No company profile linked. Click "Add Company" to get
-                      started.
-                    </p>
-                  </div>
+                        <div className="text-center space-y-6">
+                          {/* Success Icon */}
+                          <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ type: "spring", bounce: 0.5 }}
+                            className="inline-flex p-6 rounded-full bg-gradient-to-r from-green-400 to-emerald-400 shadow-xl"
+                          >
+                            <Check className="h-12 w-12 text-white" />
+                          </motion.div>
+
+                          {/* Title and Message */}
+                          <div className="space-y-3">
+                            <h3 className="text-2xl font-bold text-gray-900">
+                              Access Approved! 🎉
+                            </h3>
+                            <p className="text-gray-700 max-w-md mx-auto leading-relaxed">
+                              Congratulations! Your company dashboard access has
+                              been approved. Please provide your company details
+                              below to unlock all dashboard features.
+                            </p>
+                          </div>
+
+                          {/* CTA Message */}
+                          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white shadow-md border border-green-200">
+                            <ArrowRight className="h-4 w-4 text-green-600" />
+                            <span className="text-sm font-medium text-gray-700">
+                              Complete company profile to continue
+                            </span>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ) : null}
+                  </>
                 )}
               </div>
             )}

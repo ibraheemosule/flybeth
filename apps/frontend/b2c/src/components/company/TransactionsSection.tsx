@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import {
   DollarSign,
   TrendingUp,
@@ -34,6 +34,7 @@ import {
   DialogDescription,
 } from "../ui/dialog";
 import { toast } from "sonner";
+import { useThemeStore } from "../../stores";
 
 interface Transaction {
   id: string;
@@ -138,7 +139,11 @@ const mockTransactions: Transaction[] = [
 ];
 
 export function TransactionsSection() {
-  const [transactions, setTransactions] = useState<Transaction[]>(mockTransactions);
+  const { getCurrentColors } = useThemeStore();
+  const themeColors = getCurrentColors();
+
+  const [transactions, setTransactions] =
+    useState<Transaction[]>(mockTransactions);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterEmployee, setFilterEmployee] = useState("all");
   const [filterType, setFilterType] = useState("all");
@@ -147,7 +152,7 @@ export function TransactionsSection() {
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
 
-  const filteredTransactions = transactions.filter((txn) => {
+  const filteredTransactions = transactions.filter(txn => {
     const matchesSearch =
       txn.employeeName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       txn.employeeEmail.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -157,10 +162,12 @@ export function TransactionsSection() {
     const matchesEmployee =
       filterEmployee === "all" || txn.employeeName === filterEmployee;
     const matchesType = filterType === "all" || txn.type === filterType;
-    const matchesCategory = filterCategory === "all" || txn.category === filterCategory;
+    const matchesCategory =
+      filterCategory === "all" || txn.category === filterCategory;
     const matchesStatus = filterStatus === "all" || txn.status === filterStatus;
 
-    const matchesDateFrom = !dateFrom || new Date(txn.date) >= new Date(dateFrom);
+    const matchesDateFrom =
+      !dateFrom || new Date(txn.date) >= new Date(dateFrom);
     const matchesDateTo = !dateTo || new Date(txn.date) <= new Date(dateTo);
 
     return (
@@ -174,18 +181,21 @@ export function TransactionsSection() {
     );
   });
 
-  const employees = ["all", ...Array.from(new Set(transactions.map((t) => t.employeeName)))];
+  const employees = [
+    "all",
+    ...Array.from(new Set(transactions.map(t => t.employeeName))),
+  ];
 
   const totalDebits = filteredTransactions
-    .filter((t) => t.type === "debit")
+    .filter(t => t.type === "debit")
     .reduce((sum, t) => sum + t.amount, 0);
 
   const totalCredits = filteredTransactions
-    .filter((t) => t.type === "credit")
+    .filter(t => t.type === "credit")
     .reduce((sum, t) => sum + t.amount, 0);
 
   const totalRefunds = filteredTransactions
-    .filter((t) => t.type === "refund")
+    .filter(t => t.type === "refund")
     .reduce((sum, t) => sum + t.amount, 0);
 
   const netAmount = totalDebits - totalCredits - totalRefunds;
@@ -253,7 +263,8 @@ export function TransactionsSection() {
             ${totalDebits.toLocaleString()}
           </p>
           <p className="text-xs text-muted-foreground mt-1">
-            {filteredTransactions.filter((t) => t.type === "debit").length} transactions
+            {filteredTransactions.filter(t => t.type === "debit").length}{" "}
+            transactions
           </p>
         </Card>
 
@@ -268,7 +279,8 @@ export function TransactionsSection() {
             ${totalCredits.toLocaleString()}
           </p>
           <p className="text-xs text-muted-foreground mt-1">
-            {filteredTransactions.filter((t) => t.type === "credit").length} transactions
+            {filteredTransactions.filter(t => t.type === "credit").length}{" "}
+            transactions
           </p>
         </Card>
 
@@ -283,7 +295,8 @@ export function TransactionsSection() {
             ${totalRefunds.toLocaleString()}
           </p>
           <p className="text-xs text-muted-foreground mt-1">
-            {filteredTransactions.filter((t) => t.type === "refund").length} transactions
+            {filteredTransactions.filter(t => t.type === "refund").length}{" "}
+            transactions
           </p>
         </Card>
 
@@ -318,12 +331,13 @@ export function TransactionsSection() {
               <Input
                 placeholder="Search by Transaction ID, Email, Name, or Description..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={e => setSearchQuery(e.target.value)}
                 className="pl-10"
               />
             </div>
             <p className="text-xs text-muted-foreground mt-1.5">
-              Search filters: Transaction ID, Employee Email, Employee Name, Description
+              Search filters: Transaction ID, Employee Email, Employee Name,
+              Description
             </p>
           </div>
 
@@ -334,7 +348,7 @@ export function TransactionsSection() {
             </Label>
             <Select
               value={filterEmployee}
-              onValueChange={(e) => setFilterEmployee(e)}
+              onValueChange={e => setFilterEmployee(e)}
               className="w-full h-10 px-3 rounded-md border border-input bg-background"
             >
               <SelectTrigger className="w-full h-10 px-3 rounded-md border border-input bg-background">
@@ -343,7 +357,7 @@ export function TransactionsSection() {
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>
-                {employees.map((emp) => (
+                {employees.map(emp => (
                   <SelectItem key={emp} value={emp}>
                     {emp === "all" ? "All Employees" : emp}
                   </SelectItem>
@@ -359,7 +373,7 @@ export function TransactionsSection() {
             </Label>
             <Select
               value={filterType}
-              onValueChange={(e) => setFilterType(e)}
+              onValueChange={e => setFilterType(e)}
               className="w-full h-10 px-3 rounded-md border border-input bg-background"
             >
               <SelectTrigger className="w-full h-10 px-3 rounded-md border border-input bg-background">
@@ -383,7 +397,7 @@ export function TransactionsSection() {
             </Label>
             <Select
               value={filterCategory}
-              onValueChange={(e) => setFilterCategory(e)}
+              onValueChange={e => setFilterCategory(e)}
               className="w-full h-10 px-3 rounded-md border border-input bg-background"
             >
               <SelectTrigger className="w-full h-10 px-3 rounded-md border border-input bg-background">
@@ -409,7 +423,7 @@ export function TransactionsSection() {
             </Label>
             <Select
               value={filterStatus}
-              onValueChange={(e) => setFilterStatus(e)}
+              onValueChange={e => setFilterStatus(e)}
               className="w-full h-10 px-3 rounded-md border border-input bg-background"
             >
               <SelectTrigger className="w-full h-10 px-3 rounded-md border border-input bg-background">
@@ -434,7 +448,7 @@ export function TransactionsSection() {
             <Input
               type="date"
               value={dateFrom}
-              onChange={(e) => setDateFrom(e.target.value)}
+              onChange={e => setDateFrom(e.target.value)}
             />
           </div>
 
@@ -446,7 +460,7 @@ export function TransactionsSection() {
             <Input
               type="date"
               value={dateTo}
-              onChange={(e) => setDateTo(e.target.value)}
+              onChange={e => setDateTo(e.target.value)}
             />
           </div>
 
@@ -473,128 +487,102 @@ export function TransactionsSection() {
 
       {/* Transactions List */}
       <div className="space-y-3">
-        {filteredTransactions.length === 0 ? (
-          /* Empty State */
+        {filteredTransactions.map(txn => (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="text-center py-16 px-4"
+            key={txn.id}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            layout
           >
-            <div className="max-w-md mx-auto space-y-6">
-              {/* Icon */}
-              <motion.div
-                className="inline-flex p-8 rounded-full bg-gradient-to-r from-primary/10 to-accent/10"
-                animate={{
-                  scale: [1, 1.05, 1],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                <CreditCard className="h-16 w-16 text-primary" />
-              </motion.div>
-
-              {/* Title and Message */}
-              <div className="space-y-3">
-                <h3 className="text-2xl font-bold text-gray-900">
-                  No Transactions Found
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  {searchQuery || filterStatus !== "all" || filterEmployee !== "all" || dateFrom || dateTo
-                    ? "No transactions match your current filters. Try adjusting your search criteria or clearing filters."
-                    : "No transactions have been recorded yet. All company payments and transactions will appear here once bookings are made."}
-                </p>
-              </div>
-
-              {/* Action Button */}
-              {(searchQuery || filterStatus !== "all" || filterEmployee !== "all" || dateFrom || dateTo) && (
-                <Button
-                  onClick={() => {
-                    setSearchQuery("");
-                    setFilterStatus("all");
-                    setFilterEmployee("all");
-                    setDateFrom("");
-                    setDateTo("");
-                  }}
-                  className="bg-gradient-to-r from-primary to-accent text-white hover:opacity-90"
-                >
-                  Clear All Filters
-                </Button>
-              )}
-            </div>
-          </motion.div>
-        ) : (
-          filteredTransactions.map((txn) => (
-            <motion.div
-              key={txn.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              layout
-            >
-              <Card className="p-5 hover:shadow-lg transition-shadow">
-                <div className="flex flex-col md:flex-row md:items-center gap-4">
-                  {/* Icon */}
-                  <div className="flex-shrink-0">
-                    <div
-                      className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                        txn.type === "debit"
-                          ? "bg-red-50"
-                          : txn.type === "credit"
-                          ? "bg-green-50"
-                          : "bg-blue-50"
-                      }`}
-                    >
-                      {txn.type === "debit" ? (
-                        <TrendingDown className="h-6 w-6 text-red-600" />
-                      ) : txn.type === "credit" ? (
-                        <TrendingUp className="h-6 w-6 text-green-600" />
-                      ) : (
-                        <CreditCard className="h-6 w-6 text-blue-600" />
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex flex-wrap items-center gap-2 mb-1">
-                      <h3 className="font-semibold">{txn.description}</h3>
-                      <Badge variant="outline" className={getStatusColor(txn.status)}>
-                        {txn.status}
-                      </Badge>
-                      <Badge variant="outline" className="capitalize">
-                        {txn.type}
-                      </Badge>
-                    </div>
-                    <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
-                      <span>👤 {txn.employeeName}</span>
-                      <span>🏢 {txn.department}</span>
-                      <span>💳 {txn.paymentMethod}</span>
-                      <span>
-                        📅 {new Date(txn.date).toLocaleDateString()}{" "}
-                        {new Date(txn.date).toLocaleTimeString()}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Amount */}
-                  <div className="flex items-center gap-4 flex-shrink-0">
-                    <div className="text-right">
-                      <p
-                        className={`text-2xl font-bold ${getTypeColor(txn.type)}`}
-                      >
-                        {txn.type === "debit" ? "-" : "+"}${txn.amount.toLocaleString()}
-                      </p>
-                      <p className="text-xs text-muted-foreground font-mono mt-1">
-                        {txn.transactionId}
-                      </p>
-                    </div>
+            <Card className="p-5 hover:shadow-lg transition-shadow">
+              <div className="flex flex-col md:flex-row md:items-center gap-4">
+                {/* Icon */}
+                <div className="flex-shrink-0">
+                  <div
+                    className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                      txn.type === "debit"
+                        ? "bg-red-50"
+                        : txn.type === "credit"
+                        ? "bg-green-50"
+                        : "bg-blue-50"
+                    }`}
+                  >
+                    {txn.type === "debit" ? (
+                      <TrendingDown className="h-6 w-6 text-red-600" />
+                    ) : txn.type === "credit" ? (
+                      <TrendingUp className="h-6 w-6 text-green-600" />
+                    ) : (
+                      <CreditCard className="h-6 w-6 text-blue-600" />
+                    )}
                   </div>
                 </div>
-              </Card>
-            </motion.div>
-          ))
+
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-wrap items-center gap-2 mb-1">
+                    <h3 className="font-semibold">{txn.description}</h3>
+                    <Badge
+                      variant="outline"
+                      className={getStatusColor(txn.status)}
+                    >
+                      {txn.status}
+                    </Badge>
+                    <Badge variant="outline" className="capitalize">
+                      {txn.type}
+                    </Badge>
+                  </div>
+                  <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
+                    <span>👤 {txn.employeeName}</span>
+                    <span>🏢 {txn.department}</span>
+                    <span>💳 {txn.paymentMethod}</span>
+                    <span>
+                      📅 {new Date(txn.date).toLocaleDateString()}{" "}
+                      {new Date(txn.date).toLocaleTimeString()}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Amount */}
+                <div className="flex items-center gap-4 flex-shrink-0">
+                  <div className="text-right">
+                    <p
+                      className={`text-2xl font-bold ${getTypeColor(txn.type)}`}
+                    >
+                      {txn.type === "debit" ? "-" : "+"}$
+                      {txn.amount.toLocaleString()}
+                    </p>
+                    <p className="text-xs text-muted-foreground font-mono mt-1">
+                      {txn.transactionId}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </motion.div>
+        ))}
+
+        {filteredTransactions.length === 0 && (
+          <Card className="p-12 text-center">
+            <CreditCard className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+            <p className="text-muted-foreground">
+              No transactions found matching your filters
+            </p>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setSearchQuery("");
+                setFilterEmployee("all");
+                setFilterType("all");
+                setFilterCategory("all");
+                setFilterStatus("all");
+                setDateFrom("");
+                setDateTo("");
+              }}
+              className="mt-4"
+            >
+              Clear Filters
+            </Button>
+          </Card>
         )}
       </div>
     </div>
