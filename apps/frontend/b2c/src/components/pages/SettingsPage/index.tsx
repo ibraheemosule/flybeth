@@ -1132,18 +1132,21 @@ export function SettingsPage({ onNavigate }: SettingsPageProps) {
                             </h3>
                             <p className="text-gray-700 max-w-md mx-auto leading-relaxed">
                               Congratulations! Your company dashboard access has
-                              been approved. Please provide your company details
-                              below to unlock all dashboard features.
+                              been approved. Click the button below to set up
+                              your company profile and unlock all dashboard
+                              features.
                             </p>
                           </div>
 
-                          {/* CTA Message */}
-                          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white shadow-md border border-green-200">
-                            <ArrowRight className="h-4 w-4 text-green-600" />
-                            <span className="text-sm font-medium text-gray-700">
-                              Complete company profile to continue
-                            </span>
-                          </div>
+                          {/* CTA Button */}
+                          <Button
+                            onClick={() => onNavigate?.("company-dashboard")}
+                            className="bg-gradient-to-r from-primary to-accent text-white hover:opacity-90"
+                          >
+                            <Building2 className="mr-2 h-4 w-4" />
+                            Set Up Company Profile
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                          </Button>
                         </div>
                       </motion.div>
                     ) : null}
