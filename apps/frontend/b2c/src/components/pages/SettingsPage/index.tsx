@@ -1105,7 +1105,7 @@ export function SettingsPage({ onNavigate }: SettingsPageProps) {
                           </div>
                         </div>
                       </motion.div>
-                    ) : hasCompanyAccess && !savedCompany ? (
+                    ) : hasCompanyAccess && !savedCompany && !userCompany ? (
                       /* Approved State - Company Form Required */
                       <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}

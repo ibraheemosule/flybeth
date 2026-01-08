@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Building2, Check, X, ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
+import { useThemeStore } from "../stores";
 
 interface CompanyMemberCardProps {
   companyName: string;
@@ -14,6 +15,9 @@ export function CompanyMemberCard({
   onLeaveCompany,
   onNavigate,
 }: CompanyMemberCardProps) {
+  const { getCurrentColors } = useThemeStore();
+  const themeColors = getCurrentColors();
+
   const handleLeave = () => {
     if (confirm(`Are you sure you want to leave ${companyName}?`)) {
       onLeaveCompany();
@@ -24,12 +28,18 @@ export function CompanyMemberCard({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="relative overflow-hidden p-8 rounded-2xl bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 border-2 border-blue-200 shadow-xl"
+      className="relative overflow-hidden p-8 rounded-2xl bg-gradient-to-br from-primary/10 via-accent/5 to-primary/5 border-2 border-primary/20 shadow-xl"
     >
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-blue-400 rounded-full -translate-y-1/2 translate-x-1/2" />
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-purple-400 rounded-full translate-y-1/2 -translate-x-1/2" />
+        <div
+          className="absolute top-0 right-0 w-64 h-64 rounded-full -translate-y-1/2 translate-x-1/2"
+          style={{ backgroundColor: themeColors.accent }}
+        />
+        <div
+          className="absolute bottom-0 left-0 w-48 h-48 rounded-full translate-y-1/2 -translate-x-1/2"
+          style={{ backgroundColor: themeColors.primary }}
+        />
       </div>
 
       <div className="relative z-10">
@@ -38,14 +48,22 @@ export function CompanyMemberCard({
             {/* Company Logo */}
             <motion.div
               whileHover={{ scale: 1.05, rotate: -5 }}
-              className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold shadow-lg"
+              className="w-20 h-20 rounded-2xl flex items-center justify-center text-white text-3xl font-bold shadow-lg"
+              style={{
+                background: `linear-gradient(to bottom right, ${themeColors.primary}, ${themeColors.accent})`,
+              }}
             >
               {companyName[0]}
             </motion.div>
 
             {/* Company Info */}
             <div>
-              <Badge className="bg-gradient-to-r from-blue-500 to-purple-600 text-white border-0 shadow-md mb-2">
+              <Badge
+                className="text-white border-0 shadow-md mb-2"
+                style={{
+                  background: `linear-gradient(to right, ${themeColors.primary}, ${themeColors.accent})`,
+                }}
+              >
                 <Check className="h-3 w-3 mr-1.5" />
                 Company Member
               </Badge>
@@ -64,7 +82,10 @@ export function CompanyMemberCard({
           <div className="flex flex-col sm:flex-row gap-3">
             <Button
               onClick={() => onNavigate?.("company-dashboard")}
-              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:opacity-90 shadow-lg"
+              className="text-white hover:opacity-90 shadow-lg"
+              style={{
+                background: `linear-gradient(to right, ${themeColors.primary}, ${themeColors.accent})`,
+              }}
               size="lg"
             >
               <Building2 className="mr-2 h-5 w-5" />
@@ -85,12 +106,24 @@ export function CompanyMemberCard({
 
         {/* Member Benefits Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <div className="p-4 rounded-xl bg-white/80 backdrop-blur-sm border border-blue-200 shadow-sm">
+          <div
+            className="p-4 rounded-xl bg-white/80 backdrop-blur-sm shadow-sm"
+            style={{ borderColor: `${themeColors.primary}33` }}
+          >
             <div className="flex items-center gap-2 mb-2">
-              <div className="p-1.5 rounded bg-blue-50">
-                <Check className="h-3.5 w-3.5 text-blue-600" />
+              <div
+                className="p-1.5 rounded"
+                style={{ backgroundColor: `${themeColors.primary}0D` }}
+              >
+                <Check
+                  className="h-3.5 w-3.5"
+                  style={{ color: themeColors.primary }}
+                />
               </div>
-              <p className="text-xs font-semibold text-blue-600">
+              <p
+                className="text-xs font-semibold"
+                style={{ color: themeColors.primary }}
+              >
                 TRACKED TRIPS
               </p>
             </div>
@@ -99,12 +132,24 @@ export function CompanyMemberCard({
             </p>
           </div>
 
-          <div className="p-4 rounded-xl bg-white/80 backdrop-blur-sm border border-purple-200 shadow-sm">
+          <div
+            className="p-4 rounded-xl bg-white/80 backdrop-blur-sm shadow-sm"
+            style={{ borderColor: `${themeColors.accent}33` }}
+          >
             <div className="flex items-center gap-2 mb-2">
-              <div className="p-1.5 rounded bg-purple-50">
-                <Check className="h-3.5 w-3.5 text-purple-600" />
+              <div
+                className="p-1.5 rounded"
+                style={{ backgroundColor: `${themeColors.accent}0D` }}
+              >
+                <Check
+                  className="h-3.5 w-3.5"
+                  style={{ color: themeColors.accent }}
+                />
               </div>
-              <p className="text-xs font-semibold text-purple-600">
+              <p
+                className="text-xs font-semibold"
+                style={{ color: themeColors.accent }}
+              >
                 EASY EXPENSE CLAIMS
               </p>
             </div>
@@ -113,12 +158,24 @@ export function CompanyMemberCard({
             </p>
           </div>
 
-          <div className="p-4 rounded-xl bg-white/80 backdrop-blur-sm border border-indigo-200 shadow-sm">
+          <div
+            className="p-4 rounded-xl bg-white/80 backdrop-blur-sm shadow-sm"
+            style={{ borderColor: `${themeColors.primary}33` }}
+          >
             <div className="flex items-center gap-2 mb-2">
-              <div className="p-1.5 rounded bg-indigo-50">
-                <Check className="h-3.5 w-3.5 text-indigo-600" />
+              <div
+                className="p-1.5 rounded"
+                style={{ backgroundColor: `${themeColors.primary}0D` }}
+              >
+                <Check
+                  className="h-3.5 w-3.5"
+                  style={{ color: themeColors.primary }}
+                />
               </div>
-              <p className="text-xs font-semibold text-indigo-600">
+              <p
+                className="text-xs font-semibold"
+                style={{ color: themeColors.primary }}
+              >
                 SPECIAL RATES
               </p>
             </div>
