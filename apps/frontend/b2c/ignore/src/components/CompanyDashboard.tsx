@@ -24,10 +24,17 @@ interface CompanyDashboardProps {
   onBack: () => void;
 }
 
-type DashboardSection = "overview" | "employees" | "bookings" | "transactions" | "customers" | "settings";
+type DashboardSection =
+  | "overview"
+  | "employees"
+  | "bookings"
+  | "transactions"
+  | "customers"
+  | "settings";
 
 export function CompanyDashboard({ onBack }: CompanyDashboardProps) {
-  const [activeSection, setActiveSection] = useState<DashboardSection>("overview");
+  const [activeSection, setActiveSection] =
+    useState<DashboardSection>("overview");
   const [hasCompany, setHasCompany] = useState(false);
 
   // Check if company exists and set default section
@@ -35,7 +42,7 @@ export function CompanyDashboard({ onBack }: CompanyDashboardProps) {
     const companyDetails = localStorage.getItem("flybeth-company-details");
     const hasCompanyDetails = !!companyDetails;
     setHasCompany(hasCompanyDetails);
-    
+
     // If no company details, default to settings section
     if (!hasCompanyDetails) {
       setActiveSection("settings");
@@ -125,13 +132,15 @@ export function CompanyDashboard({ onBack }: CompanyDashboardProps) {
                 NAVIGATION
               </h3>
               <nav className="space-y-1">
-                {navigation.map((item) => {
+                {navigation.map(item => {
                   const Icon = item.icon;
                   const isActive = activeSection === item.id;
                   return (
                     <motion.button
                       key={item.id}
-                      onClick={() => setActiveSection(item.id as DashboardSection)}
+                      onClick={() =>
+                        setActiveSection(item.id as DashboardSection)
+                      }
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       className={`w-full text-left px-3 py-2.5 rounded-lg transition-all flex items-center justify-between ${
@@ -141,9 +150,15 @@ export function CompanyDashboard({ onBack }: CompanyDashboardProps) {
                       }`}
                     >
                       <div className="flex items-center gap-3">
-                        <Icon className={`h-4 w-4 ${isActive ? "text-primary" : ""}`} />
+                        <Icon
+                          className={`h-4 w-4 ${
+                            isActive ? "text-primary" : ""
+                          }`}
+                        />
                         <div>
-                          <div className="text-sm font-medium">{item.label}</div>
+                          <div className="text-sm font-medium">
+                            {item.label}
+                          </div>
                           {!isActive && (
                             <div className="text-xs text-muted-foreground">
                               {item.description}
@@ -178,9 +193,12 @@ export function CompanyDashboard({ onBack }: CompanyDashboardProps) {
                     <div className="w-20 h-20 rounded-full bg-gradient-to-r from-primary/10 to-accent/10 flex items-center justify-center mx-auto mb-6">
                       <Building2 className="h-10 w-10 text-primary" />
                     </div>
-                    <h2 className="text-3xl font-semibold mb-3">Welcome to Your Company Dashboard</h2>
+                    <h2 className="text-3xl font-semibold mb-3">
+                      Welcome to Your Company Dashboard
+                    </h2>
                     <p className="text-lg text-muted-foreground mb-8">
-                      Before you can access your company dashboard features, you'll need to set up your company profile.
+                      Before you can access your company dashboard features,
+                      you'll need to set up your company profile.
                     </p>
                     <div className="bg-gradient-to-r from-primary/5 to-accent/5 rounded-xl p-6 mb-8 border border-primary/10">
                       <h3 className="font-semibold mb-3">What you'll get:</h3>
@@ -190,8 +208,12 @@ export function CompanyDashboard({ onBack }: CompanyDashboardProps) {
                             <Users className="h-4 w-4 text-primary" />
                           </div>
                           <div>
-                            <p className="font-medium text-sm">Employee Management</p>
-                            <p className="text-xs text-muted-foreground">Manage team members and roles</p>
+                            <p className="font-medium text-sm">
+                              Employee Management
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              Manage team members and roles
+                            </p>
                           </div>
                         </div>
                         <div className="flex items-start gap-3">
@@ -199,8 +221,12 @@ export function CompanyDashboard({ onBack }: CompanyDashboardProps) {
                             <Calendar className="h-4 w-4 text-primary" />
                           </div>
                           <div>
-                            <p className="font-medium text-sm">Booking History</p>
-                            <p className="text-xs text-muted-foreground">Track all company bookings</p>
+                            <p className="font-medium text-sm">
+                              Booking History
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              Track all company bookings
+                            </p>
                           </div>
                         </div>
                         <div className="flex items-start gap-3">
@@ -208,8 +234,12 @@ export function CompanyDashboard({ onBack }: CompanyDashboardProps) {
                             <CreditCard className="h-4 w-4 text-primary" />
                           </div>
                           <div>
-                            <p className="font-medium text-sm">Transaction Reports</p>
-                            <p className="text-xs text-muted-foreground">Financial overview and analytics</p>
+                            <p className="font-medium text-sm">
+                              Transaction Reports
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              Financial overview and analytics
+                            </p>
                           </div>
                         </div>
                         <div className="flex items-start gap-3">
@@ -217,8 +247,12 @@ export function CompanyDashboard({ onBack }: CompanyDashboardProps) {
                             <TrendingUp className="h-4 w-4 text-primary" />
                           </div>
                           <div>
-                            <p className="font-medium text-sm">Business Insights</p>
-                            <p className="text-xs text-muted-foreground">Data-driven travel decisions</p>
+                            <p className="font-medium text-sm">
+                              Business Insights
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              Data-driven travel decisions
+                            </p>
                           </div>
                         </div>
                       </div>

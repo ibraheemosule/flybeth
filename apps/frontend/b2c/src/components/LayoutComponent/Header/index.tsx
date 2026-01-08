@@ -32,7 +32,7 @@ export default function Header() {
   const currentPage =
     pathname === "/" ? "home" : pathname.slice(1).split("/")[0];
 
-  const hideHeader = ["/signin", "/signup", "/404", "/500"].includes(pathname);
+  const hideHeader = ["/reset-password", "/company-dashboard", "/signin", "/signup", "/404", "/500"].includes(pathname);
 
   const handleNavClick = (page: string, tab?: string) => {
     if (page === "home") {

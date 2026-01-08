@@ -8,7 +8,14 @@ export default function Footer() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const hideFooter = ["/signin", "/signup", "/404", "/500"].includes(pathname);
+  const hideFooter = [
+    "/reset-password",
+    "/company-dashboard",
+    "/signin",
+    "/signup",
+    "/404",
+    "/500",
+  ].includes(pathname);
 
   const handleNavigation = (page: string) => (e: React.MouseEvent) => {
     e.preventDefault();
