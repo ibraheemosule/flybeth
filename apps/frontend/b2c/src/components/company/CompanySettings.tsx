@@ -286,12 +286,43 @@ export function CompanySettings() {
               </div>
             </Card>
 
-            <Card className="p-4 border-destructive/20 bg-destructive/5">
+            <Card className="p-4 border-destructive/20 bg-destructive/5 space-y-4">
               <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium text-destructive">
+                    Deactivate Company
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Temporarily suspend company access and bookings
+                  </p>
+                </div>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    if (
+                      confirm(
+                        "Are you sure you want to deactivate your company? This will suspend all access and bookings."
+                      )
+                    ) {
+                      localStorage.setItem(
+                        "flybeth-company-deactivated",
+                        "true"
+                      );
+                      toast.success("Company deactivated successfully");
+                    }
+                  }}
+                  className="text-orange-600 border-orange-300 hover:bg-orange-50"
+                >
+                  <Building2 className="mr-2 h-4 w-4" />
+                  Deactivate Company
+                </Button>
+              </div>
+
+              <div className="flex items-center justify-between pt-2 border-t border-destructive/20">
                 <div>
                   <p className="font-medium text-destructive">Danger Zone</p>
                   <p className="text-sm text-muted-foreground">
-                    Remove company profile and all associated data
+                    Permanently remove company profile and all associated data
                   </p>
                 </div>
                 <Button

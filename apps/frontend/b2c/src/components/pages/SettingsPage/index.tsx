@@ -978,8 +978,6 @@ export function SettingsPage({ onNavigate }: SettingsPageProps) {
                           "📞 [SettingsPage] setUserCompany called with: null"
                         );
                       }}
-                      savedCompany={savedCompany}
-                      onNavigate={onNavigate}
                     />
 
                     <Separator />

@@ -26,10 +26,10 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
-import { PassengerForm } from "@/components/PassengerForm";
-import { ProcessingPaymentOverlay } from "@/components/ProcessingPaymentOverlay";
-import { PaymentResultModal } from "@/components/PaymentResultModal";
-import { useFlightsStore } from "@/stores";
+import { PassengerForm } from "../../PassengerForm";
+import { ProcessingPaymentOverlay } from "../../ProcessingPaymentOverlay";
+import { PaymentResultModal } from "../../PaymentResultModal";
+import { useFlightsStore } from "../../../stores";
 // import { generateTicketPDF } from "@/utils/ticketGenerator";
 
 interface CheckoutPageProps {
@@ -82,9 +82,8 @@ export default function CheckoutPage({
 
   // Get passenger count from URL params, store, or props with proper fallback
   const passengerCountFromUrl =
-    2 || parseInt(urlParams.get("passengers") || "0");
-  const passengerCountFromStore =
-    5 || flightsStore.searchParams?.passengers || 0;
+    parseInt(urlParams.get("passengers") || "0") || 2;
+  const passengerCountFromStore = flightsStore.searchParams?.passengers || 5;
   const passengerCountFromProps = searchParams?.passengers || 0;
 
   const defaultSearchParams = {
@@ -1127,7 +1126,10 @@ export default function CheckoutPage({
                         </div>
                       </div>
                       <div className="text-center text-sm text-muted-foreground">
-                        {flightData.duration} • {flightData.stops}
+                        {flightData.duration} •{" "}
+                        {Array.isArray(flightData.stops)
+                          ? `${flightData.stops.length} stops`
+                          : flightData.stops}
                       </div>
                     </div>
                   </div>
@@ -1141,7 +1143,7 @@ export default function CheckoutPage({
                       Travel Date
                     </h4>
                     <p className="text-sm">{searchData.departDate}</p>
-                    {searchData.returnDate && (
+                    {"returnDate" in searchData && searchData.returnDate && (
                       <p className="text-sm text-muted-foreground">
                         Return: {searchData.returnDate}
                       </p>

@@ -405,7 +405,6 @@ export function EmployeesSection() {
             <Select
               value={filterDepartment}
               onValueChange={e => setFilterDepartment(e)}
-              className="w-full h-10 px-3 rounded-md border border-input bg-background"
             >
               <SelectTrigger className="w-full h-10 px-3 rounded-md border border-input bg-background">
                 <SelectValue>
@@ -429,7 +428,6 @@ export function EmployeesSection() {
             <Select
               value={filterAccessLevel}
               onValueChange={e => setFilterAccessLevel(e)}
-              className="w-full h-10 px-3 rounded-md border border-input bg-background"
             >
               <SelectTrigger className="w-full h-10 px-3 rounded-md border border-input bg-background">
                 <SelectValue>
